@@ -7,20 +7,20 @@ Crab Mail
 Crab Mail es un divertido juego cooperativo en el que los jugadores controlan a dos cangrejos que trabajan en una oficina de correos en medio de una playa. Estos deberán preparar sobres y paquetes, pasando por distintos procesos en un tiempo determinado con cuidado de no equivocarse y hacerlo lo más rápido posible.
 
 ## Integrantes
-- Diego Martinez García. Correo: d.martinezg.2021@alumnos.urjc.es Cuenta de Github: DiegoMartinezGa
+- Diego Martínez García. Correo: d.martinezg.2021@alumnos.urjc.es Cuenta de Github: DiegoMartinezGa
 - Mario González Mallenco. Correo: m.gonzalezm.2021@alumnos.urjc.es Cuenta de Github: MarioGonzalezM
 - Lenin Anderson Carrasco Romero. Correo: la.carrasco.2021@alumnos.urjc.es Cuenta de Github: leniin23
-- Alejandro García Martinez. Correo: a.garciamart.2021@alumnos.urjc.es Cuenta de Github: AlejandroGarciaMartinez
+- Alejandro García Martínez. Correo: a.garciamart.2021@alumnos.urjc.es Cuenta de Github: AlejandroGarciaMartinez
 
 # GDD CRAB MAIL
 <img src="Assets/CrabMailLogo.png" alt="Logo de Crab-Mail" width=75% height=75%>
 <img src="Assets/LogoToroidev.jpeg" alt="Logo de Toroidev" width=25% height=25%>
 
 ## Juego creado por
-- Diego Martinez García
+- Diego Martínez García
 - Mario González Mallenco
 - Lenin Anderson Carrasco Romero
-- Alejandro García Martinez
+- Alejandro García Martínez
 
 ## Índice
 1. Cambios
