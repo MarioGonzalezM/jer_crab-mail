@@ -13,4 +13,4 @@ Crab Mail es un divertido juego cooperativo en el que los jugadores controlan a 
 - Alejandro García Martinez. Correo: a.garciamart.2021@alumnos.urjc.es Cuenta de Github: AlejandroGarciaMartinez
 
 # GDD CRAB MAIL
-![Logo de Toroidev empresa desarrolladora de Crab Mail](https://raw.githubusercontent.com/MarioGonzalezMa/jer_crab-mail/master/Assets/Logo Toroidev.jpeg)
+![Logo de Toroidev empresa desarrolladora de Crab Mail]()
