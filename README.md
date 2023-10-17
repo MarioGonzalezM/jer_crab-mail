@@ -13,8 +13,8 @@ Crab Mail es un divertido juego cooperativo en el que los jugadores controlan a 
 - Alejandro García Martinez. Correo: a.garciamart.2021@alumnos.urjc.es Cuenta de Github: AlejandroGarciaMartinez
 
 # GDD CRAB MAIL
-<img src="Assets/LogoTosroidev.jpeg" alt="Logo de Crab-Mail" width=25% height=25%>
-<img src="Assets/LogoTosroidev.jpeg" alt="Logo de Toroidev" width=25% height=25%>
+<img src="Assets/CrabMailLogo.png" alt="Logo de Crab-Mail" width=75% height=75%>
+<img src="Assets/LogoToroidev.jpeg" alt="Logo de Toroidev" width=25% height=25%>
 
 ## Juego creado por
 - Diego Martinez García
@@ -138,8 +138,7 @@ Además, hay un botón para interactuar con los diferentes objetos y poder compl
 
 De este modo, el movimiento del jugador 1 será W para avanzar, A para rotar a la izquierda y D para rotar a la derecha. El jugador 2 usará la flecha hacia arriba para avanzar, y las flechas hacia izquierda y derecha para rotar. El botón de interacción para el jugador 1 será la E, y para el jugador 2 la tecla 0 en el teclado numérico.
 
-<img src="Assets/LogoTosroidev.jpeg" alt="WASD" width=25% height=25%> 
-<img src="Assets/LogoTosroidev.jpeg" alt="Flechas" width=25% height=25%>
+<img src="Assets/WASD.jpeg" alt="WASD" width=50% height=50%> <img src="Assets/Flechas.jpeg" alt="Flechas" width=50% height=50%>
 
 ## 4. Interfaz
 Debido al amplio rango de edades, las interfaces serán sencillas. Para ampliar la inmersión, estas estarán extensivamente tematizadas. 
@@ -161,40 +160,51 @@ A continuación se muestran referencias visuales del juego, como los diseños cr
 
 ### 5.1 Objetos
 Impresora: 
-<img src="Assets/LogoTosroidev.jpeg" alt="Impresora" width=25% height=25%>
+
+<img src="Assets/Impresora.png" alt="Impresora" width=50% height=50%>
 
 Báscula: 
-<img src="Assets/LogoTosroidev.jpeg" alt="Báscula" width=25% height=25%>
+
+<img src="Assets/Bascula.png" alt="Báscula" width=50% height=50%>
 
 Buzon de sobres: 
-<img src="Assets/LogoTosroidev.jpeg" alt="Buzon de sobres" width=25% height=25%>
+
+<img src="Assets/Buzon1.png" alt="Buzon de sobres" width=50% height=50%>
 
 Caja de sobres:
-<img src="Assets/LogoTosroidev.jpeg" alt="Caja de sobres" width=25% height=25%>
+
+<img src="Assets/Cajadesobres.png" alt="Caja de sobres" width=50% height=50%>
 
 Ordenador: 
-<img src="Assets/LogoTosroidev.jpeg" alt="Ordenador" width=25% height=25%>
+
+<img src="Assets/Ordenador.png" alt="Ordenador" width=50% height=50%>
 
 Mesa de sellos: 
-<img src="Assets/LogoTosroidev.jpeg" alt="Mesa de sellos" width=25% height=25%>
+
+<img src="Assets/Mesasellos.png" alt="Mesa de sellos" width=50% height=50%>
 
 ### 5.2 Interfaces
 Menú principal: 
-<img src="Assets/LogoTosroidev.jpeg" alt="Menú principal" width=25% height=25%>
+
+<img src="Assets/MenuPrincipal.png" alt="Menú principal" width=50% height=50%>
 
 
 Menú de pausa: 
-<img src="Assets/LogoTosroidev.jpeg" alt="Menú de pausa" width=25% height=25%>
+
+<img src="Assets/Menupausa.png" alt="Menú de pausa" width=50% height=50%>
 
 Fondo de juego: 
-<img src="Assets/LogoTosroidev.jpeg" alt="Fondo de juego" width=25% height=25%>
+
+<img src="Assets/FondoJuego.jpeg" alt="Fondo de juego" width=50% height=50%>
 
 ### 5.3 Personajes
 Sprites del jugador 1: 
-<img src="Assets/LogoTosroidev.jpeg" alt="Sprites del jugador 1" width=25% height=25%>
+
+<img src="Assets/Cangrejo1.jpeg" alt="Sprites del jugador 1" width=50% height=50%>
 
 Sprites del jugador 2: 
-<img src="Assets/LogoTosroidev.jpeg" alt="Sprites del jugador 2" width=25% height=25%>
+
+<img src="Assets/Cangrejo2.jpeg" alt="Sprites del jugador 2" width=50% height=50%>
 
 ### 5.4 Música
 Para que encaje con la temática del juego, queremos implementar una música alegre, pero suave.
