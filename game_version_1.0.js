@@ -80,7 +80,3 @@
       } 
       
   }
-</script>
-
-</body>
-</html>
