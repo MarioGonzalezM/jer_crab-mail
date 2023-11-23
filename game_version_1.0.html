@@ -11,8 +11,8 @@
   // Definición de la configuración del juego
   const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1920,
+    height: 1080,
     physics: {
       default: 'arcade',
       arcade: {
@@ -43,10 +43,10 @@
   
   function create() {
          // Agregar el fondo al juego
-         fondo = this.add.image(400, 300, 'fondo');
+         fondo = this.add.image(960, 540, 'fondo');
       
         // Agregar personaje al juego
-      personaje = this.physics.add.image(400, 300, 'personaje').setScale(0.1);
+      personaje = this.physics.add.image(400, 600, 'personaje').setScale(0.1);
 
         // Configuración de las colisiones para que el personaje no se salga del mundo
         personaje.setCollideWorldBounds(true);
