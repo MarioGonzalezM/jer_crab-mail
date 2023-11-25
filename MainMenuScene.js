@@ -1,9 +1,12 @@
 
 class MainMenuScene extends Phaser.Scene{
+    constructor( ...args ) {
+        super({ key: 'TitleScreen', ...args })
+    }
     buttons
     buttonMaxX = 414.5
     buttonMinX= 309.5
-    buttonScenes = ['movement']
+    buttonScenes = ['test']
     preload()
     {
         this.load.image('background', 'assets/MainMenu/FondoMP.png');
@@ -37,14 +40,15 @@ class MainMenuScene extends Phaser.Scene{
         });//*/
         var scene = this;
         this.buttons.children.iterate(function (child) {
-            let link = scene.buttonScenes[child.currentFrame];
+            let link = scene.buttonScenes[child.frame.name];
             child.setInteractive();
-            if(link !=  null) child.on("onmousedown",function (){
+            if(typeof link !==  "undefined") child.on("pointerdown",function (){
+                console.log(link)
                 scene.scene.start(link);
-            })
+            });console.log(child.frame.name)
             child.on('pointerover',function ()
             {
-                if(this.x - scene.buttonMinX < 0.1)
+
                 scene.tweens.add({
                     targets: child,
                     x: scene.buttonMaxX,
@@ -95,7 +99,7 @@ var config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    scene: [MainMenuScene]
+    scene: [MainMenuScene, movement]
 };
 const game = new Phaser.Game(config);
 

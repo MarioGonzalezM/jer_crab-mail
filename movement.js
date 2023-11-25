@@ -1,11 +1,14 @@
 
 class movement extends Phaser.Scene {
+  constructor( ) {
+    super({ key: 'test'})
+  }
   // Variables
   personaje;
 
   // Precarga de recursos
   preload() {
-    this.load.image('personaje', 'personaje.jpg');
+    this.load.image('personaje', 'Assets/star.png');
   }
 
   // Creación de elementos del juego
@@ -30,25 +33,25 @@ class movement extends Phaser.Scene {
     // Control de la rotación
     if (teclaA.isDown) {
 
-      personaje.setAngularVelocity(-150);
+      this.personaje.setAngularVelocity(-150);
 
     } else if (teclaD.isDown) {
-      personaje.setAngularVelocity(150);
+      this.personaje.setAngularVelocity(150);
 
     } else {
-      personaje.setAngularVelocity(0);
+      this.personaje.setAngularVelocity(0);
     }
 
     // Control del movimiento
     if (teclaW.isDown) {
       // Avanzar hacia adelante
-      this.physics.velocityFromRotation(personaje.rotation, 200, personaje.body.velocity);
+      this.physics.velocityFromRotation(this.personaje.rotation, 200, this.personaje.body.velocity);
     } else if (teclaS.isDown) {
       // Retroceder
-      this.physics.velocityFromRotation(personaje.rotation + Math.PI, 200, personaje.body.velocity);
+      this.physics.velocityFromRotation(this.personaje.rotation + Math.PI, 200, this.personaje.body.velocity);
     } else {
       // Detenerse si no se presionan las teclas de dirección
-      personaje.setVelocity(0);
+      this.personaje.setVelocity(0);
     }
 
   }
