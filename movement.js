@@ -1,47 +1,25 @@
 
-
-  // Definición de la configuración del juego
-  const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    physics: {
-      default: 'arcade',
-      arcade: {
-        gravity: { y: 0 },
-        debug: false
-      }
-    },
-    scene: {
-      preload: preload,
-      create: create,
-      update: update
-    }
-  };
-
-  // Inicialización del juego
-  const game = new Phaser.Game(config);
-
+class movement extends Phaser.Scene {
   // Variables
-  let personaje;
+  personaje;
 
   // Precarga de recursos
-  function preload() {
+  preload() {
     this.load.image('personaje', 'personaje.jpg');
   }
 
   // Creación de elementos del juego
-  function create() {
+  create() {
     // Agregar el personaje al juego
-    personaje = this.physics.add.image(400, 300, 'personaje');
+    this.personaje = this.physics.add.image(400, 300, 'personaje');
 
     // Configuración de las colisiones para que no se salga del mundo
-    personaje.setCollideWorldBounds(true);
+    this.personaje.setCollideWorldBounds(true);
 
   }
 
-  // Actualización del juego 
-  function update() {
+  // Actualización del juego
+  update() {
     // Control del personaje
     const cursors = this.input.keyboard.createCursorKeys();
     const teclaA = this.input.keyboard.addKey('A');
@@ -51,12 +29,12 @@
 
     // Control de la rotación
     if (teclaA.isDown) {
-        
-        personaje.setAngularVelocity(-150);
-        
+
+      personaje.setAngularVelocity(-150);
+
     } else if (teclaD.isDown) {
-        personaje.setAngularVelocity(150);
-        
+      personaje.setAngularVelocity(150);
+
     } else {
       personaje.setAngularVelocity(0);
     }
@@ -65,16 +43,14 @@
     if (teclaW.isDown) {
       // Avanzar hacia adelante
       this.physics.velocityFromRotation(personaje.rotation, 200, personaje.body.velocity);
-      }
-     else if (teclaS.isDown) {
+    } else if (teclaS.isDown) {
       // Retroceder
       this.physics.velocityFromRotation(personaje.rotation + Math.PI, 200, personaje.body.velocity);
-      }
-    else {
+    } else {
       // Detenerse si no se presionan las teclas de dirección
-          personaje.setVelocity(0);
-      } 
-      
-  }
+      personaje.setVelocity(0);
+    }
 
+  }
+}
 
