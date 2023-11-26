@@ -1,4 +1,3 @@
-s
 
   // Definición de la configuración del juego
   const config = {
@@ -27,7 +26,7 @@ s
 
   // Precarga de recursos
   function preload() {
-    this.load.image('personaje', 'Assets/personaje.jpg');
+    this.load.image('personaje', 'Assets/cangrejo.png');
   }
 
   // Creación de elementos del juego

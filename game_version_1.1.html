@@ -17,7 +17,7 @@
                 default: 'arcade',
                 arcade: {
                     gravity: { y: 0 },
-                    debug: false
+                    debug: true
                 }
             },
             scene: {
@@ -38,11 +38,22 @@
         var objetos;
         var arrayObjetos;
 
+        var impresora;
+        var interaccion = false;
+        var distanceCangrejoImpresora;
+
+        function Maquina( tipo,  orientacion, imagen, collider) { // Prototipos para las maquinas
+            this.tipo = tipo;
+            this.orientacion = orientacion;
+            this.imagen = imagen;
+            this.collider = collider;
+        }
 
         function preload() {
             this.load.image('personaje', 'Assets/cangrejo.png');
             this.load.image('fondo', 'Assets/fondoPlaya.png');
             this.load.image('star', 'assets/star.png');//objeto temporal
+            this.load.image('impresora', 'Assets/Impresora.png');
         }
 
 
@@ -51,8 +62,18 @@
             // Agregar el fondo al juego
             fondo = this.add.image(960, 540, 'fondo');
 
+            // Agregamos la impresora al juego
+            impresora = new Maquina("Timer", 1, this.physics.add.image(300, 300, 'impresora').setScale(0.07).setImmovable(), this.physics.add.image(303, 346).setScale(2.5, 0.7));
+
+           impresora.imagen.setSize(3000, 1650);
+           impresora.imagen.setOffset(1050, 600);
+
+
+
+            //impresora.impresoraCollider = this.physics.add.image(303, 346).setScale(2.5, 0.7);
+           
             // Agregar personaje al juego
-            personaje = this.physics.add.image(400, 600, 'personaje').setScale(0.1).refreshBody();
+            personaje = this.physics.add.image(400, 600, 'personaje').setScale(0.3).refreshBody();
 
             //objetos guarda los objetos que el jugador puede tener en la mano
             objetos = this.physics.add.group();
@@ -63,11 +84,17 @@
             objetos.children.iterate(function (objeto) {
                 objeto.t = false;       //t indica si el objeto está siendo llevado por el personaje
             });
+
+
              
             // Configuración de las colisiones para que el personaje 
             personaje.setCollideWorldBounds(true);
-            
 
+          
+            personaje.setSize(275, 275);
+
+
+            this.physics.add.collider(personaje, impresora.imagen);
         }
 
 
@@ -83,12 +110,14 @@
             if (teclaA.isDown) {
 
                 personaje.setAngularVelocity(-150);
+                
 
             } else if (teclaD.isDown) {
                 personaje.setAngularVelocity(150);
 
             } else {
                 personaje.setAngularVelocity(0);
+                
             }
             
 
@@ -107,7 +136,11 @@
             }
             if (teclaE.isDown)
             {
+                if (impresora.tipo === "Timer") {
+                  
+                }
                 cogerObjeto(); 
+                interaccionImpresora();
             }
             //mueve y rota el objeto llevado delante del personaje
             objetos.children.iterate(function (objeto) {
@@ -117,8 +150,26 @@
                     objeto.setRotation(personaje.rotation);
                 }
             }); 
-             
+
+             distanceCangrejoImpresora = Phaser.Math.Distance.Between(personaje.x, personaje.y, impresora.collider.x, impresora.collider.y);
+
+            if (distanceCangrejoImpresora < 60) {
+               
+                interaccion = true;
+
+            } else {
+                interaccion = false;
+            }
+
         }
+
+        function interaccionImpresora() {
+            if (interaccion === true && (personaje.rotation * impresora.orientacion < 0)) {
+                alert("Interaccion con la impresora");
+            }
+        }
+
+
         function cogerObjeto() {
            
            
