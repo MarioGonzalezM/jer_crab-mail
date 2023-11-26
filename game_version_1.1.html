@@ -107,7 +107,7 @@
             }
             if (teclaE.isDown)
             {
-                cogerObjeto(this); //pasamos el contexto 
+                cogerObjeto(); 
             }
             //mueve y rota el objeto llevado delante del personaje
             objetos.children.iterate(function (objeto) {
@@ -119,7 +119,7 @@
             }); 
              
         }
-        function cogerObjeto(self) {// self mantiene el contexto
+        function cogerObjeto() {
            
            
                 
