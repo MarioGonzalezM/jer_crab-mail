@@ -1,18 +1,18 @@
 
 class MainMenuScene extends Phaser.Scene{
     constructor( ...args ) {
-        super({ key: 'TitleScreen', ...args })
+        super({ key: 'MainMenu', ...args })
     }
     buttons
-    buttonMaxX = 414.5
-    buttonMinX= 309.5
-    buttonScenes = ['test']
+    buttonMaxX = 384.5
+    buttonMinX= 279.5
+    buttonScenes = ['UnderConstruction','Test','UnderConstruction','UnderConstruction']
     preload()
     {
-        this.load.image('background', 'assets/MainMenu/FondoMP.png');
-        this.load.image('post', 'assets/MainMenu/PosteMP.png');
-        this.load.image('gameLogo', 'assets/MainMenu/GameLogoMP.png');
-        this.load.spritesheet('buttons', 'assets/MainMenu/SpriteSheetBotonesMP.png', { frameWidth: 619, frameHeight: 239 });
+        this.load.image('background', 'Assets/MainMenu/FondoMP.png');
+        this.load.image('post', 'Assets/MainMenu/PosteMP.png');
+        this.load.image('gameLogo', 'Assets/MainMenu/GameLogoMP.png');
+        this.load.spritesheet('buttons', 'Assets/MainMenu/SpriteSheetBotonesMP.png', { frameWidth: 700, frameHeight: 239 });
 
     }
 
@@ -27,8 +27,8 @@ class MainMenuScene extends Phaser.Scene{
     create()
     {
         //Add all images
-        this.add.image(990, 540, 'background');
-        this.add.image(990, 540, 'gameLogo');
+        this.add.image(960, 540, 'background');
+        this.add.image(960, 540, 'gameLogo');
         /**/this.buttons = this.add.group({
             key: 'buttons',
             frame: [ 3,2,1,0 ],
@@ -45,7 +45,7 @@ class MainMenuScene extends Phaser.Scene{
             if(typeof link !==  "undefined") child.on("pointerdown",function (){
                 console.log(link)
                 scene.scene.start(link);
-            });console.log(child.frame.name)
+            });
             child.on('pointerover',function ()
             {
 
@@ -76,7 +76,7 @@ class MainMenuScene extends Phaser.Scene{
         });
 
         //We want the buttons to be partially hidden behind the post
-        this.add.image(990, 540, 'post');
+        this.add.image(960, 540, 'post');
     }
 
     update() {}
@@ -85,13 +85,13 @@ class MainMenuScene extends Phaser.Scene{
 
 var config = {
     type: Phaser.AUTO,
-    width: 1980,
+    width: 1920,
     height: 1080,
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
-            debug: false
+            gravity: { y: 0 },
+            debug: true
         }
 
     },
@@ -99,7 +99,7 @@ var config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    scene: [MainMenuScene, movement]
+    scene: [MainMenuScene, Movement, UnderConstructionScene]
 };
 const game = new Phaser.Game(config);
 
