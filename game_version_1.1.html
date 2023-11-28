@@ -50,10 +50,18 @@
         }
 
         function preload() {
-            this.load.image('personaje', 'Assets/cangrejo.png');
+            this.load.image('personaje', 'Assets/Personajes/cangrejo_f1.png');
             this.load.image('fondo', 'Assets/fondoPlaya.png');
             this.load.image('star', 'assets/star.png');//objeto temporal
             this.load.image('impresora', 'Assets/Impresora.png');
+            this.load.spritesheet('crab',
+                'Assets/spritesheet_crab.png',
+                { frameWidth: 470, frameHeight: 538 }
+            );
+            this.load.spritesheet('crab_c',
+                'Assets/Personajes/carta/spritesheet_crabc.png',
+                { frameWidth: 532, frameHeight: 555 }
+            );
         }
 
 
@@ -73,13 +81,33 @@
             //impresora.impresoraCollider = this.physics.add.image(303, 346).setScale(2.5, 0.7);
            
             // Agregar personaje al juego
-            personaje = this.physics.add.image(400, 600, 'personaje').setScale(0.3).refreshBody();
+            personaje = this.physics.add.sprite(400, 600, 'crab').setScale(0.3).refreshBody();
+
 
             //objetos guarda los objetos que el jugador puede tener en la mano
             objetos = this.physics.add.group();
             //añadiendo objetos
             star = objetos.create(500, 600, 'star').setOrigin(-0.1, 0.5);
             star1 = objetos.create(600, 600, 'star').setOrigin(-0.1, 0.5);
+
+            //crear animaciones
+            this.anims.create({
+                key: 'walk_none',
+                frames: this.anims.generateFrameNumbers('crab', { start: 0, end: 4 }),
+                frameRate: 3,
+                repeat: -1
+            });
+
+            this.anims.create({
+                key: 'walk_letter',
+                frames: this.anims.generateFrameNumbers('crab_c', { start: 0, end: 3 }),
+                frameRate: 3,
+                repeat: -1
+            });
+
+            //comienza la animación
+            personaje.play('walk_none');
+
             //asignamos una variable t a todos los objeto
             objetos.children.iterate(function (objeto) {
                 objeto.t = false;       //t indica si el objeto está siendo llevado por el personaje
@@ -110,6 +138,8 @@
             if (teclaA.isDown) {
 
                 personaje.setAngularVelocity(-150);
+                
+                
                 
 
             } else if (teclaD.isDown) {
@@ -179,6 +209,7 @@
                 var distancia = Phaser.Math.Distance.Between(personaje.x, personaje.y, objeto.x, objeto.y);
                 
                     if ((distancia<50)  && !personaje.t) {//si el personaje esta cerca de un objeto y no lleva nada en la mano, coge el objeto
+                        objeto.visible = false;
                         objeto.t = true;
                         personaje.t = true;
                         
@@ -187,12 +218,14 @@
                     {
                         objeto.t = false;
                         personaje.t = false;
+                        objeto.visible = true;
                     }
                     
                 },this);
             
                    
         }
+        
     </script>
 
 </body>
