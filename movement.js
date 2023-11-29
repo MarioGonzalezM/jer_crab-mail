@@ -20,6 +20,13 @@ class Movement extends Phaser.Scene {
     // Configuración de las colisiones para que no se salga del mundo
     this.personaje.setCollideWorldBounds(true);
 
+    const self = this;
+    this.input.keyboard.on("keydown-P", function (event){
+      console.log("Paused")
+      self.scene.launch('PauseMenu', 'Test')
+      self.scene.pause();
+
+    });
   }
 
   // Actualización del juego
@@ -32,6 +39,8 @@ class Movement extends Phaser.Scene {
     const teclaD = this.input.keyboard.addKey('D');
     const teclaW = this.input.keyboard.addKey('W');
     const teclaS = this.input.keyboard.addKey('S');
+
+
 
     // Control de la rotación
     if (teclaA.isDown) {
