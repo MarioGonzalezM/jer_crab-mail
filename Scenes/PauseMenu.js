@@ -17,6 +17,11 @@ class PauseMenu extends Phaser.Scene{
             self.scene.resume(prevScene);
             self.scene.stop()
         });
+        options.setInteractive();
+        options.on("pointerdown",function (){
+            self.scene.launch('OptionsMenu');
+            self.scene.sleep();
+        });
     }
 
     update(){

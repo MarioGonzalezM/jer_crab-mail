@@ -8,7 +8,7 @@ class Movement extends Phaser.Scene {
   // Precarga de recursos
 
   preload() {
-    this.load.image('personaje', 'Assets/cangrejo.png');
+    this.load.image('personaje', 'Assets/Personajes/default/cangrejo_f1.png');
   }
 
   // Creación de elementos del juego
