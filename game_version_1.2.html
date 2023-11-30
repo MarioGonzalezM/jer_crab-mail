@@ -18,19 +18,47 @@
         // Variables
          personaje = {
                 t: false
+         };
+
+            personaje2 = {
+                t: false
             };
 
+         
          fondo;
          star;
          objetos;
          objetosCinta;
          cinta;
          arrayObjetosCinta;
+         currentSpritesheet = 'personaje';
 
          preload() {
-            this.load.image('personaje', 'assets/cangrejo.png');
+             this.load.spritesheet('personaje', 'Assets/spritesheet_crab.png',
+                 {frameWidth: 470, frameHeight: 538}
+             );
+             this.load.spritesheet('cangrejo_carta', 'Assets/Personajes/carta/spritesheet_crabc.png',
+                 { frameWidth: 532, frameHeight: 555 } //EL SPRITE DEL CANGREJO CON LA CARTA Y CON EL FOLIO EN BLANCO ES EL MISMO!!!
+             );
+             this.load.spritesheet('cangrejo_carta_dir', 'Assets/Personajes/carta_dir/spritesheet_crabcdir.png',
+                 { frameWidth: 532, frameHeight: 555 }
+             );
+             this.load.spritesheet('cangrejo_carta_dir_sello', 'Assets/Personajes/carta_dir_sello/spritesheet_crabcdirsello.png',
+                 { frameWidth: 532, frameHeight: 555 }
+
+             );
+             this.load.spritesheet('cangrejo_papel_escrito', 'Assets/Personajes/papel_escrito/spritesheet_papelescrito.png',
+                 { frameWidth: 532, frameHeight: 555 }
+
+             );
+             this.load.spritesheet('cangrejo_caja', 'Assets/Personajes/paquete/spritesheet_cangrejocaja.png',
+                 { frameWidth: 614, frameHeight: 523 }
+
+             );
+
+             this.load.image('personaje2','Assets/Personajes/crab2 prueba.png');
             this.load.image('fondo', 'Assets/fondoPlaya.png');
-            this.load.image('star', 'assets/star.png');//objeto temporal
+            this.load.image('star', 'Assets/star.png');//objeto temporal
             this.load.image('cinta', 'assets/cinta.png');
         }
 
@@ -39,9 +67,61 @@
             
              this.fondo = this.add.image(960, 540, 'fondo');//Fondo 
 
-             this.personaje = this.physics.add.image(400, 600, 'personaje').setScale(0.1).refreshBody();//Personaje 
+             this.personaje = this.physics.add.sprite(400, 600, 'personaje').setScale(0.1).refreshBody();//Personaje 
+
+             //this.star = this.add.image(500, 600, 'star');
+
+             //se crean todas las animaciones
+             this.anims.create({
+                 key: 'walk',
+                 frames: this.anims.generateFrameNumbers('personaje', { start: 0, end: 4 }),
+                 frameRate: 5,
+                 repeat: -1
+             });
+
+             this.anims.create({ //es la misma que el cangrejo con el papel en blanco
+                 key: 'walk_cangrejo_carta',
+                 frames: this.anims.generateFrameNumbers('cangrejo_carta', { start: 0, end: 4 }),
+                 frameRate: 5,
+                 repeat: -1
+             });
+
+             this.anims.create({
+                 key: 'walk_cangrejo_carta_dir',
+                 frames: this.anims.generateFrameNumbers('cangrejo_carta_dir', { start: 0, end: 4 }),
+                 frameRate: 5,
+                 repeat: -1
+             });
+
+             this.anims.create({
+                 key: 'walk_cangrejo_carta_dir_sello',
+                 frames: this.anims.generateFrameNumbers('cangrejo_carta_dir_sello', { start: 0, end: 4 }),
+                 frameRate: 5,
+                 repeat: -1
+             });
+
+             this.anims.create({
+                 key: 'walk_cangrejo_papel_escrito',
+                 frames: this.anims.generateFrameNumbers('cangrejo_papel_escrito', { start: 0, end: 4 }),
+                 frameRate: 5,
+                 repeat: -1
+             });
+
+             this.anims.create({
+                 key: 'walk_cangrejo_caja',
+                 frames: this.anims.generateFrameNumbers('cangrejo_caja', { start: 0, end: 4 }),
+                 frameRate: 5,
+                 repeat: -1
+             });
+
+             this.personaje.anims.play('walk');
+             //this.personaje.anims.play('walk_letter');
+
+             this.personaje2 = this.physics.add.image(400, 900, 'personaje2').setScale(0.1).refreshBody();//Personaje 
 
              this.objetos = this.physics.add.group(); //objetos que el jugador puede tener en la mano
+
+             this.star = this.add.image(500, 600, 'star');
 
              this.objetosCinta = this.physics.add.group();//objetos de la cinta
 
@@ -52,10 +132,14 @@
                 objeto.t = false;//t indica si el objeto está siendo llevado por el personaje
              });
              this.arrayObjetosCinta = ["star", "personaje"];//ids de los objetos que salen de la cinta
-    
+
+             this.cursors = this.input.keyboard.createCursorKeys();
             // Configuración de las colisiones para el personaje 
              this.personaje.setCollideWorldBounds(true);
              this.physics.add.collider(this.personaje, this.cinta);
+             this.personaje2.setCollideWorldBounds(true);
+             this.physics.add.collider(this.personaje2, this.cinta);
+             this.physics.add.collider(this.personaje, this.personaje2);
 
              //funcion que se ejecuta cada cierto tiempo
             this.time.addEvent({
@@ -74,22 +158,43 @@
             const teclaW = this.input.keyboard.addKey('W');
             const teclaS = this.input.keyboard.addKey('S');
             const teclaE = this.input.keyboard.addKey('E');
+            const teclaZ = this.input.keyboard.addKey('Z');
+            const teclaX = this.input.keyboard.addKey('X');
+            const teclaC = this.input.keyboard.addKey('C');
+            const teclaV = this.input.keyboard.addKey('V');
+            const teclaB = this.input.keyboard.addKey('B');
 
-
+             
             // Control de la rotación
-            if (teclaA.isDown) {
+             //personaje 2
+            if (this.cursors.left.isDown) {
 
-                this.personaje.setAngularVelocity(-150);
+                this.personaje2.setAngularVelocity(-150);
+                
 
-            } else if (teclaD.isDown) {
-                this.personaje.setAngularVelocity(150);
+            } else if (this.cursors.right.isDown) {
+                this.personaje2.setAngularVelocity(150);
 
             } else {
-                this.personaje.setAngularVelocity(0);
+                this.personaje2.setAngularVelocity(0);
             }
+
+             //personaje 1
+             if (teclaA.isDown) {
+
+                 this.personaje.setAngularVelocity(-150);
+
+
+             } else if (teclaD.isDown) {
+                 this.personaje.setAngularVelocity(150);
+
+             } else {
+                 this.personaje.setAngularVelocity(0);
+             }
             
 
             // Control del movimiento
+             //personaje 1
             if (teclaW.isDown) {
                 // Avanzar hacia adelante
                 this.physics.velocityFromRotation(this.personaje.rotation, 200, this.personaje.body.velocity);
@@ -102,6 +207,19 @@
                 // Detenerse si no se presionan las teclas de dirección
                 this.personaje.setVelocity(0);
             }
+             //personaje 2
+             if (this.cursors.up.isDown) {
+                 // Avanzar hacia adelante
+                 this.physics.velocityFromRotation(this.personaje2.rotation, 200, this.personaje2.body.velocity);
+             }
+             else if (this.cursors.down.isDown) {
+                 // Retroceder
+                 this.physics.velocityFromRotation(this.personaje2.rotation + Math.PI, 200, this.personaje2.body.velocity);
+             }
+             else {
+                 // Detenerse si no se presionan las teclas de dirección
+                 this.personaje2.setVelocity(0);
+             }
 
             //interactuar con los objetos
              if (Phaser.Input.Keyboard.JustDown(teclaE))
@@ -119,6 +237,76 @@
             
                 }
              }, this); 
+
+
+             // FUNCIONES DE PRUEBA DE CAMBIO DE SPRITES
+
+
+             if (Phaser.Input.Keyboard.JustDown(teclaZ)) { //cambia la animación del cangrejo1 al cangrejo con la carta
+                 if (this.currentSpritesheet !== 'cangrejo_carta') {
+                     this.personaje.setTexture('cangrejo_carta');
+                     this.currentSpritesheet = 'cangrejo_carta';
+                     this.personaje.anims.play('walk_cangrejo_carta');
+                 } else {
+                     this.personaje.setTexture('personaje');
+                     this.currentSpritesheet = 'personaje';
+                     this.personaje.anims.play('walk');
+                 }
+
+             }
+
+             if (Phaser.Input.Keyboard.JustDown(teclaX)) { //cambia la animación del cangrejo1 al cangrejo con la carta
+                 if (this.currentSpritesheet !== 'cangrejo_carta_dir') {
+                     this.personaje.setTexture('cangrejo_carta_dir');
+                     this.currentSpritesheet = 'cangrejo_carta_dir';
+                     this.personaje.anims.play('walk_cangrejo_carta_dir');
+                 } else {
+                     this.personaje.setTexture('personaje');
+                     this.currentSpritesheet = 'personaje';
+                     this.personaje.anims.play('walk');
+                 }
+
+             }
+
+             if (Phaser.Input.Keyboard.JustDown(teclaC)) { //cambia la animación del cangrejo1 al cangrejo con la carta
+                 if (this.currentSpritesheet !== 'cangrejo_carta_dir_sello') {
+                     this.personaje.setTexture('cangrejo_carta_dir_sello');
+                     this.currentSpritesheet = 'cangrejo_carta_dir_sello';
+                     this.personaje.anims.play('walk_cangrejo_carta_dir_sello');
+                 } else {
+                     this.personaje.setTexture('personaje');
+                     this.currentSpritesheet = 'personaje';
+                     this.personaje.anims.play('walk');
+                 }
+
+             }
+
+             if (Phaser.Input.Keyboard.JustDown(teclaV)) { //cambia la animación del cangrejo1 al cangrejo con la carta
+                 if (this.currentSpritesheet !== 'cangrejo_papel_escrito') {
+                     this.personaje.setTexture('cangrejo_papel_escrito');
+                     this.currentSpritesheet = 'cangrejo_papel_escrito';
+                     this.personaje.anims.play('walk_cangrejo_papel_escrito');
+                 } else {
+                     this.personaje.setTexture('personaje');
+                     this.currentSpritesheet = 'personaje';
+                     this.personaje.anims.play('walk');
+                 }
+
+             }
+
+             if (Phaser.Input.Keyboard.JustDown(teclaB)) { //cambia la animación del cangrejo1 al cangrejo con la carta
+                 if (this.currentSpritesheet !== 'cangrejo_caja') {
+                     this.personaje.setTexture('cangrejo_caja');
+                     this.currentSpritesheet = 'cangrejo_caja';
+                     this.personaje.anims.play('walk_cangrejo_caja');
+                 } else {
+                     this.personaje.setTexture('personaje');
+                     this.currentSpritesheet = 'personaje';
+                     this.personaje.anims.play('walk');
+                     this.personaje.anims.play('walk');
+                 }
+
+             }
 
              
              var auxObjeto1;//variable auxiliar
