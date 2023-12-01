@@ -371,8 +371,8 @@
                 this.personaje.anims.play('walk');
                 //this.personaje.anims.play('walk_letter');
 
-                this.personaje.objeto = new Objeto("carta", 0);
-                //this.personaje.objeto = new Objeto("paquete", 12.5);
+                //this.personaje.objeto = new Objeto("carta", 0);
+                this.personaje.objeto = new Objeto("paquete", 12.5);
 
 
                 this.personaje2 = this.physics.add.image(400, 700, 'personaje2').setScale(0.1).refreshBody();//Personaje 
@@ -1000,7 +1000,7 @@
                                 console.log("Has cerrado el buzon");
                                 this.buzonCartas.estado = "cerrado";
 
-                                comprobarSobre();
+                                this.comprobarSobre();
 
                             } else {
                                 console.log("Mete el papel en el sobre");
