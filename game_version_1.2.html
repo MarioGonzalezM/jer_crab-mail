@@ -108,29 +108,95 @@
 
 
             preload() {
+                //Sprites sin objetos
                 this.load.spritesheet('personaje', 'Assets/spritesheet_crab.png',
                     { frameWidth: 470, frameHeight: 538 }
                 );
+
+                this.load.spritesheet('personaje2', 'Assets/spritesheet_crab2.png',
+                    { frameWidth: 482, frameHeight: 555 }
+                );
+
+                //Sprites cangrejo carta / cangrejo papel blanco
                 this.load.spritesheet('cangrejo_carta', 'Assets/Personajes/carta/spritesheet_crabc.png',
                     { frameWidth: 532, frameHeight: 555 } //EL SPRITE DEL CANGREJO CON LA CARTA Y CON EL FOLIO EN BLANCO ES EL MISMO!!!
                 );
+
+                this.load.spritesheet('cangrejo2_carta', 'Assets/Personajes/carta/spritesheet_crab2c.png',
+                    { frameWidth: 532, frameHeight: 555 } //EL SPRITE DEL CANGREJO CON LA CARTA Y CON EL FOLIO EN BLANCO ES EL MISMO!!!
+                );
+
+                //Sprites cangrejo carta con la dirección
                 this.load.spritesheet('cangrejo_carta_dir', 'Assets/Personajes/carta_dir/spritesheet_crabcdir.png',
                     { frameWidth: 532, frameHeight: 555 }
                 );
+
+                this.load.spritesheet('cangrejo2_carta_dir', 'Assets/Personajes/carta_dir/spritesheet_crab2cdir.png',
+                    { frameWidth: 532, frameHeight: 555 }
+                );
+
+                //Sprites cangrejo con carta con sello
+                this.load.spritesheet('cangrejo_carta_sello', 'Assets/Personajes/carta_sello/spritesheet_crabcartasello.png',
+                    { frameWidth: 532, frameHeight: 555 }
+                );
+
+                this.load.spritesheet('cangrejo2_carta_sello', 'Assets/Personajes/carta_sello/spritesheet_crab2cartasello.png',
+                    { frameWidth: 532, frameHeight: 555 }
+                );
+
+                //Sprites cangrejo carta con dirección y sello
                 this.load.spritesheet('cangrejo_carta_dir_sello', 'Assets/Personajes/carta_dir_sello/spritesheet_crabcdirsello.png',
                     { frameWidth: 532, frameHeight: 555 }
-
                 );
+
+                this.load.spritesheet('cangrejo2_carta_dir_sello', 'Assets/Personajes/carta_dir_sello/spritesheet_crab2cdirsello.png',
+                    { frameWidth: 532, frameHeight: 555 }
+                );
+
+                //Sprites cangrejo con papel escrito
                 this.load.spritesheet('cangrejo_papel_escrito', 'Assets/Personajes/papel_escrito/spritesheet_papelescrito.png',
                     { frameWidth: 532, frameHeight: 555 }
-
                 );
+
+                this.load.spritesheet('cangrejo2_papel_escrito', 'Assets/Personajes/papel_escrito/spritesheet_papelescrito2.png',
+                    { frameWidth: 532, frameHeight: 555 }
+                );
+
+                //Sprites cangrejo con el paquete
                 this.load.spritesheet('cangrejo_caja', 'Assets/Personajes/paquete/spritesheet_cangrejocaja.png',
                     { frameWidth: 614, frameHeight: 523 }
-
                 );
 
-                this.load.image('personaje2', 'Assets/Personajes/crab2 prueba.png');
+                this.load.spritesheet('cangrejo2_caja', 'Assets/Personajes/paquete/spritesheet_cangrejo2caja.png',
+                    { frameWidth: 614, frameHeight: 523 }
+                );
+
+                //Sprites cangrejo con el paquete con dirección
+                this.load.spritesheet('cangrejo_caja_dir', 'Assets/Personajes/paquete_dir/spritesheet_crabcajadir.png',
+                    { frameWidth: 614, frameHeight: 523 }
+                );
+
+                this.load.spritesheet('cangrejo2_caja_dir', 'Assets/Personajes/paquete_dir/spritesheet_crab2cajadir.png',
+                    { frameWidth: 614, frameHeight: 523 }
+                );
+
+                //Sprites cangrejo con el paquete con sello
+                this.load.spritesheet('cangrejo_caja_sello', 'Assets/Personajes/paquete_sello/spritesheet_crabcajasello.png',
+                    { frameWidth: 614, frameHeight: 523 }
+                );
+                this.load.spritesheet('cangrejo2_caja_sello', 'Assets/Personajes/paquete_sello/spritesheet_crab2cajasello.png',
+                    { frameWidth: 614, frameHeight: 523 }
+                );
+                //Sprites cangrejo con el paquete con dirección y sello
+                this.load.spritesheet('cangrejo_caja_dir_sello', 'Assets/Personajes/paquete_dir_sello/spritesheet_crabcajadirsello.png',
+                    { frameWidth: 614, frameHeight: 523 }
+                );
+
+                this.load.spritesheet('cangrejo2_caja_dir_sello', 'Assets/Personajes/paquete_dir_sello/spritesheet_crab2cajadirsello.png',
+                    { frameWidth: 614, frameHeight: 523 }
+                );
+
+                //this.load.image('personaje2', 'Assets/Personajes/crab2 prueba.png');   esto era la prueba pero el cangrejo 2 sin animar
                 this.load.image('fondo', 'Assets/playaGrande.png');
                 this.load.image('star', 'Assets/star.png');//objeto temporal
                 this.load.image('impresora', 'Assets/Impresora/Impresora1.png');
@@ -348,9 +414,11 @@
                 ///////////////////////////////////////////////////////////////////////
                 //////////////////////////////////////////////////////////////////////
 
-                this.personaje = this.physics.add.sprite(400, 600, 'personaje').setScale(0.1).refreshBody();//Personaje 
+                this.personaje = this.physics.add.sprite(400, 600, 'personaje').setScale(0.1).refreshBody();//Personaje
+                this.personaje2 = this.physics.add.sprite(400, 700, 'personaje2').setScale(0.1).refreshBody();//Personaje 2
 
                 //se crean todas las animaciones
+                //Animaciones del cangrejo sin nada
                 this.anims.create({
                     key: 'walk',
                     frames: this.anims.generateFrameNumbers('personaje', { start: 0, end: 4 }),
@@ -358,6 +426,14 @@
                     repeat: -1
                 });
 
+                this.anims.create({
+                    key: 'walk2',
+                    frames: this.anims.generateFrameNumbers('personaje2', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                //Animaciones cangrejo con carta / papel en blanco
                 this.anims.create({ //es la misma que el cangrejo con el papel en blanco
                     key: 'walk_cangrejo_carta',
                     frames: this.anims.generateFrameNumbers('cangrejo_carta', { start: 0, end: 4 }),
@@ -365,12 +441,45 @@
                     repeat: -1
                 });
 
+                this.anims.create({ //es la misma que el cangrejo con el papel en blanco
+                    key: 'walk_cangrejo2_carta',
+                    frames: this.anims.generateFrameNumbers('cangrejo2_carta', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                //Animaciones cangrejo carta con dirección
                 this.anims.create({
                     key: 'walk_cangrejo_carta_dir',
                     frames: this.anims.generateFrameNumbers('cangrejo_carta_dir', { start: 0, end: 4 }),
                     frameRate: 5,
                     repeat: -1
                 });
+
+                this.anims.create({
+                    key: 'walk_cangrejo2_carta_dir',
+                    frames: this.anims.generateFrameNumbers('cangrejo2_carta_dir', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                //Animaciones cangrejo carta con sello
+
+                this.anims.create({
+                    key: 'walk_cangrejo_carta_sello',
+                    frames: this.anims.generateFrameNumbers('cangrejo_carta_sello', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                this.anims.create({
+                    key: 'walk_cangrejo2_carta_sello',
+                    frames: this.anims.generateFrameNumbers('cangrejo2_carta_sello', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                //Animaciones cangrejo carta con dirección y sello
 
                 this.anims.create({
                     key: 'walk_cangrejo_carta_dir_sello',
@@ -380,6 +489,14 @@
                 });
 
                 this.anims.create({
+                    key: 'walk_cangrejo2_carta_dir_sello',
+                    frames: this.anims.generateFrameNumbers('cangrejo2_carta_dir_sello', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                //Animaciones cangrejo con papel escrito
+                this.anims.create({
                     key: 'walk_cangrejo_papel_escrito',
                     frames: this.anims.generateFrameNumbers('cangrejo_papel_escrito', { start: 0, end: 4 }),
                     frameRate: 5,
@@ -387,20 +504,78 @@
                 });
 
                 this.anims.create({
+                    key: 'walk_cangrejo2_papel_escrito',
+                    frames: this.anims.generateFrameNumbers('cangrejo2_papel_escrito', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                //Animaciones cangrejo con paquete
+                this.anims.create({
                     key: 'walk_cangrejo_caja',
                     frames: this.anims.generateFrameNumbers('cangrejo_caja', { start: 0, end: 4 }),
                     frameRate: 5,
                     repeat: -1
                 });
 
+                this.anims.create({
+                    key: 'walk_cangrejo2_caja',
+                    frames: this.anims.generateFrameNumbers('cangrejo2_caja', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                //Animaciones cangrejo paquete con dirección
+                this.anims.create({
+                    key: 'walk_cangrejo_caja_dir',
+                    frames: this.anims.generateFrameNumbers('cangrejo_caja_dir', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                this.anims.create({
+                    key: 'walk_cangrejo2_caja_dir',
+                    frames: this.anims.generateFrameNumbers('cangrejo2_caja_dir', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                //Animaciones cangrejo paquete con sello
+                this.anims.create({
+                    key: 'walk_cangrejo_caja_sello',
+                    frames: this.anims.generateFrameNumbers('cangrejo_caja_sello', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                this.anims.create({
+                    key: 'walk_cangrejo2_caja_sello',
+                    frames: this.anims.generateFrameNumbers('cangrejo2_caja_sello', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                //Animaciones cangrejo paquete con dirección y sello
+                this.anims.create({
+                    key: 'walk_cangrejo_caja_dir_sello',
+                    frames: this.anims.generateFrameNumbers('cangrejo_caja_dir_sello', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
+                this.anims.create({
+                    key: 'walk_cangrejo2_caja_dir_sello',
+                    frames: this.anims.generateFrameNumbers('cangrejo2_caja_dir_sello', { start: 0, end: 4 }),
+                    frameRate: 5,
+                    repeat: -1
+                });
+
                 this.personaje.anims.play('walk');
+                this.personaje2.anims.play('walk2');
                 //this.personaje.anims.play('walk_letter');
 
                 //this.personaje.objeto = new Objeto("carta", 0);
-                this.personaje.objeto = new Objeto("paquete", 12.5);
-
-
-                this.personaje2 = this.physics.add.image(400, 700, 'personaje2').setScale(0.1).refreshBody();//Personaje 
+                this.personaje.objeto = new Objeto("paquete", 12.5); 
 
                 this.objetos = this.physics.add.group(); //objetos que el jugador puede tener en la mano
 
