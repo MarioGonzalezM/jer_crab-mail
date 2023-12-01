@@ -36,6 +36,8 @@
 
         class Juego extends Phaser.Scene {
 
+            width = 1980;
+            height = 1080;
 
 
             // Variables
@@ -94,6 +96,16 @@
             contadorEmpaquetado;
 
 
+            //Sonidos
+            sonidoImpresora;
+            sonidoBuzones;
+            sonidoReinicio;
+            sonidoPapelera;
+            sonidoOrdenador;
+            sonidoCaja;
+            sonidoSellos;
+            sonidoEmpaquetado;
+
 
             preload() {
                 this.load.spritesheet('personaje', 'Assets/spritesheet_crab.png',
@@ -137,10 +149,23 @@
                 this.load.image('mesa', 'Assets/mesa.png');
                 this.load.image('mesacentral', 'Assets/mesaesquina.png');
 
+                // Sonidos 
+                this.load.audio('impresora', ['Sounds/impresoraSonido.mp3']);
+                this.load.audio('buzones', ['Sounds/sonidoBuzones.mp3']);
+                this.load.audio('reinicio', ['Sounds/reinicioSonido.mp3']);
+                this.load.audio('papelera', ['Sounds/papeleraSonido.mp3']);
+                this.load.audio('ordenador', ['Sounds/ordenadorSonido.mp3']);
+                this.load.audio('caja', ['Sounds/cajaSonido.mp3']);
+                this.load.audio('sellos', ['Sounds/sonidoSellos.mp3']);
+                this.load.audio('empaquetado', ['Sounds/empaquetadoSonido.mp3']);
+
+                
+
             }
 
             create() {
-
+                this.scale.displaySize.setAspectRatio(this.width / this.height);
+                this.scale.refresh();
 
                 this.fondo = this.add.image(960, 540, 'fondo');//Fondo 
 
@@ -466,11 +491,21 @@
 
                 //funcion que se ejecuta cada cierto tiempo
                 //this.time.addEvent({
-                //    delay: 2000,  // El intervalo en milisegundos 
+                //    delay: 2000,  // El intervalo en milisegundos
                 //    callback: this.crearObjetosCinta,
                 //    callbackScope: this,
                 //    loop: true  //true para que el evento se repita
-                //});           
+                //});
+
+                // Sonidos
+                this.sonidoImpresora = this.sound.add('impresora');
+                this.sonidoBuzones = this.sound.add('buzones');
+                this.sonidoReinicio = this.sound.add('reinicio');
+                this.sonidoPapelera = this.sound.add('papelera');
+                this.sonidoOrdenador = this.sound.add('ordenador');
+                this.sonidoCaja = this.sound.add('caja');
+                this.sonidoSellos = this.sound.add('sellos');
+                this.sonidoEmpaquetado = this.sound.add('empaquetado');
             }
 
 
@@ -550,7 +585,7 @@
 
                 //interactuar con los objetos
                 if (Phaser.Input.Keyboard.JustDown(teclaE)) {
-
+                    
                     this.cogerObjeto();
                     this.interaccionMaquinas();
                 }
@@ -780,6 +815,7 @@
                                     console.log("Has puesto el papel");
                                     this.impresora.estadoPapel = "con papel";
                                     this.impresora.estado = "funcionando";
+                                    this.sonidoImpresora.play();
                                     console.log("Imprimiendo documento");
                                     //this.contadorImpresora = setInterval(this.finImpresora(this), 3000);
                                     this.contadorImpresora = null;
@@ -808,7 +844,6 @@
 
 
             finImpresora() {
-                console.log("HOLA " + this.impresora);
                 this.impresora.estado = "finalizada";
                 //clearInterval(this.contadorImpresora);
                 console.log("La impresora ha terminado de imprimir");
@@ -818,6 +853,7 @@
             interaccionEmpaquetado() {
                 if (this.personaje.objeto !== null) {
                     if (this.empaquetado.inicioInteractuable === true && ((this.personaje.rotation < 0.6) && (this.personaje.rotation > - 0.6)) && this.empaquetado.estado === "parado" && this.empaquetado.estadoObjeto === "sin objeto") {
+                        this.sonidoEmpaquetado.play();
                         console.log("Has puesto el objeto en la maquina");
                         this.empaquetado.estado = "funcionando";
                         this.empaquetado.estadoObjeto = "con objeto";
@@ -849,9 +885,11 @@
                     if (this.reciclado.interactuable === true && (this.personaje.rotation < 2.4) && (this.personaje.rotation > 0.6)) {
                         if (this.personaje.objeto.nombre === "carta") {
                             this.reciclarCarta();
+                            this.sonidoReinicio.play();
                             console.log("Has reciclado tu carta");
                         } else if (this.personaje.objeto.nombre === "paquete") {
                             this.reciclarPaquete();
+                            this.sonidoReinicio.play();
                             console.log("Has reciclado tu paquete");
                         }
 
@@ -876,6 +914,7 @@
             interaccionPapelera() {
                 if (this.papelera.interactuable === true && (this.personaje.rotation < 2.4) && (this.personaje.rotation > 0.6)) {
                     if (this.personaje.objeto !== undefined) {
+                        this.sonidoPapelera.play();
                         this.personaje.objeto = undefined;
                         console.log("Has tirado tu pedido");
                     }
@@ -889,6 +928,7 @@
                         if (this.personaje.objeto.direccion === false) {
                             if (this.personaje.objeto.nombre === "carta") {
                                 if (this.personaje.objeto.sobre !== false) {
+                                    this.sonidoOrdenador.play();
                                     console.log("introducido la direccion");
                                     this.personaje.objeto.direccion = true;
                                 } else {
@@ -896,6 +936,7 @@
                                 }
                             } else if (this.personaje.objeto.nombre === "paquete") {
                                 if (this.personaje.objeto.empaquetado !== false) {
+                                    this.sonidoOrdenador.play();
                                     console.log("introducido la direccion");
                                     this.personaje.objeto.direccion = true;
                                 } else {
@@ -917,13 +958,15 @@
                     if (this.buzonPaquetes.estado === "cerrado") {
                         if (this.buzonPaquetes.interactuable === true && (this.personaje.rotation < 0.6) && (this.personaje.rotation > -0.6)) {
                             console.log("Has abierto el buzon de los paquetes");
+                            this.sonidoBuzones.play();
                             this.buzonPaquetes.estado = "abierto";
                         }
                     } else if (this.buzonPaquetes.estado === "abierto") {
                         if (this.buzonPaquetes.interactuable === true && (this.personaje.rotation < 0.6) && (this.personaje.rotation > -0.6)) {
                             if (this.personaje.objeto.paquete === true) {
-                                console.log("Has introducido un");
+                                console.log("Has introducido un paquete");
                                 console.log("Has cerrado el buzon");
+                                this.sonidoBuzones.play();
                                 this.buzonPaquetes.estado = "cerrado";
 
                                 this.comprobarPaquete();
@@ -983,6 +1026,7 @@
 
                         if (this.buzonCartas.interactuable === true && aux === true) {
                             console.log("Has abierto el buzon de las cartas");
+                            this.sonidoBuzones.play();
                             this.buzonCartas.estado = "abierto";
                         }
 
@@ -998,6 +1042,7 @@
                             if (this.personaje.objeto.sobre === true) {
                                 console.log("Has introducido una carta");
                                 console.log("Has cerrado el buzon");
+                                this.sonidoBuzones.play();
                                 this.buzonCartas.estado = "cerrado";
 
                                 this.comprobarSobre();
@@ -1064,6 +1109,7 @@
 
                     if (this.cajaSobres.interactuable === true && aux === true) {
                         if (this.personaje.objeto.sobre === false) {
+                            this.sonidoCaja.play();
                             console.log("Has metido el papel en el sobre");
                             this.personaje.objeto.sobre = true;
                         } else {
@@ -1082,6 +1128,7 @@
 
                             if (this.personaje.objeto.nombre == "carta") {
                                 if (this.personaje.objeto.sobre === true) {
+                                    this.sonidoSellos.play();
                                     console.log("Has puesto el sello de las cartas");
                                     this.personaje.objeto.sello = "sello cartas";
                                 } else {
@@ -1089,6 +1136,7 @@
                                 }
                             } else if (this.personaje.objeto.nombre === "paquete") {
                                 if (this.personaje.objeto.empaquetado === true) {
+                                    this.sonidoSellos.play();
                                     console.log("Has puesto el sello de las cartas");
                                     this.personaje.objeto.sello = "sello cartas";
                                 } else {
@@ -1101,6 +1149,7 @@
                         if (this.personaje.objeto.sello === undefined) {
                             if (this.personaje.objeto.nombre === "carta") {
                                 if (this.personaje.objeto.sobre === true) {
+                                    this.sonidoSellos.play();
                                     console.log("Has puesto el sello de paquete de tipo 1");
                                     this.personaje.objeto.sello = "sello paquetes 1";
                                 } else {
@@ -1108,6 +1157,7 @@
                                 }
                             } else if (this.personaje.objeto.nombre === "paquete") {
                                 if (this.personaje.objeto.empaquetado === true) {
+                                    this.sonidoSellos.play();
                                     console.log("Has puesto el sello de paquete de tipo 1");
                                     this.personaje.objeto.sello = "sello paquetes 1";
                                 } else {
@@ -1120,6 +1170,7 @@
                         if (this.personaje.objeto.sello === undefined) {
                             if (this.personaje.objeto.nombre === "carta") {
                                 if (this.personaje.objeto.sobre === true) {
+                                    this.sonidoSellos.play();
                                     console.log("Has puesto el sello de paquete de tipo 2");
                                     this.personaje.objeto.sello = "sello paquetes 2";
                                 } else {
@@ -1127,6 +1178,7 @@
                                 }
                             } else if (this.personaje.objeto.nombre === "paquete") {
                                 if (this.personaje.objeto.empaquetado === true) {
+                                    this.sonidoSellos.play();
                                     console.log("Has puesto el sello de paquete de tipo 2");
                                     this.personaje.objeto.sello = "sello paquetes 2";
                                 } else {
@@ -1139,6 +1191,7 @@
                         if (this.personaje.objeto.sello === undefined) {
                             if (this.personaje.objeto.nombre === "carta") {
                                 if (this.personaje.objeto.sobre === true) {
+                                    this.sonidoSellos.play();
                                     console.log("Has puesto el sello de paquete de tipo 3");
                                     this.personaje.objeto.sello = "sello paquetes 3";
                                 } else {
@@ -1146,6 +1199,7 @@
                                 }
                             } else if (this.personaje.objeto.nombre === "paquete") {
                                 if (this.personaje.objeto.empaquetado === true) {
+                                    this.sonidoSellos.play();
                                     console.log("Has puesto el sello de paquete de tipo 3");
                                     this.personaje.objeto.sello = "sello paquetes 3";
                                 } else {
