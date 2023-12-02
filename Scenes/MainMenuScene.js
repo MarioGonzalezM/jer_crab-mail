@@ -6,7 +6,7 @@ class MainMenuScene extends Phaser.Scene{
     buttons
     buttonMaxX = 384.5
     buttonMinX= 279.5
-    buttonScenes = ['UnderConstruction','Test','UnderConstruction','UnderConstruction']
+    buttonScenes = ['UnderConstruction','OfflineGame','UnderConstruction','OptionsMenu']
     preload()
     {
         this.load.image('background', 'Assets/MainMenu/FondoMP.png');
@@ -99,7 +99,7 @@ var config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    scene: [MainMenuScene, Movement, UnderConstructionScene, PauseMenu, OptionsMenu]
+    scene: [MainMenuScene, OfflineGame,Movement, UnderConstructionScene, OptionsMenu,PauseMenu]
 };
 const game = new Phaser.Game(config);
 

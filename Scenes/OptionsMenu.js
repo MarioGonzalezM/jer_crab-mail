@@ -108,11 +108,10 @@ class OptionsMenu extends Phaser.Scene{
             if(self.delay < 1)  return
             self.delay = 0;
             let sign =Math.sign((newValue*10.0 - prevValue*10.0))
-            console.log(sign )
             let nextFrame = (self.sliderCrab1.frame.name + sign)%8;
             if(nextFrame < 0) nextFrame = 7;
-            console.log("UwU" + nextFrame)
             self.sliderCrab1.setFrame(nextFrame);
+            eventManager.emit('master-sound-change',self.sliderCrab1.slider.value)
         });
         this.sliderCrab2.slider.on('valuechange', function(newValue, prevValue)
         {
@@ -120,11 +119,10 @@ class OptionsMenu extends Phaser.Scene{
             if(self.delay < 1)  return
             self.delay = 0;
             let sign =Math.sign((newValue*10.0 - prevValue*10.0))
-            console.log(sign )
             let nextFrame = (self.sliderCrab2.frame.name + sign)%8;
             if(nextFrame < 0) nextFrame = 7;
-            console.log("UwU" + nextFrame)
             self.sliderCrab2.setFrame(nextFrame);
+            eventManager.emit('master-sound-change',self.sliderCrab2.slider.value)
         });
         this.sliderCrab3.slider.on('valuechange', function(newValue, prevValue)
         {
@@ -132,11 +130,10 @@ class OptionsMenu extends Phaser.Scene{
             if(self.delay < 1)  return
             self.delay = 0;
             let sign =Math.sign((newValue*10.0 - prevValue*10.0))
-            console.log(sign )
             let nextFrame = (self.sliderCrab3.frame.name + sign)%8;
             if(nextFrame < 0) nextFrame = 7;
-            console.log("UwU" + nextFrame)
             self.sliderCrab3.setFrame(nextFrame);
+            eventManager.emit('master-sound-change',self.sliderCrab3.slider.value)
         });
         this.text1 = this.add.text(0,0, '', {
             fontSize: '20px',
