@@ -102,6 +102,9 @@ class OfflineGame extends Phaser.Scene {
     sonidoEmpaquetado;
 
     pesado;
+    tiempoJuego;
+    tiempoTranscurrido;
+    texto;
 
 
     preload() {
@@ -667,6 +670,30 @@ class OfflineGame extends Phaser.Scene {
 
         //Texto
         this.pesado = this.add.text(1009, 294, '0.00', { fontSize: '19px', fill: '#FF0000' }, { font: "Monospace" });
+
+        //Temporizador
+        this.tiempoJuego = 180; //tiempo de partida en segundos
+        this.tiempoTranscurrido = 0;   
+        this.time.addEvent({
+            delay: 1000,
+            callback: function () {
+                if (this.tiempoTranscurrido >= this.tiempoJuego) {
+                    this.texto.setText('Tiempo Restante: 0:00');
+                    //final del juego
+                } else {
+                    var minuto = Math.floor((this.tiempoJuego - this.tiempoTranscurrido) / 60);
+                    var segundo = this.tiempoJuego - 60 * minuto - this.tiempoTranscurrido;
+                    var cero = (segundo >= 10) ? '' : '0';
+                    this.texto.setText('Tiempo Restante: ' + minuto + ":" + cero + segundo);
+                    this.tiempoTranscurrido += 1;
+                }
+            },
+            callbackScope: this,
+            loop: true
+        });
+
+        this.texto = this.add.text(160, 60, 'Tiempo Restante: 3:00', { fontSize: '35px', fill: '#fff' });
+
     }
 
 
