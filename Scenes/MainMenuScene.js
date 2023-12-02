@@ -42,13 +42,14 @@ class MainMenuScene extends Phaser.Scene{
         this.buttons.children.iterate(function (child) {
             let link = scene.buttonScenes[child.frame.name];
             child.setInteractive();
+
             if(typeof link !==  "undefined") child.on("pointerdown",function (){
                 console.log(link)
                 scene.scene.start(link);
             });
+
             child.on('pointerover',function ()
             {
-
                 scene.tweens.add({
                     targets: child,
                     x: scene.buttonMaxX,
@@ -61,16 +62,15 @@ class MainMenuScene extends Phaser.Scene{
             })
             child.on('pointerout',function ()
             {
-
-                    scene.tweens.add({
-                        targets: child,
-                        x: scene.buttonMinX,
-                        duration: 200,
-                        repeat: 0,
-                        //hold: 500,
-                        //repeatDelay: 500,
-                        ease: 'linear'
-                    });
+                scene.tweens.add({
+                    targets: child,
+                    x: scene.buttonMinX,
+                    duration: 200,
+                    repeat: 0,
+                    //hold: 500,
+                    //repeatDelay: 500,
+                    ease: 'linear'
+                });
             })
 
         });

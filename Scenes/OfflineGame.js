@@ -214,6 +214,7 @@ class OfflineGame extends Phaser.Scene {
 
 
         this.load.spritesheet('carga', 'assets/carga.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.image('paquete', 'Assets/Buzon paquetes/Paquete.png', { frameWidth: 32, frameHeight: 32 });
 
         //Objetos
         this.load.image('mancuerna', 'Assets/Objetos/macuenrna.png');
@@ -740,8 +741,8 @@ class OfflineGame extends Phaser.Scene {
 
         //interactuar con los objetos
         if (Phaser.Input.Keyboard.JustDown(teclaE)) {
-            this.cogerObjeto();
-            this.interaccionMaquinas();
+            if(!this.interaccionMaquinas())
+                this.cogerObjeto();
         }
 
         //mueve y rota el objeto llevado delante del personaje
@@ -873,19 +874,12 @@ class OfflineGame extends Phaser.Scene {
 
     interaccionMaquinas() {
         //if(this.personaje.t) {
-            this.interaccionImpresora();
-            this.interaccionReciclado();
-            this.interaccionPapelera();
-            this.interaccionOrdenador();
-            this.interaccionEmpaquetado();
-            this.interaccionBuzonPaquetes();
-            this.interaccionBascula();
-            this.interaccionMesaSellos();
-            this.interaccionCajaSobres();
-            this.interaccionBuzonCartas();
         //}else{
         //    console.log('Se necesita un objeto para interaccionar con las maquinas')
         //}
+        return this.interaccionImpresora() || this.interaccionReciclado() || this.interaccionPapelera() ||
+            this.interaccionOrdenador() || this.interaccionEmpaquetado() || this.interaccionBuzonPaquetes() ||
+            this.interaccionBascula() || this.interaccionMesaSellos() || this.interaccionCajaSobres() || this.interaccionBuzonCartas();
     }
 
     interaccionImpresora() {
@@ -922,6 +916,7 @@ class OfflineGame extends Phaser.Scene {
                 this.impresora.imagen.setTexture('impresora');
                 this.impresora.estadoPapel = "sin papel";
             }
+            return true;
         }
         if (this.impresora.estado === "finalizada") {
 
@@ -946,28 +941,59 @@ class OfflineGame extends Phaser.Scene {
             }
             if (this.empaquetado.inicioInteractuable && ((this.personaje.rotation < 0.6) && (this.personaje.rotation > - 0.6)) && this.empaquetado.estado === "parado" && this.empaquetado.estadoObjeto === "sin objeto") {
                 this.sonidoEmpaquetado.play();
+                let obj;
+                this.objetos.children.iterate(function (objeto) {
+                    if(objeto.t) {
+                        objeto.t = false;
+                        obj = objeto
+                    }
+                }, this);
+                this.personaje.objeto = undefined
+                this.personaje.t = false;
+                obj.x = this.empaquetado.imagen.x;
+                let tween = this.tweens.add({
+                    targets: obj,
+                    y: [obj.y,this.empaquetado.imagen.y],
+                    duration: 1000,
+                    repeat: 0
+                });
+                let paquete = this.physics.add.image(this.empaquetado.imagen.x,this.empaquetado.imagen.y,'paquete').setScale(0.08).refreshBody();
+                paquete.obj = new Objeto(obj.obj.nombre,obj.obj.peso)
                 console.log("Has puesto el objeto en la maquina");
-                this.empaquetado.estado = "funcionando";
-                this.empaquetado.estadoObjeto = "con objeto";
-                console.log("Empaquetando objeto, espere");
-                //this.contadorEmpaquetado = setInterval(finEmpaquetado, 5000);
-                this.barraEmpaquetado.anims.play('barra',true)
+                tween.on('complete',function () {
+                    obj.destroy();
+                    this.empaquetado.estado = "funcionando";
+                    this.empaquetado.estadoObjeto = "con objeto";
+                    console.log("Empaquetando objeto, espere");
+                    //this.contadorEmpaquetado = setInterval(finEmpaquetado, 5000);
+                    this.barraEmpaquetado.anims.play('barra',true)
 
-                this.contadorEmpaquetado = null;
-                this.time.delayedCall(3000, this.finEmpaquetado, null, this)
+                    this.contadorEmpaquetado = null;
+                    this.time.delayedCall(3000, this.finEmpaquetado, paquete, this)
+                },this);
+
+                return true;
             } else if (this.empaquetado.finInteractuable && (this.personaje.rotation < 0.6) && (this.personaje.rotation > - 0.6) && this.empaquetado.estadoObjeto === "con objeto") {
+
                 if (this.empaquetado.estado === "finalizado") {
                     this.empaquetado.estado = "parado";
                 }
                 this.empaquetado.estadoObjeto = "sin objeto";
                 this.personaje.objeto.empaquetado = true;
                 console.log("Has recogido tu objeto recien empaquetado");
+                return true;
             }
         }
 
     }
 
-    finEmpaquetado() {
+    finEmpaquetado(paquete) {
+        let tween = this.tweens.add({
+            targets: paquete,
+            y: '+=100',
+            duration: 1000,
+            repeat: 0
+        });
         this.empaquetado.estado = "finalizado";
         clearInterval(this.contadorEmpaquetado);
         console.log("Su paquete ha sido empaquetado y esta a la espera de ser recogido");
@@ -979,6 +1005,7 @@ class OfflineGame extends Phaser.Scene {
                 this.reciclarObjeto()
                 this.sonidoReinicio.play();
                 console.log("Has reciclado tu " + this.personaje.objeto.nombre);
+                return true;
             }
         }
     }
@@ -999,6 +1026,7 @@ class OfflineGame extends Phaser.Scene {
                 this.personaje.objeto = undefined;
                 console.log("Has tirado tu pedido");
             }
+            return true;
         }
     }
 
@@ -1028,6 +1056,7 @@ class OfflineGame extends Phaser.Scene {
                     console.log("Ya has introducido la direccion");
                 }
 
+                return true;
             }
         }
 
@@ -1045,18 +1074,20 @@ class OfflineGame extends Phaser.Scene {
                     console.log("Has abierto el buzon de los paquetes");
                     this.sonidoBuzones.play();
                     this.buzonPaquetes.estado = "abierto";
+                    return true;
                 }
             } else if (this.buzonPaquetes.estado === "abierto") {
-            if (this.buzonPaquetes.interactuable && (this.personaje.rotation < 0.6) && (this.personaje.rotation > -0.6)) {
-                if (this.personaje.objeto === 'paquete') {
-                    console.log("Has introducido un paquete");
-                    console.log("Has cerrado el buzon");
-                    this.sonidoBuzones.play();
-                    this.buzonPaquetes.estado = "cerrado";
-                } else {
-                    console.log("Mete el objeto en la caja");
-                }
-                this.comprobarCaja();
+                if (this.buzonPaquetes.interactuable && (this.personaje.rotation < 0.6) && (this.personaje.rotation > -0.6)) {
+                    if (this.personaje.objeto === 'paquete') {
+                        console.log("Has introducido un paquete");
+                        console.log("Has cerrado el buzon");
+                        this.sonidoBuzones.play();
+                        this.buzonPaquetes.estado = "cerrado";
+                    } else {
+                        console.log("Mete el objeto en la caja");
+                    }
+                    this.comprobarCaja();
+                    return true;
                 }
             }
         }
@@ -1130,6 +1161,7 @@ class OfflineGame extends Phaser.Scene {
                 }
 
             }
+            return true;
         }
 
 
@@ -1165,11 +1197,13 @@ class OfflineGame extends Phaser.Scene {
                 console.log("Has puesto el objeto en la bascula");
                 console.log("Tu objeto pesa " + this.personaje.objeto.peso);
                 this.bascula.estado = "con objeto";
+                return true;
             }
         } else if (this.bascula.estado === "con objeto") {
             if (this.bascula.interactuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > -2.6)) {
                 console.log("Has quitado el objeto de la bascula");
                 this.bascula.estado = "sin objeto";
+                return true;
             }
         }
 
@@ -1182,12 +1216,10 @@ class OfflineGame extends Phaser.Scene {
                     console.log('No se pueden meter paquetes en sobres')
                 return;
             }
-            let aux = false;
-            if ((this.personaje.rotation < -2.6) && (this.personaje.rotation > -3.6) || (this.personaje.rotation < 3.1) && (this.personaje.rotation > 2.4)) {
-                aux = true;
-            }
+            let aux = (this.personaje.rotation < -2.6) && (this.personaje.rotation > -3.6) || (this.personaje.rotation < 3.1) && (this.personaje.rotation > 2.4)
+            if(!aux)    return;
 
-            if (this.cajaSobres.interactuable && aux) {
+            if (this.cajaSobres.interactuable) {
                 if (!this.personaje.objeto.sobre) {
                     this.sonidoCaja.play();
                     console.log("Has metido el papel en el sobre");
@@ -1195,8 +1227,8 @@ class OfflineGame extends Phaser.Scene {
                 } else {
                     console.log("Ya has metido el papel en el sobre");
                 }
-
             }
+            return true;
         }
 
     }
@@ -1226,6 +1258,7 @@ class OfflineGame extends Phaser.Scene {
                     }
 
                 }
+                return true;
             } else if (this.mesaSellos.paquetes1Interactuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > - 2.6)) {
                 if (this.personaje.objeto.sello === undefined) {
                     if (this.personaje.objeto.nombre === "carta") {
@@ -1247,6 +1280,7 @@ class OfflineGame extends Phaser.Scene {
                     }
 
                 }
+                return true;
             } else if (this.mesaSellos.paquetes2Interactuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > - 2.6)) {
                 if (this.personaje.objeto.sello === undefined) {
                     if (this.personaje.objeto.nombre === "carta") {
@@ -1267,6 +1301,7 @@ class OfflineGame extends Phaser.Scene {
                         }
                     }
                 }
+                return true;
 
             } else if (this.mesaSellos.paquetes3Interactuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > - 2.6)) {
                 if (this.personaje.objeto.sello === undefined) {
@@ -1289,6 +1324,7 @@ class OfflineGame extends Phaser.Scene {
                     }
                 }
 
+                return true;
             }
         }
 
