@@ -446,6 +446,8 @@ class OfflineGame extends Phaser.Scene {
         this.personaje = this.physics.add.sprite(400, 600, 'personaje').setScale(0.1).refreshBody();//Personaje
         this.personaje.t = false;
         this.personaje2 = this.physics.add.sprite(400, 700, 'personaje2').setScale(0.1).refreshBody();//Personaje 2
+        this.personaje.setPushable(false);
+        this.personaje2.setPushable(false);
 
         //se crean todas las animaciones
         //#region REGION ANIMACIONES
@@ -675,11 +677,11 @@ class OfflineGame extends Phaser.Scene {
         this.tiempoJuego = 180; //tiempo de partida en segundos
         this.tiempoTranscurrido = 0;   
         this.time.addEvent({
-            delay: 1000,
+            delay: 100,
             callback: function () {
                 if (this.tiempoTranscurrido >= this.tiempoJuego) {
                     this.texto.setText('Tiempo Restante: 0:00');
-                    //final del juego
+                    //this.scene.start('EndScene', puntos);
                 } else {
                     var minuto = Math.floor((this.tiempoJuego - this.tiempoTranscurrido) / 60);
                     var segundo = this.tiempoJuego - 60 * minuto - this.tiempoTranscurrido;

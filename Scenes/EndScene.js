@@ -31,7 +31,7 @@ class EndScene extends Phaser.Scene {
         buttonArea.setInteractive();
         // Agrega un evento de clic al botón
         buttonArea.on('pointerdown', this.volverAlMenu, this);
-
+        //create(puntos);
 
     }
 
@@ -47,7 +47,7 @@ class EndScene extends Phaser.Scene {
 }
 
 
-var config = {
+/*var config = {
     type: Phaser.AUTO,
     width: 1920,
     height: 1080,
@@ -65,4 +65,4 @@ var config = {
     },
     scene: EndScene
 };
-const game = new Phaser.Game(config);
+const game = new Phaser.Game(config);*/
