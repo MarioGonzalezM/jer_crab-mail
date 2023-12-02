@@ -962,8 +962,13 @@ class OfflineGame extends Phaser.Scene {
                     duration: 1000,
                     repeat: 0
                 });
-                let paquete = this.physics.add.image(this.empaquetado.imagen.x,this.empaquetado.imagen.y,'paquete').setScale(0.08).refreshBody();
+                //this.empaquetado.estadoObjeto
+                let paquete = this.physics.add.image(-100,-100,'paquete').setScale(0.08).refreshBody();
+                paquete.t = false
                 paquete.obj = new Objeto(obj.obj.nombre,obj.obj.peso)
+                paquete.obj.empaquetado = true;
+                this.objetos.add(paquete);
+
                 console.log("Has puesto el objeto en la maquina");
                 tween.on('complete',function () {
                     obj.destroy();
@@ -973,8 +978,8 @@ class OfflineGame extends Phaser.Scene {
                     //this.contadorEmpaquetado = setInterval(finEmpaquetado, 5000);
                     this.barraEmpaquetado.anims.play('barra',true)
 
-                    this.contadorEmpaquetado = null;
-                    this.time.delayedCall(3000, this.finEmpaquetado, paquete, this)
+                    this.time.delayedCall(3000, this.finEmpaquetado, [paquete], this)
+
                 },this);
 
                 return true;
@@ -993,12 +998,15 @@ class OfflineGame extends Phaser.Scene {
     }
 
     finEmpaquetado(paquete) {
+        paquete.x = this.empaquetado.imagen.x
+        paquete.y = this.empaquetado.imagen.y
         let tween = this.tweens.add({
             targets: paquete,
             y: '+=100',
             duration: 1000,
             repeat: 0
         });
+        console.log('Paquete 2: ' + paquete)
         this.empaquetado.estado = "finalizado";
         clearInterval(this.contadorEmpaquetado);
         console.log("Su paquete ha sido empaquetado y esta a la espera de ser recogido");
@@ -1016,11 +1024,11 @@ class OfflineGame extends Phaser.Scene {
     }
 
     reciclarObjeto() {
-        //this.personaje.objeto.impresa = false;
-        //this.personaje.objeto.sobre = false;
-        //this.personaje.objeto.sello = undefined;
-        //this.personaje.objeto.direccion = false;
-        this.personaje.objeto = undefined
+        this.personaje.objeto.impresa = false;
+        this.personaje.objeto.sobre = false;
+        this.personaje.objeto.sello = undefined;
+        this.personaje.objeto.direccion = false;
+        //this.personaje.objeto = undefined
     }
 
 
@@ -1159,7 +1167,8 @@ class OfflineGame extends Phaser.Scene {
                         this.buzonCartas.estado = "cerrado";
 
                         this.comprobarSobre();
-                        this.reciclarObjeto()
+                        this.personaje.objeto = undefined
+                        //this.reciclarObjeto()
                     } else {
                         console.log("Mete el papel en el sobre");
                     }
@@ -1197,11 +1206,25 @@ class OfflineGame extends Phaser.Scene {
     }
 
     interaccionBascula() {
-        if (this.bascula.estado === "sin objeto") {
+        if (this.bascula.estado === "sin objeto" && this.personaje.t) {
             if (this.bascula.interactuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > -2.6)) {
                 console.log("Has puesto el objeto en la bascula");
                 console.log("Tu objeto pesa " + this.personaje.objeto.peso);
                 this.pesado.setText(this.personaje.objeto.peso);
+                let obj;
+                this.objetos.children.iterate(function (objeto) {
+                    if(objeto.t) {
+                        objeto.t = false;
+                        obj = objeto
+                    }
+                }, this);
+                this.personaje.objeto = undefined
+                this.personaje.t = false;
+
+                obj.x = this.bascula.imagen.x - 15;
+                obj.y = this.bascula.imagen.y - 5;
+
+                this.bascula.obj = obj;
                 this.bascula.estado = "con objeto";
                 return true;
             }
@@ -1210,6 +1233,10 @@ class OfflineGame extends Phaser.Scene {
                 console.log("Has quitado el objeto de la bascula");
                 this.pesado.setText('0.00');
                 this.bascula.estado = "sin objeto";
+                this.bascula.obj.t = true;
+                this.personaje.t = true;
+                this.personaje.objeto = this.bascula.obj.obj;
+                //this.bascula.obj = undefined
                 return true;
             }
         }
@@ -1354,7 +1381,8 @@ class OfflineGame extends Phaser.Scene {
         {
             objeto.t = false;
             this.personaje.t = false;
-            this.reciclarObjeto()
+            this.personaje.objeto = undefined
+            //this.reciclarObjeto()
         }
     }
 
