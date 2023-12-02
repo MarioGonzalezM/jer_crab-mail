@@ -965,21 +965,18 @@ class OfflineGame extends Phaser.Scene {
     }
 
     interaccionEmpaquetado() {
-        if (this.personaje.objeto !== undefined) {
-            if(this.personaje.objeto.nombre === 'carta') {
-                if(this.empaquetado.inicioInteractuable)
-                    console.log('No puedes empaquetar una carta')
-                return;
-            }
-            if (this.empaquetado.inicioInteractuable && ((this.personaje.rotation < 0.6) && (this.personaje.rotation > - 0.6)) && this.empaquetado.estado === "parado" && this.empaquetado.estadoObjeto === "sin objeto") {
+        if ((((this.personaje.rotation < 0.6) && (this.personaje.rotation > - 0.6)))) {
+
+            if (this.empaquetado.inicioInteractuable && this.empaquetado.estado === "parado" && this.empaquetado.obj === undefined) {
+                try{
+                    if(this.personaje.objeto.nombre !== 'paquete' || this.personaje.objeto.empaquetado)  return
+                } catch (e){
+                    console.log('No tienes nada en la mano')
+                    return
+                }
                 this.sonidoEmpaquetado.play();
-                let obj;
-                this.objetos.children.iterate(function (objeto) {
-                    if(objeto.t) {
-                        objeto.t = false;
-                        obj = objeto
-                    }
-                }, this);
+                let obj = this.objetoEnMano()
+                obj.t = false
                 this.personaje.objeto = undefined
                 this.personaje.t = false;
                 obj.x = this.empaquetado.imagen.x;
@@ -994,13 +991,11 @@ class OfflineGame extends Phaser.Scene {
                 paquete.t = false
                 paquete.obj = new Objeto(obj.obj.nombre,obj.obj.peso)
                 paquete.obj.empaquetado = true;
-                this.objetos.add(paquete);
-
+                this.empaquetado.obj = paquete;
                 console.log("Has puesto el objeto en la maquina");
                 tween.on('complete',function () {
                     obj.destroy();
                     this.empaquetado.estado = "funcionando";
-                    this.empaquetado.estadoObjeto = "con objeto";
                     console.log("Empaquetando objeto, espere");
                     //this.contadorEmpaquetado = setInterval(finEmpaquetado, 5000);
                     this.barraEmpaquetado.anims.play('barra',true)
@@ -1010,15 +1005,19 @@ class OfflineGame extends Phaser.Scene {
                 },this);
 
                 return true;
-            } else if (this.empaquetado.finInteractuable && (this.personaje.rotation < 0.6) && (this.personaje.rotation > - 0.6) && this.empaquetado.estadoObjeto === "con objeto") {
+            } else if (this.empaquetado.estado === "finalizado" && this.empaquetado.finInteractuable) {
+                this.empaquetado.estado = "sin objeto";
+                this.empaquetado.obj.t = true;
+                this.personaje.t = true;
+                this.personaje.objeto = this.empaquetado.obj.obj;
 
-                if (this.empaquetado.estado === "finalizado") {
-                    this.empaquetado.estado = "parado";
-                }
-                this.empaquetado.estadoObjeto = "sin objeto";
-                this.personaje.objeto.empaquetado = true;
+                this.empaquetado.estado = "parado";
                 console.log("Has recogido tu objeto recien empaquetado");
+                this.objetos.add(this.empaquetado.obj);
+                this.empaquetado.obj = undefined
                 return true;
+            }else {
+                console.log('Estado: ' + this.empaquetado.estado + ' Es interactuable: ' + this.empaquetado.finInteractuable)
             }
         }
 
@@ -1161,6 +1160,11 @@ class OfflineGame extends Phaser.Scene {
         if (this.personaje.objeto.direccion){
             puntuacion += 100;
         }
+
+        let obj = this.objetoEnMano()
+        this.personaje.t = false
+        this.personaje.objeto = undefined
+        obj.destroy()
 
         console.log("Has ganado " + puntuacion + " puntos con este paquete");
     }
@@ -1391,7 +1395,15 @@ class OfflineGame extends Phaser.Scene {
 
     }
 
-
+    objetoEnMano(){
+        let obj;
+        this.objetos.children.iterate(function (objeto) {
+            if(objeto.t) {
+                obj = objeto
+            }
+        }, this);
+        return obj;
+    }
 
 
 

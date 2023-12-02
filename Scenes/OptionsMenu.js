@@ -164,7 +164,7 @@ class OptionsMenu extends Phaser.Scene{
 
         this.quitButton = this.add.image(351, 120, 'optionsQuit');
         this.returnButton =  this.add.image(1569, 120, 'optionsReturn');
-        
+
         this.quitButton.setInteractive()
         this.quitButton.on("pointerdown",function () {
             if(typeof gameScene === "string"){
