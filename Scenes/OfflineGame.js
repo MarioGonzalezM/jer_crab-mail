@@ -101,6 +101,8 @@ class OfflineGame extends Phaser.Scene {
     sonidoSellos;
     sonidoEmpaquetado;
 
+    pesado;
+
 
     preload() {
         //Sprites sin objetos
@@ -662,6 +664,9 @@ class OfflineGame extends Phaser.Scene {
         this.sonidoCaja = this.sound.add('caja');
         this.sonidoSellos = this.sound.add('sellos');
         this.sonidoEmpaquetado = this.sound.add('empaquetado');
+
+        //Texto
+        this.pesado = this.add.text(1009, 294, '0.00', { fontSize: '19px', fill: '#FF0000' }, { font: "Monospace" });
     }
 
 
@@ -1196,12 +1201,14 @@ class OfflineGame extends Phaser.Scene {
             if (this.bascula.interactuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > -2.6)) {
                 console.log("Has puesto el objeto en la bascula");
                 console.log("Tu objeto pesa " + this.personaje.objeto.peso);
+                this.pesado.setText(this.personaje.objeto.peso);
                 this.bascula.estado = "con objeto";
                 return true;
             }
         } else if (this.bascula.estado === "con objeto") {
             if (this.bascula.interactuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > -2.6)) {
                 console.log("Has quitado el objeto de la bascula");
+                this.pesado.setText('0.00');
                 this.bascula.estado = "sin objeto";
                 return true;
             }
