@@ -189,23 +189,23 @@ class OptionsMenu extends Phaser.Scene{
 
     update(){
 
-        /*for(let slider of this.sliders){
-            slider.text.setText(Math.floor(slider.slider.value*100));
-            slider.text.x = slider.x - (this.text.width/2);
-            slider.text.y = slider.y - 5;
-        }//*/
+        let master = Math.floor(this.sliderCrab1.slider.value * 100)
+        let music = Math.floor(this.sliderCrab2.slider.value * 100);
+        let sfx = Math.floor(this.sliderCrab3.slider.value * 100);
 
-        /**/this.text1.setText(Math.floor(this.sliderCrab1.slider.value*100));
-        this.text1.x = this.sliderCrab1.x-(this.text1.width/2)
+        dataSettings.master = master;
+        dataSettings.music = music;
+        dataSettings.sfx = sfx;
+
+        /**/this.text1.setText(master);
+        this.text1.x = this.sliderCrab1.x - (this.text1.width / 2)
         this.text1.y = this.sliderCrab1.y - 5
-
-        this.text2.setText(Math.floor(this.sliderCrab2.slider.value*100));
-        this.text2.x = this.sliderCrab2.x-(this.text2.width/2)
+        this.text2.setText(music);
+        this.text2.x = this.sliderCrab2.x - (this.text2.width / 2)
         this.text2.y = this.sliderCrab2.y - 5
 
-        this.text3.setText(Math.floor(this.sliderCrab3.slider.value*100));
-        this.text3.x = this.sliderCrab3.x-(this.text3.width/2)
+        this.text3.setText(sfx);
+        this.text3.x = this.sliderCrab3.x - (this.text3.width / 2)
         this.text3.y = this.sliderCrab3.y - 5
-        //*/
     }
 }
