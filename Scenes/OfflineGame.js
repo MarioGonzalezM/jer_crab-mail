@@ -605,8 +605,8 @@ class OfflineGame extends Phaser.Scene {
         //this.personaje.anims.play('walk_letter');
         //#endregion
 
-
-        this.personaje.objeto = new Objeto("carta", 0);
+        this.personaje.objeto = undefined
+        //this.personaje.objeto = new Objeto("carta", 0);
         //this.personaje.objeto = new Objeto("paquete", 12.5);
 
         this.objetos = this.physics.add.group(); //objetos que el jugador puede tener en la mano
@@ -984,10 +984,11 @@ class OfflineGame extends Phaser.Scene {
     }
 
     reciclarObjeto() {
-        this.personaje.objeto.impresa = false;
-        this.personaje.objeto.sobre = false;
-        this.personaje.objeto.sello = undefined;
-        this.personaje.objeto.direccion = false;
+        //this.personaje.objeto.impresa = false;
+        //this.personaje.objeto.sobre = false;
+        //this.personaje.objeto.sello = undefined;
+        //this.personaje.objeto.direccion = false;
+        this.personaje.objeto = undefined
     }
 
 
@@ -1097,7 +1098,8 @@ class OfflineGame extends Phaser.Scene {
         let aux;
         if (this.personaje.objeto !== undefined) {
             if(this.personaje.objeto.nombre === 'paquete') {
-            console.log('Los paquetes van en el buzón de paquetes')
+                if(this.buzonCartas.interactuable)
+                    console.log('Los paquetes van en el buzón de paquetes')
             return;
         }
             aux = ((this.personaje.rotation < -2.6) && (this.personaje.rotation > -3.6)) || ((this.personaje.rotation < 3.1) && (this.personaje.rotation > 2.4));
@@ -1175,6 +1177,11 @@ class OfflineGame extends Phaser.Scene {
 
     interaccionCajaSobres() {
         if (this.personaje.objeto !== undefined) {
+            if(this.personaje.objeto.nombre === 'paquete') {
+                if(this.buzonCartas.interactuable)
+                    console.log('No se pueden meter paquetes en sobres')
+                return;
+            }
             let aux = false;
             if ((this.personaje.rotation < -2.6) && (this.personaje.rotation > -3.6) || (this.personaje.rotation < 3.1) && (this.personaje.rotation > 2.4)) {
                 aux = true;
