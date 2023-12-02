@@ -222,7 +222,7 @@ class OfflineGame extends Phaser.Scene {
         this.load.image('paquete', 'Assets/Buzon paquetes/Paquete.png', { frameWidth: 32, frameHeight: 32 });
 
         //Objetos
-        this.load.image('mancuerna', 'Assets/Objetos/macuerna.png');
+        this.load.image('mancuerna', 'Assets/Objetos/mancuerna.png');
         this.load.image('ps5', 'Assets/Objetos/Play.png');
         this.load.image('ps5Game', 'Assets/Objetos/ps5Game.png');
         this.load.image('yunque', 'Assets/Objetos/yunque.png');

@@ -8,18 +8,18 @@ class PauseMenu extends Phaser.Scene{
         this.load.image('options','Assets/PauseMenu/BotonOpciones.png')
     }
 
-    create(prevScene){
+    create(gameScene){
         const resume = this.add.image(660, 440, 'resume').setScale(0.5);
         const options = this.add.image(1260, 640, 'options').setScale(0.5);
         const self = this;
         resume.setInteractive();
         resume.on("pointerdown",function (){
-            self.scene.resume(prevScene);
+            self.scene.resume(gameScene);
             self.scene.stop()
         });
         options.setInteractive();
         options.on("pointerdown",function (){
-            self.scene.launch('OptionsMenu');
+            self.scene.launch('OptionsMenu', ['PauseMenu',gameScene]);
             self.scene.sleep();
         });
     }
