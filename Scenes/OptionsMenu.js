@@ -83,7 +83,7 @@ class OptionsMenu extends Phaser.Scene{
                     y: this.sliderCrab1.y
                 }
             ],
-            value: 1.0
+            value: dataSettings.master/100.0
         });
         this.sliderCrab2.slider = this.plugins.get('rexsliderplugin').add(this.sliderCrab2, {
             endPoints: [{
@@ -95,7 +95,7 @@ class OptionsMenu extends Phaser.Scene{
                     y: this.sliderCrab2.y
                 }
             ],
-            value: 1.0
+            value:  dataSettings.music/100.0
         });
         this.sliderCrab3.slider = this.plugins.get('rexsliderplugin').add(this.sliderCrab3, {
             endPoints: [{
@@ -107,7 +107,7 @@ class OptionsMenu extends Phaser.Scene{
                     y: this.sliderCrab3.y
                 }
             ],
-            value: 1.0
+            value:  dataSettings.sfx/100.0
         });
 
         let self = this;
@@ -120,7 +120,6 @@ class OptionsMenu extends Phaser.Scene{
             let nextFrame = (self.sliderCrab1.frame.name + sign)%8;
             if(nextFrame < 0) nextFrame = 7;
             self.sliderCrab1.setFrame(nextFrame);
-            eventManager.emit('master-sound-change',self.sliderCrab1.slider.value)
         });
         this.sliderCrab2.slider.on('valuechange', function(newValue, prevValue)
         {
@@ -131,7 +130,6 @@ class OptionsMenu extends Phaser.Scene{
             let nextFrame = (self.sliderCrab2.frame.name + sign)%8;
             if(nextFrame < 0) nextFrame = 7;
             self.sliderCrab2.setFrame(nextFrame);
-            eventManager.emit('master-sound-change',self.sliderCrab2.slider.value)
         });
         this.sliderCrab3.slider.on('valuechange', function(newValue, prevValue)
         {
@@ -142,7 +140,6 @@ class OptionsMenu extends Phaser.Scene{
             let nextFrame = (self.sliderCrab3.frame.name + sign)%8;
             if(nextFrame < 0) nextFrame = 7;
             self.sliderCrab3.setFrame(nextFrame);
-            eventManager.emit('master-sound-change',self.sliderCrab3.slider.value)
         });
         this.text1 = this.add.text(0,0, '', {
             fontSize: '20px',

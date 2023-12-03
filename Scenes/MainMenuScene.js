@@ -3,11 +3,14 @@ class MainMenuScene extends Phaser.Scene{
     constructor( ...args ) {
         super({ key: 'MainMenu', ...args })
     }
+    //Botones
     buttons
     buttonMaxX = 384.5
     buttonMinX= 279.5
     buttonScenes = ['UnderConstruction', 'OfflineGame', 'UnderConstruction', 'OptionsMenu']
-   
+   //Sonidos
+    sonidoFondo
+    sonidoBoton
     preload()
     {
         this.load.image('background', 'Assets/MainMenu/FondoMP.png');
@@ -18,28 +21,20 @@ class MainMenuScene extends Phaser.Scene{
         this.load.audio('fondoSonido', ['Sounds/fondo.mp3']);
     }
 
-    OnOverButton(object)
-    {
-        var pos = object.position.x
-        console.log(pos)
-        console.log("bb" + b)
-        //if(button.pos<buttonMaxX)
-        //button.setXY(100,100)
-    }
+
     create()
     {
-        var sonidoFondo;
-        sonidoFondo = this.sound.add('fondoSonido');
+        this.sonidoFondo = this.sound.add('fondoSonido');
 
-        sonidoFondo.loop = true;
-        sonidoFondo.setVolume(0.04);
-        sonidoFondo.play();
+        this.sonidoFondo.loop = true;
+        this.sonidoFondo.setVolume(dataSettings.master *dataSettings.music/10000.0)
+        this.sonidoFondo.play();
 
-        var sonidoboton;
         //Add all images
         this.add.image(960, 540, 'background');
         this.add.image(960, 540, 'gameLogo');
-        sonidoboton = this.sound.add('sonidoBoton');
+        this.sonidoBoton = this.sound.add('sonidoBoton');
+        this.sonidoBoton.setVolume(dataSettings.master *dataSettings.sfx/10000.0);
 
         /**/this.buttons = this.add.group({
             key: 'buttons',
@@ -50,15 +45,15 @@ class MainMenuScene extends Phaser.Scene{
             //situated on it's center
             setXY: { x: this.buttonMinX, y: 898.5, stepY: -239 }
         });//*/
-        var scene = this;
+        let scene = this;
         this.buttons.children.iterate(function (child) {
             let link = scene.buttonScenes[child.frame.name];
             child.setInteractive();
 
             if(typeof link !==  "undefined") child.on("pointerdown",function (){
 
-                sonidoFondo.stop();
-                sonidoboton.play();
+                scene.sonidoFondo.stop();
+                scene.sonidoBoton.play();
                 console.log(link)
                 scene.scene.start(link);
                 
@@ -98,7 +93,12 @@ class MainMenuScene extends Phaser.Scene{
         
     }
 
-    update() {}
+    update() {
+        this.sonidoFondo.setVolume(dataSettings.master *dataSettings.music/10000.0)
+        console.log(dataSettings.master *dataSettings.music/10000.0)
+        this.sonidoBoton.setVolume(dataSettings.master *dataSettings.sfx/10000.0);
+
+    }
 }
 
 

@@ -117,6 +117,7 @@ class OfflineGame extends Phaser.Scene {
     tiempoTranscurrido;
     texto;
 
+    temporizadorCinta
 
     preload() {
         //Sprites sin objetos
@@ -697,7 +698,7 @@ class OfflineGame extends Phaser.Scene {
 
 
         //funcion que se ejecuta cada cierto tiempo
-        this.time.addEvent({
+        this.temporizadorCinta = this.time.addEvent({
             delay: 15000,  // El intervalo en milisegundos
             callback: this.crearObjetosCinta,
             callbackScope: this,
@@ -748,6 +749,7 @@ class OfflineGame extends Phaser.Scene {
         this.sonidoLento.setVolume(0.04);
         this.sonidoLento.play(); 
 
+        this.crearObjetosCinta()
         this.time.delayedCall(120000, this.cambioMusica, null, this);
     }
 
@@ -1654,5 +1656,10 @@ class OfflineGame extends Phaser.Scene {
             duration: 1000,
             repeat: 0
         });
+        if(this.objetosCinta.countActive() <= 1){
+            this.temporizadorCinta.timeScale = 5;
+        }else {
+            this.temporizadorCinta.timeScale = 1;
+        }console.log(this.objetosCinta.countActive())
     }
 }
