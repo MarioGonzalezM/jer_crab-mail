@@ -20,7 +20,7 @@ function Objeto(nombre, peso) {
 
 
 
-
+var puntuacion;
 
 class OfflineGame extends Phaser.Scene {
 
@@ -106,7 +106,7 @@ class OfflineGame extends Phaser.Scene {
     sonidoAlarma;
 
     pesado;
-    puntuacion;
+    
     textoInicio;
     textoFin;
     textoCartas;
@@ -271,6 +271,7 @@ class OfflineGame extends Phaser.Scene {
 
     create() {
 
+
         this.personajes = [this.personaje, this.personaje2]
         this.arrayObjetosCinta = ["yunque", "mancuerna",'ps5', 'ps5Game','mensajeVacio','mensajeVacio','mensajeVacio','mensajeVacio', 'peluche'];//ids de los objetos que salen de la cinta
 
@@ -292,7 +293,7 @@ class OfflineGame extends Phaser.Scene {
 
         this.maquinas = [];
         this.numMaquinas = 0;
-        this.puntuacion = 0;
+        puntuacion = 0;
 
         // MESAS
         // Agregamos las mesas
@@ -584,7 +585,7 @@ class OfflineGame extends Phaser.Scene {
 
         //Texto
         this.pesado = this.add.text(1009, 294, '0.00', { fontSize: '19px', fill: '#FF0000' }, { font: "Monospace" });
-        this.textoPuntuacion = this.add.text(1000, 950, 'Puntuación: 0', { fontSize: '30px', fill: '#000000' }, { font: "Monospace" });
+        this.textoPuntuacion = this.add.text(850, 864, 'Puntuación: 0', { fontSize: '30px', fill: '#FFFFFF' }, { font: "Monospace" });
 
         //Temporizador
         this.tiempoJuego = 180; //tiempo de partida en segundos
@@ -594,7 +595,8 @@ class OfflineGame extends Phaser.Scene {
             callback: function () {
                 if (this.tiempoTranscurrido >= this.tiempoJuego) {
                     this.texto.setText('Tiempo Restante: 0:00');
-                    this.scene.start('EndScene', this.puntuacion);
+
+                    this.scene.start('EndScene');
                 } else {
                     var minuto = Math.floor((this.tiempoJuego - this.tiempoTranscurrido) / 60);
                     var segundo = this.tiempoJuego - 60 * minuto - this.tiempoTranscurrido;
@@ -1083,36 +1085,36 @@ class OfflineGame extends Phaser.Scene {
         let cajaEvaluar = this.personajes[i].objeto;
 
         if (cajaEvaluar.empaquetado) {
-            this.puntuacion += 100;
+           puntuacion += 100;
         }
 
         if (cajaEvaluar.sello === "sello cartas") {
-            this.puntuacion -= 100;
+           puntuacion -= 100;
         }
 
         else if (cajaEvaluar.peso <= 5 && cajaEvaluar.sello === "sellos paquetes 1") {
-            this.puntuacion += 100;
+            puntuacion += 100;
         }
 
         else if (cajaEvaluar.peso > 5 && cajaEvaluar.peso <= 10 && cajaEvaluar.sello === "sellos paquetes 2") {
-            this.puntuacion += 100;
+            puntuacion += 100;
         }
 
         else if (cajaEvaluar.peso > 10 && cajaEvaluar.sello === "sellos paquetes 3") {
-            this.puntuacion += 100;
+            puntuacion += 100;
         }
-        else this.puntuacion -= 100;
+        else puntuacion -= 100;
 
         if (cajaEvaluar.direccion){
-            this.puntuacion += 100;
+            puntuacion += 100;
         }
-
+        this.textoPuntuacion.setText('Puntuación: ' + puntuacion);
         let obj = this.objetoEnMano(i)
         this.personajes[i].t = false
         this.personajes[i].objeto = undefined
         obj.destroy()
 
-        console.log("Tienes " + this.puntuacion + " puntos con este paquete");
+        console.log("Tienes " + puntuacion + " puntos con este paquete");
     }
 
     interaccionBuzonCartas(i) {
@@ -1164,25 +1166,25 @@ class OfflineGame extends Phaser.Scene {
         let cartaEvaluar = this.personajes[i].objeto
 
         if (cartaEvaluar.impresa) {
-            this.puntuacion += 50;
+            puntuacion += 50;
         }
 
         if (cartaEvaluar.sobre) {
-            this.puntuacion += 50;
+            puntuacion += 50;
         }
 
         if (cartaEvaluar.sello === "sello cartas") {
-            this.puntuacion += 50;
+            puntuacion += 50;
         }
 
         if (cartaEvaluar.direccion) {
-            this.puntuacion += 50;
+            puntuacion += 50;
         }
-
+        this.textoPuntuacion.setText('Puntuación: ' + puntuacion);
         this.personajes[i].objeto = undefined
         this.personajes[i].t = false
         this.objetoEnMano(i).destroy()
-        console.log("Has ganado " + this.puntuacion + " puntos");
+        console.log("Has ganado " + puntuacion + " puntos");
     }
 
     interaccionBascula(i) {

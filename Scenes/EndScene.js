@@ -21,6 +21,9 @@ class EndScene extends Phaser.Scene {
         //if(button.pos<buttonMaxX)
         //button.setXY(100,100)
     }*/
+    
+
+
     create() {
         //Add all images
         this.add.image(960, 540, 'pantallafin');
@@ -31,7 +34,7 @@ class EndScene extends Phaser.Scene {
         buttonArea.setInteractive();
         // Agrega un evento de clic al botón
         buttonArea.on('pointerdown', this.volverAlMenu, this);
-        create(this.puntuacion);
+        this.add.text(265, 870, puntuacion.toString(), { fontSize: '64px', fill: '#3F2817' }, { font: "Monospace" });
 
     }
 
