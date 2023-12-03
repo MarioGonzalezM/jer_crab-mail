@@ -150,7 +150,7 @@ En el juego, los objetos que se pueden encontrar coinciden con las principales m
 
   - Estación de reciclado: En este lugar, los jugadores pueden devolver el pedido a su estado original en caso de equivocación en alguna parte del proceso. En el caso de las cartas, devuelve el papel sin imprimir; y en el caso de los paquetes, devuelve el objeto desempaquetado.
 
-  - Buzones de envío: En este lugar hay dos buzones, uno para las cartas y otro para los paquetes. Aquí es donde los jugadores deben llevar los pedidos una vez hayan acabado de prepararlos para obtener puntos.
+  - Buzones de envío: En este lugar hay dos buzones, uno para las cartas y otro para los paquetes. Aquí es donde los jugadores deben llevar los pedidos una vez hayan acabado de prepararlos para obtener puntos. A la hora de usarlos, hay que interactuar dos veces: la primera vez abre el buzón, y la segunda envía el objeto.
 
   - Papelera: Los jugadores podrán tirar los pedidos aquí en caso de que no consigan preparar el pedido a tiempo.
 
