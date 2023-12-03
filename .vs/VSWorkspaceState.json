@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Scenes"
+    "\\Scenes",
+    "\\Sounds"
   ],
-  "SelectedNode": "\\index.html",
+  "SelectedNode": "\\Sounds",
   "PreviewInSolutionExplorer": false
 }

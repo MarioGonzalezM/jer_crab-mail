@@ -100,7 +100,10 @@ class OfflineGame extends Phaser.Scene {
     sonidoOrdenador;
     sonidoCaja;
     sonidoSellos;
-    sonidoEmpaquetado;
+    sonidoEmpaquetado; 
+    sonidoLento;
+    sonidoRapido;
+    sonidoAlarma;
 
     pesado;
     puntuacion;
@@ -248,6 +251,9 @@ class OfflineGame extends Phaser.Scene {
         this.load.audio('caja', ['Sounds/cajaSonido.mp3']);
         this.load.audio('sellos', ['Sounds/sonidoSellos.mp3']);
         this.load.audio('empaquetado', ['Sounds/empaquetadoSonido.mp3']);
+        this.load.audio('lento', ['Sounds/lento.mp3'])
+        this.load.audio('rapido', ['Sounds/rapido.mp3'])
+        this.load.audio('alarma', ['Sounds/alarma.mp3'])
 
         //cartas y paquetes
         this.load.image('carta1', 'Assets/Objetos/carta1.png');
@@ -707,6 +713,9 @@ class OfflineGame extends Phaser.Scene {
         this.sonidoCaja = this.sound.add('caja');
         this.sonidoSellos = this.sound.add('sellos');
         this.sonidoEmpaquetado = this.sound.add('empaquetado');
+        this.sonidoLento = this.sound.add('lento');
+        this.sonidoRapido = this.sound.add('rapido');
+        this.sonidoAlarma = this.sound.add('alarma');
 
         //Texto
         this.pesado = this.add.text(1009, 294, '0.00', { fontSize: '19px', fill: '#FF0000' }, { font: "Monospace" });
@@ -735,9 +744,22 @@ class OfflineGame extends Phaser.Scene {
 
         this.texto = this.add.text(185, 60, 'Tiempo Restante: 3:00', { fontSize: '35px', fill: '#fff' });
 
+        this.sonidoLento.loop = true;
+        this.sonidoLento.setVolume(0.04);
+        this.sonidoLento.play(); 
+
+        this.time.delayedCall(120000, this.cambioMusica, null, this);
     }
 
+    cambioMusica() {
+        this.sonidoLento.stop();
+        this.sonidoAlarma.setVolume(0.04);
+        this.sonidoAlarma.play();
 
+        this.sonidoRapido.loop = true;
+        this.sonidoRapido.setVolume(0.04);
+        this.sonidoRapido.play();
+    }
 
 
     update() {
