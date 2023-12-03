@@ -4,7 +4,7 @@ function Maquina(nombre, tipo, orientacion, imagen, collider) {
     this.orientacion = orientacion;
     this.imagen = imagen;
     this.collider = collider;
-    this.interactuable = false;
+    this.interactuable = [false,false];
 }
 
 // Prototipos objetos
@@ -41,6 +41,7 @@ class OfflineGame extends Phaser.Scene {
         t: false
     };
 
+    personajes;
 
     fondo;
     star;
@@ -244,6 +245,7 @@ class OfflineGame extends Phaser.Scene {
 
     create() {
 
+        this.personajes = [this.personaje, this.personaje2]
         this.arrayObjetosCinta = ["yunque", "mancuerna",'ps5', 'ps5Game'];//ids de los objetos que salen de la cinta
 
         //Code to pause the menu
@@ -375,6 +377,11 @@ class OfflineGame extends Phaser.Scene {
         this.mesaSellos.colliderPaquetes2 = this.physics.add.image(1023, 175).setScale(2, 0.7);
         this.mesaSellos.colliderPaquetes3 = this.physics.add.image(1155, 175).setScale(2, 0.7);
         Phaser.Utils.Array.Add(this.maquinas, this.mesaSellos);
+
+        this.mesaSellos.cartasInteractuable = [false,false]
+        this.mesaSellos.paquetes1Interactuable = [false,false]
+        this.mesaSellos.paquetes2Interactuable = [false,false]
+        this.mesaSellos.paquetes3Interactuable = [false,false]
         this.numMaquinas++;
 
         // Agregamos la estacion de reciclado
@@ -423,6 +430,9 @@ class OfflineGame extends Phaser.Scene {
         this.empaquetado.colliderExtra = this.physics.add.image(1674, 513).setScale(4.6, 1.5).setImmovable();
         Phaser.Utils.Array.Add(this.maquinas, this.empaquetado);
         this.barraEmpaquetado = this.add.sprite(this.empaquetado.imagen.x + 80, this.empaquetado.imagen.y, 'carga').setScale(2).setAngle(90);
+
+        this.empaquetado.inicioInteractuable = [false,false]
+        this.empaquetado.finInteractuable = [false,false]
         this.numMaquinas++;
 
         this.empaquetado.estado = "parado"; // 3 posibles estados : parado, funcionando, finalizado
@@ -443,12 +453,18 @@ class OfflineGame extends Phaser.Scene {
         ///////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////
 
-        this.personaje = this.physics.add.sprite(400, 600, 'personaje').setScale(0.1).refreshBody();//Personaje
-        this.personaje.t = false;
-        this.personaje2 = this.physics.add.sprite(400, 700, 'personaje2').setScale(0.1).refreshBody();//Personaje 2
-        this.personaje.setPushable(false);
-        this.personaje2.setPushable(false);
-
+        for(let i = 0; i < 2; i++) {
+            this.personajes[i] = this.physics.add.sprite(400, 600 + 100*i, 'personaje').setScale(0.1).refreshBody();//Personaje
+            this.personajes[i].t = false;
+            this.personajes[i].setPushable(false);
+            this.personajes[i].objeto = undefined
+            this.personajes[i].setCollideWorldBounds(true);
+            this.physics.add.collider(this.personajes[i], [this.impresora.imagen,this.buzonCartas.imagen,this.buzonPaquetes.imagen,
+                this.cajaSobres.imagen,this.mesaSellos.imagen,this.reciclado.imagen,this.papelera.imagen,this.cinta.imagen,
+                this.cinta.colliderExtra,this.empaquetado.imagen,this.empaquetado.colliderExtra,this.mesaArriba1,this.mesaArriba2,
+                this.mesaArriba3,this.mesaAbajo1,this.mesaAbajo2,this.mesaAbajo3,this.mesaIzq1,this.mesaIzq2,this.mesaDcha1,
+                this.mesaDcha2,this.mesaCentral1,this.mesaCentral1.colliderExtra,this.mesaCentral2,this.mesaCentral2.colliderExtra]);
+        }
         //se crean todas las animaciones
         //#region REGION ANIMACIONES
         //Animaciones del cangrejo sin nada
@@ -608,12 +624,11 @@ class OfflineGame extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('carga', { start: 0, end: 16 }),
             frameRate: 5 //define la velocidad de completar la barra
         });
-        this.personaje.anims.play('walk');
-        this.personaje2.anims.play('walk2');
+        this.personajes[0].anims.play('walk');
+        this.personajes[1].anims.play('walk2');
         //this.personaje.anims.play('walk_letter');
         //#endregion
 
-        this.personaje.objeto = undefined
         //this.personaje.objeto = new Objeto("carta", 0);
         //this.personaje.objeto = new Objeto("paquete", 12.5);
 
@@ -630,25 +645,19 @@ class OfflineGame extends Phaser.Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys();
         // Configuración de las colisiones para el personaje
-        this.personaje.setCollideWorldBounds(true);
-        this.personaje2.setCollideWorldBounds(true);
-        this.physics.add.collider(this.personaje, this.personaje2);
+        this.physics.add.collider(this.personajes[0], this.personajes[1]);
 
 
         //  Colisiones con las maquinas
         // Personaje 1
-        this.physics.add.collider(this.personaje, [this.impresora.imagen,this.buzonCartas.imagen,this.buzonPaquetes.imagen,
-            this.cajaSobres.imagen,this.mesaSellos.imagen,this.reciclado.imagen,this.papelera.imagen,this.cinta.imagen,
-            this.cinta.colliderExtra,this.empaquetado.imagen,this.empaquetado.colliderExtra,this.mesaArriba1,this.mesaArriba2,
-            this.mesaArriba3,this.mesaAbajo1,this.mesaAbajo2,this.mesaAbajo3,this.mesaIzq1,this.mesaIzq2,this.mesaDcha1,
-            this.mesaDcha2,this.mesaCentral1,this.mesaCentral1.colliderExtra,this.mesaCentral2,this.mesaCentral2.colliderExtra]);
+
 
         // Personaje 2
-        this.physics.add.collider(this.personaje2, [this.impresora.imagen, this.buzonCartas.imagen, this.buzonPaquetes.imagen,
+        /*this.physics.add.collider(this.personaje2, [this.impresora.imagen, this.buzonCartas.imagen, this.buzonPaquetes.imagen,
                 this.cajaSobres.imagen, this.mesaSellos.imagen, this.reciclado.imagen, this.papelera.imagen, this.cinta.imagen,
                 this.cinta.colliderExtra, this.empaquetado.imagen, this.empaquetado.colliderExtra, this.mesaArriba1, this.mesaArriba2,
                 this.mesaArriba3, this.mesaAbajo1, this.mesaAbajo2, this.mesaAbajo3, this.mesaIzq1, this.mesaIzq2, this.mesaDcha1,
-                this.mesaDcha2, this.mesaCentral1, this.mesaCentral1.colliderExtra, this.mesaCentral2, this.mesaCentral2.colliderExtra]);
+                this.mesaDcha2, this.mesaCentral1, this.mesaCentral1.colliderExtra, this.mesaCentral2, this.mesaCentral2.colliderExtra]);*/
 
 
 
@@ -715,33 +724,34 @@ class OfflineGame extends Phaser.Scene {
         const teclaC = this.input.keyboard.addKey('C');
         const teclaV = this.input.keyboard.addKey('V');
         const teclaB = this.input.keyboard.addKey('B');
+        const teclaO = this.input.keyboard.addKey('O');
 
 
         // Control de la rotación
         //personaje 2
         if (this.cursors.left.isDown) {
 
-            this.personaje2.setAngularVelocity(-150);
+            this.personajes[1].setAngularVelocity(-150);
 
 
         } else if (this.cursors.right.isDown) {
-            this.personaje2.setAngularVelocity(150);
+            this.personajes[1].setAngularVelocity(150);
 
         } else {
-            this.personaje2.setAngularVelocity(0);
+            this.personajes[1].setAngularVelocity(0);
         }
 
         //personaje 1
         if (teclaA.isDown) {
 
-            this.personaje.setAngularVelocity(-150);
+            this.personajes[0].setAngularVelocity(-150);
 
 
         } else if (teclaD.isDown) {
-            this.personaje.setAngularVelocity(150);
+            this.personajes[0].setAngularVelocity(150);
 
         } else {
-            this.personaje.setAngularVelocity(0);
+            this.personajes[0].setAngularVelocity(0);
         }
 
 
@@ -749,48 +759,52 @@ class OfflineGame extends Phaser.Scene {
         //personaje 1
         if (teclaW.isDown) {
             // Avanzar hacia adelante
-            this.physics.velocityFromRotation(this.personaje.rotation, 200, this.personaje.body.velocity);
+            this.physics.velocityFromRotation(this.personajes[0].rotation, 200, this.personajes[0].body.velocity);
         }
         else if (teclaS.isDown) {
             // Retroceder
-            this.physics.velocityFromRotation(this.personaje.rotation + Math.PI, 200, this.personaje.body.velocity);
+            this.physics.velocityFromRotation(this.personajes[0].rotation + Math.PI, 200, this.personajes[0].body.velocity);
         }
         else {
             // Detenerse si no se presionan las teclas de dirección
-            this.personaje.setVelocity(0);
+            this.personajes[0].setVelocity(0);
         }
         //personaje 2
         if (this.cursors.up.isDown) {
             // Avanzar hacia adelante
-            this.physics.velocityFromRotation(this.personaje2.rotation, 200, this.personaje2.body.velocity);
+            this.physics.velocityFromRotation(this.personajes[1].rotation, 200, this.personajes[1].body.velocity);
         }
         else if (this.cursors.down.isDown) {
             // Retroceder
-            this.physics.velocityFromRotation(this.personaje2.rotation + Math.PI, 200, this.personaje2.body.velocity);
+            this.physics.velocityFromRotation(this.personajes[1].rotation + Math.PI, 200, this.personajes[1].body.velocity);
         }
         else {
             // Detenerse si no se presionan las teclas de dirección
-            this.personaje2.setVelocity(0);
+            this.personajes[1].setVelocity(0);
         }
 
         //interactuar con los objetos
         if (Phaser.Input.Keyboard.JustDown(teclaE)) {
-            if(!this.interaccionMaquinas())
-                this.cogerObjeto();
+            if(!this.interaccionMaquinas(0))
+                this.cogerObjeto(0);
+        }if (Phaser.Input.Keyboard.JustDown(teclaO)) {
+            if(!this.interaccionMaquinas(1))
+                this.cogerObjeto(1);
         }
 
         //mueve y rota el objeto llevado delante del personaje
         this.objetos.children.iterate(function (objeto) {
-            if (objeto.t) {
-
-                objeto.x = this.personaje.x + Math.cos(this.personaje.rotation) * 15;
-                objeto.y = this.personaje.y + Math.sin(this.personaje.rotation) * 15;
-                objeto.setRotation(this.personaje.rotation);
-
+            for (let i = 0; i < 2; i++) {
+                if (objeto.t[i]) {
+                    objeto.x = this.personajes[i].x + Math.cos(this.personajes[i].rotation) * 15;
+                    objeto.y = this.personajes[i].y + Math.sin(this.personajes[i].rotation) * 15;
+                    objeto.setRotation(this.personajes[i].rotation);
+                }
             }
+
         }, this);
 
-
+/*
         //#region FUNCIONES DE PRUEBA DE CAMBIO DE SPRITES
 
 
@@ -860,14 +874,16 @@ class OfflineGame extends Phaser.Scene {
 
         }
         //#endregion
-
+*/
         var auxObjeto1;//variable auxiliar
         this.objetosCinta.children.iterate(function (objeto) {
-            if (objeto.t) {
-                objeto.x = this.personaje.x + Math.cos(this.personaje.rotation) * 15;
-                objeto.y = this.personaje.y + Math.sin(this.personaje.rotation) * 15;
-                objeto.setRotation(this.personaje.rotation);
-                auxObjeto1 = objeto;
+            for (let i = 0; i < 2; i++) {
+                if (objeto.t[i]) {
+                    objeto.x = this.personajes[i].x + Math.cos(this.personajes[i].rotation) * 15;
+                    objeto.y = this.personajes[i].y + Math.sin(this.personajes[i].rotation) * 15;
+                    objeto.setRotation(this.personajes[i].rotation);
+                    auxObjeto1 = objeto;
+                }
             }
         }, this);
         //si el personaje coge el objeto, cambiamos dicho objeto de la lista de objetosCinta a objetos
@@ -879,12 +895,38 @@ class OfflineGame extends Phaser.Scene {
     }
 
     actualizarInteraccion() {
+        /**/for(let j = 0; j < 2;j++) {
+            for (var i = 0; i < this.numMaquinas; i++) {
+                if (this.maquinas[i].nombre !== "empaquetado") {
+                    this.personajes[j].distanciaMaquina = Phaser.Math.Distance.Between(this.personajes[j].x, this.personajes[j].y, this.maquinas[i].collider.x, this.maquinas[i].collider.y);
+                    this.maquinas[i].interactuable[j] = this.personajes[j].distanciaMaquina < 40;
+                }
+
+                if (this.maquinas[i].nombre === "mesa sellos") {
+                    this.personajes[j].distanciaMaquina = Phaser.Math.Distance.Between(this.personajes[j].x, this.personajes[j].y, this.maquinas[i].colliderCartas.x, this.maquinas[i].colliderCartas.y);
+                    this.maquinas[i].cartasInteractuable[j] = this.personajes[j].distanciaMaquina < 40;
+                    this.personajes[j].distanciaMaquina = Phaser.Math.Distance.Between(this.personajes[j].x, this.personajes[j].y, this.maquinas[i].colliderPaquetes1.x, this.maquinas[i].colliderPaquetes1.y);
+                    this.maquinas[i].paquetes1Interactuable[j] = this.personajes[j].distanciaMaquina < 40;
+                    this.personajes[j].distanciaMaquina = Phaser.Math.Distance.Between(this.personajes[j].x, this.personajes[j].y, this.maquinas[i].colliderPaquetes2.x, this.maquinas[i].colliderPaquetes2.y);
+                    this.maquinas[i].paquetes2Interactuable[j] = this.personajes[j].distanciaMaquina < 40;
+                    this.personajes[j].distanciaMaquina = Phaser.Math.Distance.Between(this.personajes[j].x, this.personajes[j].y, this.maquinas[i].colliderPaquetes3.x, this.maquinas[i].colliderPaquetes3.y);
+                    this.maquinas[i].paquetes3Interactuable[j] = this.personajes[j].distanciaMaquina < 40;
+                }
+
+                if (this.maquinas[i].nombre === "empaquetado") {
+                    this.personajes[j].distanciaMaquina = Phaser.Math.Distance.Between(this.personajes[j].x, this.personajes[j].y, this.maquinas[i].colliderInicio.x, this.maquinas[i].colliderInicio.y);
+                    this.maquinas[i].inicioInteractuable[j] = this.personajes[j].distanciaMaquina < 40;
+                    this.personajes[j].distanciaMaquina = Phaser.Math.Distance.Between(this.personajes[j].x, this.personajes[j].y, this.maquinas[i].colliderFin.x, this.maquinas[i].colliderFin.y);
+                    this.maquinas[i].finInteractuable[j] = this.personajes[j].distanciaMaquina < 40;
+                }
+            }
+        }//*/
+        /*/
         for (var i = 0; i < this.numMaquinas; i++) {
             if (this.maquinas[i].nombre !== "empaquetado") {
                 this.personaje.distanciaMaquina = Phaser.Math.Distance.Between(this.personaje.x, this.personaje.y, this.maquinas[i].collider.x, this.maquinas[i].collider.y);
                 this.maquinas[i].interactuable = this.personaje.distanciaMaquina < 40;
             }
-
             if (this.maquinas[i].nombre === "mesa sellos") {
                 this.personaje.distanciaMaquina = Phaser.Math.Distance.Between(this.personaje.x, this.personaje.y, this.maquinas[i].colliderCartas.x, this.maquinas[i].colliderCartas.y);
                 this.maquinas[i].cartasInteractuable = this.personaje.distanciaMaquina < 40;
@@ -895,40 +937,38 @@ class OfflineGame extends Phaser.Scene {
                 this.personaje.distanciaMaquina = Phaser.Math.Distance.Between(this.personaje.x, this.personaje.y, this.maquinas[i].colliderPaquetes3.x, this.maquinas[i].colliderPaquetes3.y);
                 this.maquinas[i].paquetes3Interactuable = this.personaje.distanciaMaquina < 40;
             }
-
             if (this.maquinas[i].nombre === "empaquetado") {
                 this.personaje.distanciaMaquina = Phaser.Math.Distance.Between(this.personaje.x, this.personaje.y, this.maquinas[i].colliderInicio.x, this.maquinas[i].colliderInicio.y);
                 this.maquinas[i].inicioInteractuable = this.personaje.distanciaMaquina < 40;
                 this.personaje.distanciaMaquina = Phaser.Math.Distance.Between(this.personaje.x, this.personaje.y, this.maquinas[i].colliderFin.x, this.maquinas[i].colliderFin.y);
                 this.maquinas[i].finInteractuable = this.personaje.distanciaMaquina < 40;
             }
-
-        }
+        }//*/
     }
 
-    interaccionMaquinas() {
+    interaccionMaquinas(i) {
         //if(this.personaje.t) {
         //}else{
         //    console.log('Se necesita un objeto para interaccionar con las maquinas')
         //}
-        return this.interaccionImpresora() || this.interaccionReciclado() || this.interaccionPapelera() ||
-            this.interaccionOrdenador() || this.interaccionEmpaquetado() || this.interaccionBuzonPaquetes() ||
-            this.interaccionBascula() || this.interaccionMesaSellos() || this.interaccionCajaSobres() || this.interaccionBuzonCartas();
+        return this.interaccionImpresora(i) || this.interaccionReciclado(i) || this.interaccionPapelera(i) ||
+            this.interaccionOrdenador(i) || this.interaccionEmpaquetado(i) || this.interaccionBuzonPaquetes(i) ||
+            this.interaccionBascula(i) || this.interaccionMesaSellos(i) || this.interaccionCajaSobres(i) || this.interaccionBuzonCartas(i);
     }
 
-    interaccionImpresora() {
+    interaccionImpresora(i) {
 
-        if (this.personaje.objeto === undefined) return;
-        if(this.personaje.objeto.nombre === 'paquete') {
-            if(this.impresora.interactuable)
+        if (this.personajes[i].objeto === undefined) return;
+        if(this.personajes[i].objeto.nombre === 'paquete') {
+            if(this.impresora.interactuable[i])
                 console.log('No puedes imprimir en una paquete')
             return;
         }
-        if (this.impresora.interactuable && (this.personaje.rotation < 2.4) && (this.personaje.rotation > 0.6) && (this.impresora.estado === "parada")) {
-            console.log(this.personaje.objeto.nombre);
+        if (this.impresora.interactuable[i] && (this.personajes[i].rotation < 2.4) && (this.personajes[i].rotation > 0.6) && (this.impresora.estado === "parada")) {
+            console.log(this.personajes[i].objeto.nombre);
             if (this.impresora.estadoPapel === "sin papel") {
-                if (!this.personaje.objeto.sobre) {
-                    if (!this.personaje.objeto.impresa) {
+                if (!this.personajes[i].objeto.sobre) {
+                    if (!this.personajes[i].objeto.impresa) {
                         console.log("Has puesto el papel");
                         this.impresora.estadoPapel = "con papel";
                         this.impresora.estado = "funcionando";
@@ -945,7 +985,7 @@ class OfflineGame extends Phaser.Scene {
                     console.log("No puedes imprimir si el papel esta en el sobre")
                 }
             } else if (this.impresora.estadoPapel === "con papel") {
-                this.personaje.objeto.impresa = true;
+                this.personajes[i].objeto.impresa = true;
                 console.log("Has quitado el papel recien impreso");
                 this.impresora.imagen.setTexture('impresora');
                 this.impresora.estadoPapel = "sin papel";
@@ -966,21 +1006,21 @@ class OfflineGame extends Phaser.Scene {
         this.impresora.imagen.setTexture('impresora2');
     }
 
-    interaccionEmpaquetado() {
-        if ((((this.personaje.rotation < 0.6) && (this.personaje.rotation > - 0.6)))) {
+    interaccionEmpaquetado(i) {
+        if ((((this.personajes[i].rotation < 0.6) && (this.personajes[i].rotation > - 0.6)))) {
 
-            if (this.empaquetado.inicioInteractuable && this.empaquetado.estado === "parado" && this.empaquetado.obj === undefined) {
+            if (this.empaquetado.inicioInteractuable[i] && this.empaquetado.estado === "parado" && this.empaquetado.obj === undefined) {
                 try{
-                    if(this.personaje.objeto.nombre !== 'paquete' || this.personaje.objeto.empaquetado)  return
+                    if(this.personajes[i].objeto.nombre !== 'paquete' || this.personajes[i].objeto.empaquetado)  return
                 } catch (e){
                     console.log('No tienes nada en la mano')
                     return
                 }
                 this.sonidoEmpaquetado.play();
-                let obj = this.objetoEnMano()
-                obj.t = false
-                this.personaje.objeto = undefined
-                this.personaje.t = false;
+                let obj = this.objetoEnMano(i)
+                obj.t = [false,false]
+                this.personajes[i].objeto = undefined
+                this.personajes[i].t = false;
                 obj.x = this.empaquetado.imagen.x;
                 let tween = this.tweens.add({
                     targets: obj,
@@ -989,8 +1029,8 @@ class OfflineGame extends Phaser.Scene {
                     repeat: 0
                 });
                 //this.empaquetado.estadoObjeto
-                let paquete = this.physics.add.image(-100,-100,'paquete').setScale(0.08).refreshBody();
-                paquete.t = false
+                let paquete = this.physics.add.image(-100,-100,'paquete').setScale(0.08);
+                paquete.t = [false,false]
                 paquete.obj = new Objeto(obj.obj.nombre,obj.obj.peso)
                 paquete.obj.empaquetado = true;
                 this.empaquetado.obj = paquete;
@@ -1007,11 +1047,11 @@ class OfflineGame extends Phaser.Scene {
                 },this);
 
                 return true;
-            } else if (this.empaquetado.estado === "finalizado" && this.empaquetado.finInteractuable) {
+            } else if (this.empaquetado.estado === "finalizado" && this.empaquetado.finInteractuable[i]) {
                 this.empaquetado.estado = "sin objeto";
-                this.empaquetado.obj.t = true;
-                this.personaje.t = true;
-                this.personaje.objeto = this.empaquetado.obj.obj;
+                this.empaquetado.obj.t[i] = true;
+                this.personajes[i].t = true;
+                this.personajes[i].objeto = this.empaquetado.obj.obj;
 
                 this.empaquetado.estado = "parado";
                 console.log("Has recogido tu objeto recien empaquetado");
@@ -1040,54 +1080,62 @@ class OfflineGame extends Phaser.Scene {
         console.log("Su paquete ha sido empaquetado y esta a la espera de ser recogido");
     }
 
-    interaccionReciclado() {
-        if (this.personaje.objeto !== undefined) {
-            if (this.reciclado.interactuable && (this.personaje.rotation < 2.4) && (this.personaje.rotation > 0.6)) {
-                this.reciclarObjeto()
+    interaccionReciclado(i) {
+        if (this.personajes[i].objeto !== undefined) {
+            if (this.reciclado.interactuable[i] && (this.personajes[i].rotation < 2.4) && (this.personajes[i].rotation > 0.6)) {
+                this.reciclarObjeto(i)
                 this.sonidoReinicio.play();
-                console.log("Has reciclado tu " + this.personaje.objeto.nombre);
+                console.log("Has reciclado tu " + this.personajes[i].objeto.nombre);
                 return true;
             }
         }
     }
 
-    reciclarObjeto() {
-        this.personaje.objeto.impresa = false;
-        this.personaje.objeto.sobre = false;
-        this.personaje.objeto.sello = undefined;
-        this.personaje.objeto.direccion = false;
+    reciclarObjeto(i) {
+        this.personajes[i].objeto.impresa = false;
+        this.personajes[i].objeto.sobre = false;
+        this.personajes[i].objeto.sello = undefined;
+        this.personajes[i].objeto.direccion = false;
+        this.personajes[i].empaquetado = false
+        let obj = this.objetoEnMano(i).obj;
+        obj.impresa = false
+        obj.sobre = false
+        obj.sello = false
+        obj.direccion = false
+        obj.empaquetado = false
         //this.personaje.objeto = undefined
     }
 
 
-    interaccionPapelera() {
-        if (this.papelera.interactuable && (this.personaje.rotation < 2.4) && (this.personaje.rotation > 0.6)) {
-            if (this.personaje.objeto !== undefined) {
+    interaccionPapelera(i) {
+        if (this.papelera.interactuable[i] && (this.personajes[i].rotation < 2.4) && (this.personajes[i].rotation > 0.6)) {
+            if (this.personajes[i].objeto !== undefined) {
                 this.sonidoPapelera.play();
-                this.personaje.objeto = undefined;
+                this.objetoEnMano(i).destroy();
+                this.personajes[i].objeto = undefined;
                 console.log("Has tirado tu pedido");
             }
             return true;
         }
     }
 
-    interaccionOrdenador() {
-        if (this.personaje.objeto !== undefined) {
-            if (this.ordenador.interactuable && (this.personaje.rotation < 2.4) && (this.personaje.rotation > 0.6)) {
-                if (!this.personaje.objeto.direccion) {
-                    if (this.personaje.objeto.nombre === "carta") {
-                        if (this.personaje.objeto.sobre) {
+    interaccionOrdenador(i) {
+        if (this.personajes[i].objeto !== undefined) {
+            if (this.ordenador.interactuable[i] && (this.personajes[i].rotation < 2.4) && (this.personajes[i].rotation > 0.6)) {
+                if (!this.personajes[i].objeto.direccion) {
+                    if (this.personajes[i].objeto.nombre === "carta") {
+                        if (this.personajes[i].objeto.sobre) {
                             this.sonidoOrdenador.play();
                             console.log("introducido la direccion");
-                            this.personaje.objeto.direccion = true;
+                            this.personajes[i].objeto.direccion = true;
                         } else {
                             console.log("debes meter el papel en el sobre primero")
                         }
-                    } else if (this.personaje.objeto.nombre === "paquete") {
-                        if (this.personaje.objeto.empaquetado !== false) {
+                    } else if (this.personajes[i].objeto.nombre === "paquete") {
+                        if (this.personajes[i].objeto.empaquetado !== false) {
                             this.sonidoOrdenador.play();
                             console.log("introducido la direccion");
-                            this.personaje.objeto.direccion = true;
+                            this.personajes[i].objeto.direccion = true;
                         } else {
                             console.log("debes meter el objeto en el paquete primero")
                         }
@@ -1103,23 +1151,23 @@ class OfflineGame extends Phaser.Scene {
 
     }
 
-    interaccionBuzonPaquetes() {
-        if (this.personaje.objeto !== undefined) {
-            if(this.personaje.objeto.nombre === 'carta') {
-                if(this.buzonPaquetes.interactuable)
+    interaccionBuzonPaquetes(i) {
+        if (this.personajes[i].objeto !== undefined) {
+            if(this.personajes[i].objeto.nombre === 'carta') {
+                if(this.buzonPaquetes.interactuable[i])
                     console.log('Las cartas van en el buzón de cartas')
                 return;
             }
             if (this.buzonPaquetes.estado === "cerrado") {
-                if (this.buzonPaquetes.interactuable && (this.personaje.rotation < 0.6) && (this.personaje.rotation > -0.6)) {
+                if (this.buzonPaquetes.interactuable[i] && (this.personajes[i].rotation < 0.6) && (this.personajes[i].rotation > -0.6)) {
                     console.log("Has abierto el buzon de los paquetes");
                     this.sonidoBuzones.play();
                     this.buzonPaquetes.estado = "abierto";
                     return true;
                 }
             } else if (this.buzonPaquetes.estado === "abierto") {
-                if (this.buzonPaquetes.interactuable && (this.personaje.rotation < 0.6) && (this.personaje.rotation > -0.6)) {
-                    if (this.personaje.objeto === 'paquete') {
+                if (this.buzonPaquetes.interactuable[i] && (this.personajes[i].rotation < 0.6) && (this.personajes[i].rotation > -0.6)) {
+                    if (this.personajes[i].objeto === 'paquete') {
                         console.log("Has introducido un paquete");
                         console.log("Has cerrado el buzon");
                         this.sonidoBuzones.play();
@@ -1127,7 +1175,7 @@ class OfflineGame extends Phaser.Scene {
                     } else {
                         console.log("Mete el objeto en la caja");
                     }
-                    this.comprobarCaja();
+                    this.comprobarCaja(i);
                     return true;
                 }
             }
@@ -1136,55 +1184,57 @@ class OfflineGame extends Phaser.Scene {
 
     }
 
-    comprobarCaja() {
+    comprobarCaja(i) {
         let puntuacion = 0;
+        let cajaEvaluar = this.personajes[i].objeto;
 
-        if (this.personaje.objeto.empaquetado) {
+        if (cajaEvaluar.empaquetado) {
             puntuacion += 100;
         }
 
-        if (this.personaje.objeto.sello === "sello cartas") {
+        if (cajaEvaluar.sello === "sello cartas") {
             puntuacion -= 100;
         }
 
-        if (this.personaje.objeto.peso <= 5 && this.personaje.objeto.sello === "sellos paquetes 1") {
+        if (cajaEvaluar.peso <= 5 && cajaEvaluar.sello === "sellos paquetes 1") {
             puntuacion += 100;
         }
 
-        if (this.personaje.objeto.peso > 5 && this.personaje.objeto.peso <= 10 && this.personaje.objeto.sello === "sellos paquetes 2") {
+        else if (cajaEvaluar.peso > 5 && cajaEvaluar.peso <= 10 && cajaEvaluar.sello === "sellos paquetes 2") {
             puntuacion += 100;
         }
 
-        if (this.personaje.objeto.peso > 10 && this.personaje.objeto.sello === "sellos paquetes 3") {
+        else if (cajaEvaluar.peso > 10 && cajaEvaluar.sello === "sellos paquetes 3") {
+            puntuacion += 100;
+        }
+        else puntuacion -= 100;
+
+        if (cajaEvaluar.direccion){
             puntuacion += 100;
         }
 
-        if (this.personaje.objeto.direccion){
-            puntuacion += 100;
-        }
-
-        let obj = this.objetoEnMano()
-        this.personaje.t = false
-        this.personaje.objeto = undefined
+        let obj = this.objetoEnMano(i)
+        this.personajes[i].t = false
+        this.personajes[i].objeto = undefined
         obj.destroy()
 
         console.log("Has ganado " + puntuacion + " puntos con este paquete");
     }
 
-    interaccionBuzonCartas() {
+    interaccionBuzonCartas(i) {
         let aux;
-        if (this.personaje.objeto !== undefined) {
-            if(this.personaje.objeto.nombre === 'paquete') {
-                if(this.buzonCartas.interactuable)
+        if (this.personajes[i].objeto !== undefined) {
+            if(this.personajes[i].objeto.nombre === 'paquete') {
+                if(this.buzonCartas.interactuable[i])
                     console.log('Los paquetes van en el buzón de paquetes')
             return;
         }
-            aux = ((this.personaje.rotation < -2.6) && (this.personaje.rotation > -3.6)) || ((this.personaje.rotation < 3.1) && (this.personaje.rotation > 2.4));
+            aux = ((this.personajes[i].rotation < -2.6) && (this.personajes[i].rotation > -3.6)) || ((this.personajes[i].rotation < 3.1) && (this.personajes[i].rotation > 2.4));
             if(!aux) return;
 
             if (this.buzonCartas.estado === "cerrado") {
 
-                if (this.buzonCartas.interactuable) {
+                if (this.buzonCartas.interactuable[i]) {
                     console.log("Has abierto el buzon de las cartas");
                     this.sonidoBuzones.play();
                     this.buzonCartas.estado = "abierto";
@@ -1192,15 +1242,14 @@ class OfflineGame extends Phaser.Scene {
 
             } else if (this.buzonCartas.estado === "abierto") {
 
-                if (this.buzonCartas.interactuable) {
-                    if (this.personaje.objeto.sobre) {
+                if (this.buzonCartas.interactuable[i]) {
+                    if (this.personajes[i].objeto.sobre) {
                         console.log("Has introducido una carta");
                         console.log("Has cerrado el buzon");
                         this.sonidoBuzones.play();
                         this.buzonCartas.estado = "cerrado";
 
-                        this.comprobarSobre();
-                        this.personaje.objeto = undefined
+                        this.comprobarSobre(i);
                         //this.reciclarObjeto()
                     } else {
                         console.log("Mete el papel en el sobre");
@@ -1216,43 +1265,42 @@ class OfflineGame extends Phaser.Scene {
 
     }
 
-    comprobarSobre() {
+    comprobarSobre(i) {
+        let cartaEvaluar = this.personajes[i].objeto
         let puntuacion = 0;
 
-        if (this.personaje.objeto.impresa) {
+        if (cartaEvaluar.impresa) {
             puntuacion += 50;
         }
 
-        if (this.personaje.objeto.sobre) {
+        if (cartaEvaluar.sobre) {
             puntuacion += 50;
         }
 
-        if (this.personaje.objeto.sello === "sello cartas") {
+        if (cartaEvaluar.sello === "sello cartas") {
             puntuacion += 50;
         }
 
-        if (this.personaje.objeto.direccion) {
+        if (cartaEvaluar.direccion) {
             puntuacion += 50;
         }
 
+        this.personajes[i].objeto = undefined
+        this.personajes[i].t = false
+        this.objetoEnMano(i).destroy()
         console.log("Has ganado " + puntuacion + " puntos");
     }
 
-    interaccionBascula() {
-        if (this.bascula.estado === "sin objeto" && this.personaje.t) {
-            if (this.bascula.interactuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > -2.6)) {
+    interaccionBascula(i) {
+        if (this.bascula.estado === "sin objeto" && this.personajes[i].t) {
+            if (this.bascula.interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > -2.6)) {
                 console.log("Has puesto el objeto en la bascula");
-                console.log("Tu objeto pesa " + this.personaje.objeto.peso);
-                this.pesado.setText(this.personaje.objeto.peso);
-                let obj;
-                this.objetos.children.iterate(function (objeto) {
-                    if(objeto.t) {
-                        objeto.t = false;
-                        obj = objeto
-                    }
-                }, this);
-                this.personaje.objeto = undefined
-                this.personaje.t = false;
+                console.log("Tu objeto pesa " + this.personajes[i].objeto.peso);
+                this.pesado.setText(this.personajes[i].objeto.peso);
+                let obj = this.objetoEnMano(i);
+                obj.t[i]= false;
+                this.personajes[i].objeto = undefined
+                this.personajes[i].t = false;
 
                 obj.x = this.bascula.imagen.x - 15;
                 obj.y = this.bascula.imagen.y - 5;
@@ -1262,13 +1310,13 @@ class OfflineGame extends Phaser.Scene {
                 return true;
             }
         } else if (this.bascula.estado === "con objeto") {
-            if (this.bascula.interactuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > -2.6)) {
+            if (this.bascula.interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > -2.6)) {
                 console.log("Has quitado el objeto de la bascula");
                 this.pesado.setText('0.00');
                 this.bascula.estado = "sin objeto";
-                this.bascula.obj.t = true;
-                this.personaje.t = true;
-                this.personaje.objeto = this.bascula.obj.obj;
+                this.bascula.obj.t[i] = true;
+                this.personajes[i].t = true;
+                this.personajes[i].objeto = this.bascula.obj.obj;
                 //this.bascula.obj = undefined
                 return true;
             }
@@ -1276,21 +1324,21 @@ class OfflineGame extends Phaser.Scene {
 
     }
 
-    interaccionCajaSobres() {
-        if (this.personaje.objeto !== undefined) {
-            if(this.personaje.objeto.nombre === 'paquete') {
-                if(this.buzonCartas.interactuable)
+    interaccionCajaSobres(i) {
+        if (this.personajes[i].objeto !== undefined) {
+            if(this.personajes[i].objeto.nombre === 'paquete') {
+                if(this.buzonCartas.interactuable[i])
                     console.log('No se pueden meter paquetes en sobres')
                 return;
             }
-            let aux = (this.personaje.rotation < -2.6) && (this.personaje.rotation > -3.6) || (this.personaje.rotation < 3.1) && (this.personaje.rotation > 2.4)
+            let aux = (this.personajes[i].rotation < -2.6) && (this.personajes[i].rotation > -3.6) || (this.personajes[i].rotation < 3.1) && (this.personajes[i].rotation > 2.4)
             if(!aux)    return;
 
-            if (this.cajaSobres.interactuable) {
-                if (!this.personaje.objeto.sobre) {
+            if (this.cajaSobres.interactuable[i]) {
+                if (!this.personajes[i].objeto.sobre) {
                     this.sonidoCaja.play();
                     console.log("Has metido el papel en el sobre");
-                    this.personaje.objeto.sobre = true;
+                    this.personajes[i].objeto.sobre = true;
                 } else {
                     console.log("Ya has metido el papel en el sobre");
                 }
@@ -1300,25 +1348,25 @@ class OfflineGame extends Phaser.Scene {
 
     }
 
-    interaccionMesaSellos() {
-        if (this.personaje.objeto !== undefined) {
+    interaccionMesaSellos(i) {
+        if (this.personajes[i].objeto !== undefined) {
 
-            if (this.mesaSellos.cartasInteractuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > - 2.6)) {
-                if (this.personaje.objeto.sello === undefined) {
+            if (this.mesaSellos.cartasInteractuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > - 2.6)) {
+                if (this.personajes[i].objeto.sello === undefined) {
 
-                    if (this.personaje.objeto.nombre === "carta") {
-                        if (this.personaje.objeto.sobre) {
+                    if (this.personajes[i].objeto.nombre === "carta") {
+                        if (this.personajes[i].objeto.sobre) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de las cartas");
-                            this.personaje.objeto.sello = "sello cartas";
+                            this.personajes[i].objeto.sello = "sello cartas";
                         } else {
                             console.log("Sobre primero")
                         }
-                    } else if (this.personaje.objeto.nombre === "paquete") {
-                        if (this.personaje.objeto.empaquetado) {
+                    } else if (this.personajes[i].objeto.nombre === "paquete") {
+                        if (this.personajes[i].objeto.empaquetado) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de las cartas");
-                            this.personaje.objeto.sello = "sello cartas";
+                            this.personajes[i].objeto.sello = "sello cartas";
                         } else {
                             console.log("Caja primero")
                         }
@@ -1326,21 +1374,21 @@ class OfflineGame extends Phaser.Scene {
 
                 }
                 return true;
-            } else if (this.mesaSellos.paquetes1Interactuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > - 2.6)) {
-                if (this.personaje.objeto.sello === undefined) {
-                    if (this.personaje.objeto.nombre === "carta") {
-                        if (this.personaje.objeto.sobre) {
+            } else if (this.mesaSellos.paquetes1Interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > - 2.6)) {
+                if (this.personajes[i].objeto.sello === undefined) {
+                    if (this.personajes[i].objeto.nombre === "carta") {
+                        if (this.personajes[i].objeto.sobre) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de paquete de tipo 1");
-                            this.personaje.objeto.sello = "sello paquetes 1";
+                            this.personajes[i].objeto.sello = "sello paquetes 1";
                         } else {
                             console.log("Sobre primero")
                         }
-                    } else if (this.personaje.objeto.nombre === "paquete") {
-                        if (this.personaje.objeto.empaquetado) {
+                    } else if (this.personajes[i].objeto.nombre === "paquete") {
+                        if (this.personajes[i].objeto.empaquetado) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de paquete de tipo 1");
-                            this.personaje.objeto.sello = "sello paquetes 1";
+                            this.personajes[i].objeto.sello = "sello paquetes 1";
                         } else {
                             console.log("Caja primero")
                         }
@@ -1348,21 +1396,21 @@ class OfflineGame extends Phaser.Scene {
 
                 }
                 return true;
-            } else if (this.mesaSellos.paquetes2Interactuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > - 2.6)) {
-                if (this.personaje.objeto.sello === undefined) {
-                    if (this.personaje.objeto.nombre === "carta") {
-                        if (this.personaje.objeto.sobre) {
+            } else if (this.mesaSellos.paquetes2Interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > - 2.6)) {
+                if (this.personajes[i].objeto.sello === undefined) {
+                    if (this.personajes[i].objeto.nombre === "carta") {
+                        if (this.personajes[i].objeto.sobre) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de paquete de tipo 2");
-                            this.personaje.objeto.sello = "sello paquetes 2";
+                            this.personajes[i].objeto.sello = "sello paquetes 2";
                         } else {
                             console.log("Sobre primero")
                         }
-                    } else if (this.personaje.objeto.nombre === "paquete") {
-                        if (this.personaje.objeto.empaquetado) {
+                    } else if (this.personajes[i].objeto.nombre === "paquete") {
+                        if (this.personajes[i].objeto.empaquetado) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de paquete de tipo 2");
-                            this.personaje.objeto.sello = "sello paquetes 2";
+                            this.personajes[i].objeto.sello = "sello paquetes 2";
                         } else {
                             console.log("Caja primero")
                         }
@@ -1370,21 +1418,21 @@ class OfflineGame extends Phaser.Scene {
                 }
                 return true;
 
-            } else if (this.mesaSellos.paquetes3Interactuable && (this.personaje.rotation < -0.6) && (this.personaje.rotation > - 2.6)) {
-                if (this.personaje.objeto.sello === undefined) {
-                    if (this.personaje.objeto.nombre === "carta") {
-                        if (this.personaje.objeto.sobre) {
+            } else if (this.mesaSellos.paquetes3Interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > - 2.6)) {
+                if (this.personajes[i].objeto.sello === undefined) {
+                    if (this.personajes[i].objeto.nombre === "carta") {
+                        if (this.personajes[i].objeto.sobre) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de paquete de tipo 3");
-                            this.personaje.objeto.sello = "sello paquetes 3";
+                            this.personajes[i].objeto.sello = "sellos paquetes 3";
                         } else {
                             console.log("Sobre primero")
                         }
-                    } else if (this.personaje.objeto.nombre === "paquete") {
-                        if (this.personaje.objeto.empaquetado === true) {
+                    } else if (this.personajes[i].objeto.nombre === "paquete") {
+                        if (this.personajes[i].objeto.empaquetado === true) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de paquete de tipo 3");
-                            this.personaje.objeto.sello = "sello paquetes 3";
+                            this.personajes[i].objeto.sello = "sellos paquetes 3";
                         } else {
                             console.log("Caja primero")
                         }
@@ -1397,33 +1445,35 @@ class OfflineGame extends Phaser.Scene {
 
     }
 
-    objetoEnMano(){
+    objetoEnMano(i){
+        if(i === undefined)
+            console.error("PON EL PUTO INDEX")
         let obj;
         this.objetos.children.iterate(function (objeto) {
-            if(objeto.t) {
+            if(objeto.t[i]) {
                 obj = objeto
             }
         }, this);
         return obj;
     }
 
+    func1(objeto, i) {
 
+        let distancia = Phaser.Math.Distance.Between(this.personajes[i].x, this.personajes[i].y, objeto.x, objeto.y);
 
-    func1(objeto) {
-
-        let distancia = Phaser.Math.Distance.Between(this.personaje.x, this.personaje.y, objeto.x, objeto.y);
-
-        if ((distancia < 60) && !this.personaje.t) {//si el personaje esta cerca de un objeto y no lleva nada en la mano, coge el objeto
-            objeto.t = true;
-            this.personaje.t = true;
-            this.personaje.objeto = objeto.obj;
+        if ((distancia < 60) && !this.personajes[i].t && !objeto.t[1-i]) {//si el personaje esta cerca de un objeto y no lleva nada en la mano, coge el objeto
+            objeto.t[i] = true;
+            this.personajes[i].t = true;
+            this.personajes[i].objeto = objeto.obj;
         }
-        else if (this.personaje.t && objeto.t)// si el personaje tiene algo en la mano y es el objeto, lo suelta
+        else if (this.personajes[i].t && objeto.t[i])// si el personaje tiene algo en la mano y es el objeto, lo suelta
         {
-            objeto.t = false;
-            this.personaje.t = false;
-            this.personaje.objeto = undefined
+            objeto.t[i] = false;
+            this.personajes[i].t = false;
+            this.personajes[i].objeto = undefined
             //this.reciclarObjeto()
+        }else{
+        console.log('Hoy no se pudo coger, gente')
         }
     }
 
@@ -1455,18 +1505,17 @@ class OfflineGame extends Phaser.Scene {
         return new Objeto(name,peso)
     }
 
-    cogerObjeto() {
-        this.objetos.children.iterate(function (objeto) {
+    cogerObjeto(i) {
+            this.objetos.children.iterate(function (objeto) {
 
-            this.func1(objeto);
+                this.func1(objeto, i);
 
-        }, this);
-        this.objetosCinta.children.iterate(function (objeto) {
+            }, this);
+            this.objetosCinta.children.iterate(function (objeto) {
 
-            this.func1(objeto);
+                this.func1(objeto, i);
 
-        }, this);
-
+            }, this);
 
     }
     //devuelve id de un objeto aleatorio de arrayObjetosCinta
@@ -1479,8 +1528,9 @@ class OfflineGame extends Phaser.Scene {
         var tipoObjeto = this.obtenerObjetoCinta();
 
         var objeto = this.physics.add.image(this.cinta.imagen.x - 10, this.cinta.imagen.y + 80, tipoObjeto).setScale(0.08).refreshBody();//hay que escalar bien la imagen
-        objeto.t = false;
+        objeto.t = [false,false];
         objeto.obj = this.obtenerObjeto(tipoObjeto)
+
         this.objetosCinta.add(objeto);
 
         var a = this.objetosCinta.getFirstAlive()
