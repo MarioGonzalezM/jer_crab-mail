@@ -13,8 +13,8 @@ Crab Mail es un divertido juego cooperativo en el que los jugadores controlan a 
 - Alejandro García Martínez. Correo: a.garciamart.2021@alumnos.urjc.es Cuenta de Github: AlejandroGarciaMartinez
 
 # GDD CRAB MAIL
-<img src="Assets/CrabMailLogo.png" alt="Logo de Crab-Mail" width=75% height=75%>
-<img src="Assets/LogoToroidev.jpeg" alt="Logo de Toroidev" width=25% height=25%>
+<img src="Assets_GDD/logoJuego.png" alt="Logo de Crab-Mail" width=50% height=50%>
+<img src="Assets_GDD/logoToroidev.png" alt="Logo de Toroidev" width=25% height=25%>
 
 ## Juego creado por
 - Diego Martínez García
@@ -143,7 +143,7 @@ En el juego los objetos que se pueden encontrar coinciden con las principales me
 
   - Mesa de sellos: En esta mesa los jugadores deben poner un sello a los sobres y a los paquetes. En total hay 4 sellos: sellos para las cartas, sellos para paquetes con un peso menor a 5 kg, entre 5 y 10 kg y mas de 10 kg
 
-  - Estación de reinicio: En este lugar, los jugadores pueden devolver el pedido a su estado original en caso de equivocación en alguna parte del proceso. En el caso de las cartas, devuelve el papel sin imprimir; y en el caso de los paquetes devuelve el objeto desempaquetado.
+  - Estación de reciclado: En este lugar, los jugadores pueden devolver el pedido a su estado original en caso de equivocación en alguna parte del proceso. En el caso de las cartas, devuelve el papel sin imprimir; y en el caso de los paquetes devuelve el objeto desempaquetado.
 
   - Buzones de envío: En este lugar hay dos buzones, uno para las cartas y otro para los paquetes. Aquí es donde los jugadores deben llevar los pedidos una vez hayan acabado de prepararlos para obtener puntos.
 
@@ -189,86 +189,153 @@ Aqui se puede ver el arte de todas las máquinas que se pueden encontrar en el e
 
 Impresora: 
 
-<img src="Assets/Impresora.png" alt="Impresora" width=50% height=50%>
+<img src="Assets_GDD/Impresora.png" alt="Impresora" width=50% height=50%>
 
 Báscula: 
 
-<img src="Assets/Bascula.png" alt="Báscula" width=50% height=50%>
+<img src="Assets_GDD/bascula.png" alt="Bascula" width=50% height=50%>
 
-Buzon de sobres: 
+Buzon de cartas: 
 
-<img src="Assets/Buzon1.png" alt="Buzon de sobres" width=50% height=50%>
+<img src="Assets_GDD/BuzonCartas.png" alt="Buzon de cartas" width=50% height=50%>
+
+Buzon de paquetes: 
+
+<img src="Assets_GDD/BuzonPaquetes.png" alt="Buzon de paquetes" width=50% height=50%>
 
 Caja de sobres:
 
-<img src="Assets/Cajadesobres.png" alt="Caja de sobres" width=50% height=50%>
+<img src="Assets_GDD/caja.png" alt="Caja de sobres" width=50% height=50%>
 
 Ordenador: 
 
-<img src="Assets/Ordenador.png" alt="Ordenador" width=50% height=50%>
+<img src="Assets_GDD/ordenador.png" alt="Ordenador" width=50% height=50%>
 
 Mesa de sellos: 
 
-<img src="Assets/Mesasellos.png" alt="Mesa de sellos" width=50% height=50%>
+<img src="Assets_GDD/mesaSellos.png" alt="Mesa de sellos" width=50% height=50%>
+
+Estacion de empaquetado:
+
+<img src="Assets_GDD/Empaquetado.png" alt="Empaquetado" width=50% height=50%>
+
+Cinta:
+
+<img src="Assets_GDD/Cinta.png" alt="Cinta" width=50% height=50%>
+
+Papelera:
+
+<img src="Assets_GDD/Papelera.png" alt="Papelera" width=50% height=50%>
+
+Estación de reciclado:
+
+<img src="Assets_GDD/reciclado.png" alt="Reciclado" width=50% height=50%>
+
+Mesa:
+
+<img src="Assets_GDD/mesa.png" alt="Mesa" width=50% height=50%>
+
+Mesa central:
+
+<img src="Assets_GDD/mesaesquina.png" alt="Mesa central" width=50% height=50%>
 
 ### 5.2 Objetos
 Se han diseñado distintos objetos que aparecen en la cinta, como una consola, un juego, un peluche. Ademas de los papeles que indican al jugador que debe preparar una carta
 
 Consola:
 
+<img src="Assets_GDD/consola.png" alt="Consola" width=50% height=50%>
+
 Videojuego:
+
+<img src="Assets_GDD/juego.png" alt="Juego" width=50% height=50%>
 
 Mancuerna:
 
+<img src="Assets_GDD/mancuerna.png" alt="Mancuerna" width=50% height=50%>
+
 Peluche:
+
+<img src="Assets_GDD/peluche.png" alt="Peluche" width=50% height=50%>
 
 Yunque:
 
+<img src="Assets_GDD/yunque.png" alt="Yunque" width=50% height=50%>
+
 Papel:
+
+<img src="Assets_GDD/papel.png" alt="Papel" width=50% height=50%>
 
 ### 5.3 Cartas y paquetes
 Tambien se han creado distintos sprites que representan el estado de la carta y el paquete llevado por el jugador. Por ello encontramos un sprite de la carta/paquete sin nada, la carta/paquete con el sello o la direccion y la carta/paquete con ambas cosas.
 
 Carta sin nada:
 
+<img src="Assets_GDD/carta1.png" alt="Carta sin nada" width=50% height=50%>
+
 Carta con sello:
+
+<img src="Assets_GDD/carta2.png" alt="Carta con sello" width=50% height=50%>
 
 Carta con direccion:
 
+<img src="Assets_GDD/carta3.png" alt="Carta con direccion" width=50% height=50%>
+
 Carta con sello y direccion:
+
+<img src="Assets_GDD/carta4.png" alt="Carta con sello y direccion" width=50% height=50%>
 
 Paquete sin nada:
 
+<img src="Assets_GDD/paquete1.png" alt="Paquete sin nada" width=50% height=50%>
+
 Paquete con sello:
+
+<img src="Assets_GDD/paquete2.png" alt="Paquete con sello" width=50% height=50%>
 
 Paquete con direccion:
 
+<img src="Assets_GDD/paquete3.png" alt="Paquete con direccion" width=50% height=50%>
+
 Paquete con sello y direccion:
+
+<img src="Assets_GDD/paquete4.png" alt="Paquete con sello y direccion" width=50% height=50%>
 
 ### 5.2 Interfaces
 Menú principal: 
 
-<img src="Assets/MenuPrincipal.png" alt="Menú principal" width=50% height=50%>
-
+<img src="Assets_GDD/menuPrincipal.png" alt="Menu principal" width=50% height=50%>
 
 Menú de pausa: 
 
-<img src="Assets/Menupausa.png" alt="Menú de pausa" width=50% height=50%>
+<img src="Assets_GDD/menuPausa.png" alt="Menu de pausa" width=50% height=50%>
 
 Fondo de juego: 
 
-<img src="Assets/FondoJuego.jpeg" alt="Fondo de juego" width=50% height=50%>
+<img src="Assets_GDD/fondoJuego.png" alt="Fondo del juego" width=50% height=50%>
+
+Menu final:
+
+<img src="Assets_GDD/pantalla_final.png" alt="Pantalla Final" width=50% height=50%>
+
+Menu de configuracion:
+
+<img src="Assets_GDD/menuConfig.png" alt="Menu Configuracion" width=50% height=50%>
+
+Menu "en construccion":
+
+<img src="Assets_GDD/menuConstruccion.png" alt="Menu Construccion" width=50% height=50%>
 
 ### 5.3 Personajes
 Para los personajes, se han creado spritesheets para la implementacion de la animacion de los personajes caminando.
 
 Sprites del jugador 1: 
 
-<img src="Assets/Cangrejo1.jpeg" alt="Sprites del jugador 1" width=50% height=50%>
+<img src="Assets_GDD/spritesheet crab1.png" alt="Sprites del jugador 1" width=50% height=50%>
 
 Sprites del jugador 2: 
 
-<img src="Assets/Cangrejo2.jpeg" alt="Sprites del jugador 2" width=50% height=50%>
+<img src="Assets_GDD/spritesheet crab2.png" alt="Sprites del jugador 2" width=50% height=50%>
 
 ### 5.4 Música
 Debido al ambiente alegre del juego, se ha creado una musica alegre que evoque el verano. Pero, al tratarse de un juego con un componente caótico la musica tiene un ritmo que provoca un poco de presion en los jugadores. 
