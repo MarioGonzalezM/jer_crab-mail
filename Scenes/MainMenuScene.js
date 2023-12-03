@@ -6,14 +6,14 @@ class MainMenuScene extends Phaser.Scene{
     buttons
     buttonMaxX = 384.5
     buttonMinX= 279.5
-    buttonScenes = ['UnderConstruction','OfflineGame','UnderConstruction','OptionsMenu']
+    buttonScenes = ['UnderConstruction', 'OfflineGame', 'UnderConstruction', 'OptionsMenu']
     preload()
     {
         this.load.image('background', 'Assets/MainMenu/FondoMP.png');
         this.load.image('post', 'Assets/MainMenu/PosteMP.png');
         this.load.image('gameLogo', 'Assets/MainMenu/GameLogoMP.png');
         this.load.spritesheet('buttons', 'Assets/MainMenu/SpriteSheetBotonesMP.png', { frameWidth: 700, frameHeight: 239 });
-
+        this.load.audio('sonidoBoton', ['Sounds/botones.mp3']);
     }
 
     OnOverButton(object)
@@ -26,9 +26,12 @@ class MainMenuScene extends Phaser.Scene{
     }
     create()
     {
+        var sonidoboton;
         //Add all images
         this.add.image(960, 540, 'background');
         this.add.image(960, 540, 'gameLogo');
+        sonidoboton = this.sound.add('sonidoBoton');
+
         /**/this.buttons = this.add.group({
             key: 'buttons',
             frame: [ 3,2,1,0 ],
@@ -44,8 +47,11 @@ class MainMenuScene extends Phaser.Scene{
             child.setInteractive();
 
             if(typeof link !==  "undefined") child.on("pointerdown",function (){
+                sonidoboton.play();
                 console.log(link)
                 scene.scene.start(link);
+                
+
             });
 
             child.on('pointerover',function ()
