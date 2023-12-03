@@ -7,6 +7,7 @@ class MainMenuScene extends Phaser.Scene{
     buttonMaxX = 384.5
     buttonMinX= 279.5
     buttonScenes = ['UnderConstruction', 'OfflineGame', 'UnderConstruction', 'OptionsMenu']
+   
     preload()
     {
         this.load.image('background', 'Assets/MainMenu/FondoMP.png');
@@ -14,6 +15,7 @@ class MainMenuScene extends Phaser.Scene{
         this.load.image('gameLogo', 'Assets/MainMenu/GameLogoMP.png');
         this.load.spritesheet('buttons', 'Assets/MainMenu/SpriteSheetBotonesMP.png', { frameWidth: 700, frameHeight: 239 });
         this.load.audio('sonidoBoton', ['Sounds/botones.mp3']);
+        this.load.audio('fondoSonido', ['Sounds/fondo.mp3']);
     }
 
     OnOverButton(object)
@@ -26,6 +28,13 @@ class MainMenuScene extends Phaser.Scene{
     }
     create()
     {
+        var sonidoFondo;
+        sonidoFondo = this.sound.add('fondoSonido');
+
+        sonidoFondo.loop = true;
+        sonidoFondo.setVolume(0.04);
+        sonidoFondo.play();
+
         var sonidoboton;
         //Add all images
         this.add.image(960, 540, 'background');
@@ -47,6 +56,8 @@ class MainMenuScene extends Phaser.Scene{
             child.setInteractive();
 
             if(typeof link !==  "undefined") child.on("pointerdown",function (){
+
+                sonidoFondo.stop();
                 sonidoboton.play();
                 console.log(link)
                 scene.scene.start(link);
@@ -83,6 +94,8 @@ class MainMenuScene extends Phaser.Scene{
 
         //We want the buttons to be partially hidden behind the post
         this.add.image(960, 540, 'post');
+
+        
     }
 
     update() {}

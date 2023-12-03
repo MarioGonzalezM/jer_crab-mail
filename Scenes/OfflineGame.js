@@ -100,6 +100,10 @@ class OfflineGame extends Phaser.Scene {
     sonidoCaja;
     sonidoSellos;
     sonidoEmpaquetado;
+    sonidoFondo;
+    sonidoFondoRapido;
+    sonidoAlarma;
+
 
     pesado;
     tiempoJuego;
@@ -238,6 +242,9 @@ class OfflineGame extends Phaser.Scene {
         this.load.audio('sellos', ['Sounds/sonidoSellos.mp3']);
         this.load.audio('empaquetado', ['Sounds/empaquetadoSonido.mp3']);
 
+        this.load.audio('fondoSonido', ['Sounds/lento.mp3']);
+        this.load.audio('fondoSonidoRapido', ['Sounds/rapido.mp3']);
+        this.load.audio('sonidoAlarma', ['Sounds/alarma.mp3']);
 
 
     }
@@ -670,6 +677,16 @@ class OfflineGame extends Phaser.Scene {
         this.sonidoSellos = this.sound.add('sellos');
         this.sonidoEmpaquetado = this.sound.add('empaquetado');
 
+        this.sonidoFondo = this.sound.add('fondoSonido');
+        this.sonidoFondoRapido = this.sound.add('fondoSonidoRapido');
+        this.sonidoAlarma = this.sound.add('sonidoAlarma');
+
+
+        this.sonidoFondo.loop = true;
+        this.sonidoFondo.setVolume(0.04);
+        this.sonidoFondo.play();
+
+        this.time.delayedCall(120000, this.cambioMusica, null, this)
         //Texto
         this.pesado = this.add.text(1009, 294, '0.00', { fontSize: '19px', fill: '#FF0000' }, { font: "Monospace" });
 
@@ -698,6 +715,17 @@ class OfflineGame extends Phaser.Scene {
 
     }
 
+
+    cambioMusica() {
+
+        this.sonidoFondo.stop();
+        this.sonidoAlarma.setVolume(0.04)
+        this.sonidoAlarma.play();
+        this.sonidoFondoRapido.loop = true;
+        this.sonidoFondoRapido.setVolume(0.04);
+        this.sonidoFondoRapido.play();
+
+    }
 
 
 
