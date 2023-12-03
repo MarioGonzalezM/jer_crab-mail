@@ -104,6 +104,8 @@ class OfflineGame extends Phaser.Scene {
     sonidoLento;
     sonidoRapido;
     sonidoAlarma;
+    sonidoCompletado;
+  
 
     pesado;
     
@@ -255,6 +257,8 @@ class OfflineGame extends Phaser.Scene {
         this.load.audio('lento', ['Sounds/lento.mp3'])
         this.load.audio('rapido', ['Sounds/rapido.mp3'])
         this.load.audio('alarma', ['Sounds/alarma.mp3'])
+        this.load.audio('completado', ['Sounds/completado.mp3'])
+        
 
         //cartas y paquetes
         this.load.image('carta1', 'Assets/Objetos/carta1.png');
@@ -582,6 +586,8 @@ class OfflineGame extends Phaser.Scene {
         this.sonidoLento = this.sound.add('lento');
         this.sonidoRapido = this.sound.add('rapido');
         this.sonidoAlarma = this.sound.add('alarma');
+        this.sonidoCompletado = this.sound.add('completado');
+        
 
         //Texto
         this.pesado = this.add.text(1009, 294, '0.00', { fontSize: '19px', fill: '#FF0000' }, { font: "Monospace" });
@@ -595,7 +601,7 @@ class OfflineGame extends Phaser.Scene {
             callback: function () {
                 if (this.tiempoTranscurrido >= this.tiempoJuego) {
                     this.texto.setText('Tiempo Restante: 0:00');
-
+                    this.sonidoRapido.stop();
                     this.scene.start('EndScene');
                 } else {
                     var minuto = Math.floor((this.tiempoJuego - this.tiempoTranscurrido) / 60);
@@ -859,13 +865,14 @@ class OfflineGame extends Phaser.Scene {
                 console.log("Has quitado el papel recien impreso");
                 var objeto = this.physics.add.image(this.impresora.x, this.impresora.y, 'mensaje').setScale(0.08);
                 objeto.t = [false, false];
-                objeto.t[i] = true;
-                objeto.impresa = true;
+                objeto.t[i] = true;  
                 objeto.obj = new Objeto('carta', 0);
+                objeto.obj.impresa = true;
                 this.objetos.add(objeto);
                 this.personajes[i].objeto = objeto.obj;
                 this.impresora.imagen.setTexture('impresora');
                 this.impresora.estadoPapel = "sin papel";
+
             }
             return true;
         }
@@ -999,6 +1006,7 @@ class OfflineGame extends Phaser.Scene {
                 this.sonidoPapelera.play();
                 this.objetoEnMano(i).destroy();
                 this.personajes[i].objeto = undefined;
+                this.personajes[i].t = false;
                 console.log("Has tirado tu pedido");
             }
             return true;
@@ -1113,7 +1121,7 @@ class OfflineGame extends Phaser.Scene {
         this.personajes[i].t = false
         this.personajes[i].objeto = undefined
         obj.destroy()
-
+        this.sonidoCompletado.play();
         console.log("Tienes " + puntuacion + " puntos con este paquete");
     }
 
@@ -1184,6 +1192,7 @@ class OfflineGame extends Phaser.Scene {
         this.personajes[i].objeto = undefined
         this.personajes[i].t = false
         this.objetoEnMano(i).destroy()
+        this.sonidoCompletado.play();
         console.log("Has ganado " + puntuacion + " puntos");
     }
 

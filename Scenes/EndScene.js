@@ -7,10 +7,11 @@ class EndScene extends Phaser.Scene {
     buttonMaxX = 384.5
     buttonMinX= 279.5
     buttonScenes = ['UnderConstruction','OfflineGame','UnderConstruction','OptionsMenu']*/
+    sonidoHurra;
     preload() {
         this.load.image('pantallafin', 'Assets/EndScene/pantalla final.png');
         console.log('Pantalla cargada');
-
+        this.load.audio('hurra', ['Sounds/hurra.mp3']);
     }
 
     /*OnOverButton(object)
@@ -35,7 +36,11 @@ class EndScene extends Phaser.Scene {
         // Agrega un evento de clic al botón
         buttonArea.on('pointerdown', this.volverAlMenu, this);
         this.add.text(265, 870, puntuacion.toString(), { fontSize: '64px', fill: '#3F2817' }, { font: "Monospace" });
+        this.sonidoHurra = this.sound.add('hurra');
 
+        this.sonidoHurra.setVolume(dataSettings.master * dataSettings.sfx / 10000.0);
+        this.sonidoHurra.play();
+        
     }
 
     volverAlMenu() {
