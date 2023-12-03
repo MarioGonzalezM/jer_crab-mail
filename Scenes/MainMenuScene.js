@@ -118,7 +118,7 @@ var config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    scene: [MainMenuScene, OfflineGame, UnderConstructionScene, OptionsMenu,PauseMenu]
+    scene: [MainMenuScene, OfflineGame, UnderConstructionScene, OptionsMenu, PauseMenu, EndScene]
 };
 const game = new Phaser.Game(config);
 

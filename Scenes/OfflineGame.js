@@ -227,6 +227,8 @@ class OfflineGame extends Phaser.Scene {
         this.load.image('ps5', 'Assets/Objetos/Play.png');
         this.load.image('ps5Game', 'Assets/Objetos/ps5Game.png');
         this.load.image('yunque', 'Assets/Objetos/yunque.png');
+        this.load.image('mensaje', 'Assets/Objetos/mensaje.png');
+        this.load.image('mensajeVacio', 'Assets/Objetos/mensajeVacio.png');
 
 
         // Sonidos
@@ -239,14 +241,23 @@ class OfflineGame extends Phaser.Scene {
         this.load.audio('sellos', ['Sounds/sonidoSellos.mp3']);
         this.load.audio('empaquetado', ['Sounds/empaquetadoSonido.mp3']);
 
+        //cartas y paquetes
+        this.load.image('carta1', 'Assets/Objetos/carta1.png');
+        this.load.image('carta2', 'Assets/Objetos/carta2.png');
+        this.load.image('carta3', 'Assets/Objetos/carta3.png');
+        this.load.image('carta4', 'Assets/Objetos/carta4.png');
 
+        this.load.image('paquete1', 'Assets/Objetos/paquete1.png');
+        this.load.image('paquete2', 'Assets/Objetos/paquete2.png');
+        this.load.image('paquete3', 'Assets/Objetos/paquete3.png');
+        this.load.image('paquete4', 'Assets/Objetos/paquete4.png');
 
     }
 
     create() {
 
         this.personajes = [this.personaje, this.personaje2]
-        this.arrayObjetosCinta = ["yunque", "mancuerna",'ps5', 'ps5Game'];//ids de los objetos que salen de la cinta
+        this.arrayObjetosCinta = ["yunque", "mancuerna",'ps5', 'ps5Game','mensajeVacio'];//ids de los objetos que salen de la cinta
 
         //Code to pause the menu
         let self = this;
@@ -663,7 +674,7 @@ class OfflineGame extends Phaser.Scene {
 
         //funcion que se ejecuta cada cierto tiempo
         this.time.addEvent({
-            delay: 2000,  // El intervalo en milisegundos
+            delay: 15000,  // El intervalo en milisegundos
             callback: this.crearObjetosCinta,
             callbackScope: this,
             loop: true  //true para que el evento se repita
@@ -958,18 +969,20 @@ class OfflineGame extends Phaser.Scene {
 
     interaccionImpresora(i) {
 
-        if (this.personajes[i].objeto === undefined) return;
-        if(this.personajes[i].objeto.nombre === 'paquete') {
-            if(this.impresora.interactuable[i])
-                console.log('No puedes imprimir en una paquete')
-            return;
-        }
+        //if (this.personajes[i].objeto === undefined) return;
+       
         if (this.impresora.interactuable[i] && (this.personajes[i].rotation < 2.4) && (this.personajes[i].rotation > 0.6) && (this.impresora.estado === "parada")) {
-            console.log(this.personajes[i].objeto.nombre);
-            if (this.impresora.estadoPapel === "sin papel") {
+            
+            if (this.impresora.estadoPapel === "sin papel" && this.personajes[i].objeto !==undefined) {
                 if (!this.personajes[i].objeto.sobre) {
-                    if (!this.personajes[i].objeto.impresa) {
+                    if (!this.personajes[i].objeto.impresa && this.personajes[i].objeto.nombre === "carta") {
                         console.log("Has puesto el papel");
+
+                        var objeto = this.objetoEnMano(i);
+                        objeto.destroy();
+                        this.personajes[i].t = false;
+                        this.personajes[i].objeto = undefined;
+
                         this.impresora.estadoPapel = "con papel";
                         this.impresora.estado = "funcionando";
                         this.sonidoImpresora.play();
@@ -983,10 +996,17 @@ class OfflineGame extends Phaser.Scene {
                     }
                 } else {
                     console.log("No puedes imprimir si el papel esta en el sobre")
-                }
+                }               
             } else if (this.impresora.estadoPapel === "con papel") {
-                this.personajes[i].objeto.impresa = true;
+                
                 console.log("Has quitado el papel recien impreso");
+                var objeto = this.physics.add.image(this.impresora.x, this.impresora.y, 'mensaje').setScale(0.08);
+                objeto.t = [false, false];
+                objeto.t[i] = true;
+                objeto.impresa = true;
+                objeto.obj = new Objeto('carta', 0);
+                this.objetos.add(objeto);
+                this.personajes[i].objeto = objeto.obj;
                 this.impresora.imagen.setTexture('impresora');
                 this.impresora.estadoPapel = "sin papel";
             }
@@ -1004,6 +1024,7 @@ class OfflineGame extends Phaser.Scene {
         //clearInterval(this.contadorImpresora);
         console.log("La impresora ha terminado de imprimir");
         this.impresora.imagen.setTexture('impresora2');
+        
     }
 
     interaccionEmpaquetado(i) {
@@ -1031,7 +1052,9 @@ class OfflineGame extends Phaser.Scene {
                 //this.empaquetado.estadoObjeto
                 let paquete = this.physics.add.image(-100,-100,'paquete').setScale(0.08);
                 paquete.t = [false,false]
-                paquete.obj = new Objeto(obj.obj.nombre,obj.obj.peso)
+                paquete.obj = new Objeto(obj.obj.nombre, obj.obj.peso)
+                paquete.obj.imagen = obj.obj.imagen;
+                
                 paquete.obj.empaquetado = true;
                 this.empaquetado.obj = paquete;
                 console.log("Has puesto el objeto en la maquina");
@@ -1092,18 +1115,24 @@ class OfflineGame extends Phaser.Scene {
     }
 
     reciclarObjeto(i) {
-        this.personajes[i].objeto.impresa = false;
-        this.personajes[i].objeto.sobre = false;
-        this.personajes[i].objeto.sello = undefined;
-        this.personajes[i].objeto.direccion = false;
-        this.personajes[i].empaquetado = false
-        let obj = this.objetoEnMano(i).obj;
-        obj.impresa = false
-        obj.sobre = false
-        obj.sello = false
-        obj.direccion = false
-        obj.empaquetado = false
-        //this.personaje.objeto = undefined
+        let obj = this.objetoEnMano(i);
+        if (obj.obj.nombre == 'paquete' || obj.obj.nombre == 'carta') {
+            var tipoObjeto = obj.obj.imagen;
+            obj.setTexture(tipoObjeto);
+
+            this.personajes[i].objeto.impresa = false;
+            this.personajes[i].objeto.sobre = false;
+            this.personajes[i].objeto.sello = undefined;
+            this.personajes[i].objeto.direccion = false;
+            this.personajes[i].objeto.empaquetado = false
+
+            obj.impresa = false
+            obj.sobre = false
+            obj.sello = false
+            obj.direccion = false
+            obj.empaquetado = false
+        }
+        
     }
 
 
@@ -1127,6 +1156,12 @@ class OfflineGame extends Phaser.Scene {
                         if (this.personajes[i].objeto.sobre) {
                             this.sonidoOrdenador.play();
                             console.log("introducido la direccion");
+
+                            if (!this.personajes[i].objeto.sello) {
+                                this.objetoEnMano(i).setTexture('carta3')
+                            } else { this.objetoEnMano(i).setTexture('carta4') }
+
+                           
                             this.personajes[i].objeto.direccion = true;
                         } else {
                             console.log("debes meter el papel en el sobre primero")
@@ -1135,6 +1170,11 @@ class OfflineGame extends Phaser.Scene {
                         if (this.personajes[i].objeto.empaquetado !== false) {
                             this.sonidoOrdenador.play();
                             console.log("introducido la direccion");
+
+                            if (!this.personajes[i].objeto.sello) {
+                                this.objetoEnMano(i).setTexture('paquete3')
+                            } else { this.objetoEnMano(i).setTexture('paquete4') }
+
                             this.personajes[i].objeto.direccion = true;
                         } else {
                             console.log("debes meter el objeto en el paquete primero")
@@ -1332,12 +1372,18 @@ class OfflineGame extends Phaser.Scene {
                 return;
             }
             let aux = (this.personajes[i].rotation < -2.6) && (this.personajes[i].rotation > -3.6) || (this.personajes[i].rotation < 3.1) && (this.personajes[i].rotation > 2.4)
+            if(!aux) console.log(this.personajes[i].rotation)
             if(!aux)    return;
 
             if (this.cajaSobres.interactuable[i]) {
+                
                 if (!this.personajes[i].objeto.sobre) {
                     this.sonidoCaja.play();
                     console.log("Has metido el papel en el sobre");
+                    var objeto = this.objetoEnMano(i);
+                    objeto.setTexture('carta1');
+                    objeto.obj.sobre = true;
+                    
                     this.personajes[i].objeto.sobre = true;
                 } else {
                     console.log("Ya has metido el papel en el sobre");
@@ -1358,6 +1404,12 @@ class OfflineGame extends Phaser.Scene {
                         if (this.personajes[i].objeto.sobre) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de las cartas");
+
+                            if (!this.personajes[i].objeto.direccion) {
+                                this.objetoEnMano(i).setTexture('carta2')
+                            } else { this.objetoEnMano(i).setTexture('carta4') }
+
+                            
                             this.personajes[i].objeto.sello = "sello cartas";
                         } else {
                             console.log("Sobre primero")
@@ -1379,7 +1431,7 @@ class OfflineGame extends Phaser.Scene {
                     if (this.personajes[i].objeto.nombre === "carta") {
                         if (this.personajes[i].objeto.sobre) {
                             this.sonidoSellos.play();
-                            console.log("Has puesto el sello de paquete de tipo 1");
+                            console.log("Has puesto el sello de paquete de tipo 1");                          
                             this.personajes[i].objeto.sello = "sello paquetes 1";
                         } else {
                             console.log("Sobre primero")
@@ -1388,6 +1440,11 @@ class OfflineGame extends Phaser.Scene {
                         if (this.personajes[i].objeto.empaquetado) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de paquete de tipo 1");
+
+                            if (!this.personajes[i].objeto.direccion) {
+                                this.objetoEnMano(i).setTexture('paquete2')
+                            } else { this.objetoEnMano(i).setTexture('paquete4') }
+
                             this.personajes[i].objeto.sello = "sello paquetes 1";
                         } else {
                             console.log("Caja primero")
@@ -1410,6 +1467,11 @@ class OfflineGame extends Phaser.Scene {
                         if (this.personajes[i].objeto.empaquetado) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de paquete de tipo 2");
+
+                            if (!this.personajes[i].objeto.direccion) {
+                                this.objetoEnMano(i).setTexture('paquete2')
+                            } else { this.objetoEnMano(i).setTexture('paquete4') }
+
                             this.personajes[i].objeto.sello = "sello paquetes 2";
                         } else {
                             console.log("Caja primero")
@@ -1424,6 +1486,7 @@ class OfflineGame extends Phaser.Scene {
                         if (this.personajes[i].objeto.sobre) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de paquete de tipo 3");
+                 
                             this.personajes[i].objeto.sello = "sellos paquetes 3";
                         } else {
                             console.log("Sobre primero")
@@ -1432,6 +1495,11 @@ class OfflineGame extends Phaser.Scene {
                         if (this.personajes[i].objeto.empaquetado === true) {
                             this.sonidoSellos.play();
                             console.log("Has puesto el sello de paquete de tipo 3");
+
+                            if (!this.personajes[i].objeto.direccion) {
+                                this.objetoEnMano(i).setTexture('paquete2')
+                            } else { this.objetoEnMano(i).setTexture('paquete4') }
+
                             this.personajes[i].objeto.sello = "sellos paquetes 3";
                         } else {
                             console.log("Caja primero")
@@ -1446,8 +1514,7 @@ class OfflineGame extends Phaser.Scene {
     }
 
     objetoEnMano(i){
-        if(i === undefined)
-            console.error("PON EL PUTO INDEX")
+      
         let obj;
         this.objetos.children.iterate(function (objeto) {
             if(objeto.t[i]) {
@@ -1472,8 +1539,6 @@ class OfflineGame extends Phaser.Scene {
             this.personajes[i].t = false;
             this.personajes[i].objeto = undefined
             //this.reciclarObjeto()
-        }else{
-        console.log('Hoy no se pudo coger, gente')
         }
     }
 
@@ -1497,8 +1562,12 @@ class OfflineGame extends Phaser.Scene {
                 peso = Phaser.Math.Between(2,15);
                 name = 'paquete'
                 break;
+            case 'mensajeVacio':
+                peso = 0;
+                name = 'carta'
+                break;
             default:
-                console.error('Objeto sin tipo')
+                console.error('Objeto sin tipo'+item)
                 peso = 1000000;
                 name = 'error'
         }
@@ -1530,7 +1599,7 @@ class OfflineGame extends Phaser.Scene {
         var objeto = this.physics.add.image(this.cinta.imagen.x - 10, this.cinta.imagen.y + 80, tipoObjeto).setScale(0.08).refreshBody();//hay que escalar bien la imagen
         objeto.t = [false,false];
         objeto.obj = this.obtenerObjeto(tipoObjeto)
-
+        objeto.obj.imagen = tipoObjeto;
         this.objetosCinta.add(objeto);
 
         var a = this.objetosCinta.getFirstAlive()
