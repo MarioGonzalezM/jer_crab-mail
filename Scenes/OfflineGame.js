@@ -272,7 +272,7 @@ class OfflineGame extends Phaser.Scene {
     create() {
 
         this.personajes = [this.personaje, this.personaje2]
-        this.arrayObjetosCinta = ["yunque", "mancuerna",'ps5', 'ps5Game','mensajeVacio', 'peluche'];//ids de los objetos que salen de la cinta
+        this.arrayObjetosCinta = ["yunque", "mancuerna",'ps5', 'ps5Game','mensajeVacio','mensajeVacio','mensajeVacio','mensajeVacio', 'peluche'];//ids de los objetos que salen de la cinta
 
         //Code to pause the menu
         let self = this;
@@ -441,11 +441,11 @@ class OfflineGame extends Phaser.Scene {
         this.bascula.estado = "sin objeto"; // 2 posibles estados: sin objeto, con objeto
 
         // Añado la cinta
-        this.cinta = new Maquina("cinta", "undefined", 1, this.physics.add.image(1680, 160, 'cinta').setScale(0.08).setImmovable(), this.physics.add.image(5065, 350).setScale(2.5, 0.7));
+        this.cinta = new Maquina("cinta", "undefined", 1, this.physics.add.image(1680, 205, 'cinta').setScale(0.08).setImmovable(), this.physics.add.image(5065, 350).setScale(2.5, 0.7));
         this.cinta.imagen.rotation = -Math.PI / 2;
         this.cinta.imagen.setSize(800, 2950);
         this.cinta.imagen.setOffset(1960, 420);
-        this.cinta.colliderExtra = this.physics.add.image(1674, 303).setScale(6.8, 1.8).setImmovable();
+        this.cinta.colliderExtra = this.physics.add.image(1674, 348).setScale(6.8, 1.8).setImmovable();
 
         // Añado la estacion de empaquetado
         this.empaquetado = new Maquina("empaquetado", "timer", 1, this.physics.add.image(1673, 510, 'empaquetado').setScale(0.06).setImmovable(), this.physics.add.image(5065, 350).setScale(2.5, 0.7));
@@ -518,142 +518,6 @@ class OfflineGame extends Phaser.Scene {
             repeat: -1
         });
 
-        //Animaciones cangrejo con carta / papel en blanco
-        this.anims.create({ //es la misma que el cangrejo con el papel en blanco
-            key: 'walk_cangrejo_carta',
-            frames: this.anims.generateFrameNumbers('cangrejo_carta', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({ //es la misma que el cangrejo con el papel en blanco
-            key: 'walk_cangrejo2_carta',
-            frames: this.anims.generateFrameNumbers('cangrejo2_carta', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        //Animaciones cangrejo carta con dirección
-        this.anims.create({
-            key: 'walk_cangrejo_carta_dir',
-            frames: this.anims.generateFrameNumbers('cangrejo_carta_dir', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'walk_cangrejo2_carta_dir',
-            frames: this.anims.generateFrameNumbers('cangrejo2_carta_dir', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        //Animaciones cangrejo carta con sello
-
-        this.anims.create({
-            key: 'walk_cangrejo_carta_sello',
-            frames: this.anims.generateFrameNumbers('cangrejo_carta_sello', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'walk_cangrejo2_carta_sello',
-            frames: this.anims.generateFrameNumbers('cangrejo2_carta_sello', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        //Animaciones cangrejo carta con dirección y sello
-
-        this.anims.create({
-            key: 'walk_cangrejo_carta_dir_sello',
-            frames: this.anims.generateFrameNumbers('cangrejo_carta_dir_sello', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'walk_cangrejo2_carta_dir_sello',
-            frames: this.anims.generateFrameNumbers('cangrejo2_carta_dir_sello', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        //Animaciones cangrejo con papel escrito
-        this.anims.create({
-            key: 'walk_cangrejo_papel_escrito',
-            frames: this.anims.generateFrameNumbers('cangrejo_papel_escrito', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'walk_cangrejo2_papel_escrito',
-            frames: this.anims.generateFrameNumbers('cangrejo2_papel_escrito', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        //Animaciones cangrejo con paquete
-        this.anims.create({
-            key: 'walk_cangrejo_caja',
-            frames: this.anims.generateFrameNumbers('cangrejo_caja', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'walk_cangrejo2_caja',
-            frames: this.anims.generateFrameNumbers('cangrejo2_caja', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        //Animaciones cangrejo paquete con dirección
-        this.anims.create({
-            key: 'walk_cangrejo_caja_dir',
-            frames: this.anims.generateFrameNumbers('cangrejo_caja_dir', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'walk_cangrejo2_caja_dir',
-            frames: this.anims.generateFrameNumbers('cangrejo2_caja_dir', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        //Animaciones cangrejo paquete con sello
-        this.anims.create({
-            key: 'walk_cangrejo_caja_sello',
-            frames: this.anims.generateFrameNumbers('cangrejo_caja_sello', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'walk_cangrejo2_caja_sello',
-            frames: this.anims.generateFrameNumbers('cangrejo2_caja_sello', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        //Animaciones cangrejo paquete con dirección y sello
-        this.anims.create({
-            key: 'walk_cangrejo_caja_dir_sello',
-            frames: this.anims.generateFrameNumbers('cangrejo_caja_dir_sello', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'walk_cangrejo2_caja_dir_sello',
-            frames: this.anims.generateFrameNumbers('cangrejo2_caja_dir_sello', { start: 0, end: 4 }),
-            frameRate: 5,
-            repeat: -1
-        });
         //Animacion barra carga
         this.anims.create({
             key: 'barra',
@@ -746,7 +610,7 @@ class OfflineGame extends Phaser.Scene {
         this.texto = this.add.text(185, 60, 'Tiempo Restante: 3:00', { fontSize: '35px', fill: '#fff' });
 
         this.sonidoLento.loop = true;
-        this.sonidoLento.setVolume(0.04);
+        this.sonidoLento.setVolume(dataSettings.master * dataSettings.music / 10000);
         this.sonidoLento.play(); 
 
         this.crearObjetosCinta()
@@ -755,16 +619,34 @@ class OfflineGame extends Phaser.Scene {
 
     cambioMusica() {
         this.sonidoLento.stop();
-        this.sonidoAlarma.setVolume(0.04);
+        this.sonidoAlarma.setVolume(dataSettings.master * dataSettings.sfx / 10000);
         this.sonidoAlarma.play();
 
         this.sonidoRapido.loop = true;
-        this.sonidoRapido.setVolume(0.04);
+        this.sonidoRapido.setVolume(dataSettings.master * dataSettings.music / 10000);
         this.sonidoRapido.play();
     }
 
 
     update() {
+        // Sonidos
+        let sfxVolume = dataSettings.sfx * dataSettings.master / 10000
+        this.sonidoImpresora.setVolume(sfxVolume)
+        this.sonidoBuzones.setVolume(sfxVolume)
+        this.sonidoReinicio.setVolume(sfxVolume)
+        this.sonidoPapelera.setVolume(sfxVolume)
+        this.sonidoOrdenador.setVolume(sfxVolume)
+        this.sonidoCaja.setVolume(sfxVolume)
+        this.sonidoSellos.setVolume(sfxVolume)
+        this.sonidoEmpaquetado.setVolume(sfxVolume)
+        this.sonidoLento.setVolume(sfxVolume)
+        this.sonidoRapido.setVolume(sfxVolume)
+        this.sonidoAlarma.setVolume(sfxVolume)
+        let musicVolume = dataSettings.music * dataSettings.master / 10000
+        this.sonidoRapido.setVolume(musicVolume);
+        this.sonidoLento.setVolume(musicVolume);
+
+
         this.actualizarInteraccion();
 
         // Control del personaje
@@ -858,77 +740,7 @@ class OfflineGame extends Phaser.Scene {
 
         }, this);
 
-/*
-        //#region FUNCIONES DE PRUEBA DE CAMBIO DE SPRITES
 
-
-        if (Phaser.Input.Keyboard.JustDown(teclaZ)) { //cambia la animación del cangrejo1 al cangrejo con la carta
-            if (this.currentSpritesheet !== 'cangrejo_carta') {
-                this.personaje.setTexture('cangrejo_carta');
-                this.currentSpritesheet = 'cangrejo_carta';
-                this.personaje.anims.play('walk_cangrejo_carta');
-            } else {
-                this.personaje.setTexture('personaje');
-                this.currentSpritesheet = 'personaje';
-                this.personaje.anims.play('walk');
-            }
-
-        }
-
-        if (Phaser.Input.Keyboard.JustDown(teclaX)) { //cambia la animación del cangrejo1 al cangrejo con la carta
-            if (this.currentSpritesheet !== 'cangrejo_carta_dir') {
-                this.personaje.setTexture('cangrejo_carta_dir');
-                this.currentSpritesheet = 'cangrejo_carta_dir';
-                this.personaje.anims.play('walk_cangrejo_carta_dir');
-            } else {
-                this.personaje.setTexture('personaje');
-                this.currentSpritesheet = 'personaje';
-                this.personaje.anims.play('walk');
-            }
-
-        }
-
-        if (Phaser.Input.Keyboard.JustDown(teclaC)) { //cambia la animación del cangrejo1 al cangrejo con la carta
-            if (this.currentSpritesheet !== 'cangrejo_carta_dir_sello') {
-                this.personaje.setTexture('cangrejo_carta_dir_sello');
-                this.currentSpritesheet = 'cangrejo_carta_dir_sello';
-                this.personaje.anims.play('walk_cangrejo_carta_dir_sello');
-            } else {
-                this.personaje.setTexture('personaje');
-                this.currentSpritesheet = 'personaje';
-                this.personaje.anims.play('walk');
-            }
-
-        }
-
-        if (Phaser.Input.Keyboard.JustDown(teclaV)) { //cambia la animación del cangrejo1 al cangrejo con la carta
-            if (this.currentSpritesheet !== 'cangrejo_papel_escrito') {
-                this.personaje.setTexture('cangrejo_papel_escrito');
-                this.currentSpritesheet = 'cangrejo_papel_escrito';
-                this.personaje.anims.play('walk_cangrejo_papel_escrito');
-            } else {
-                this.personaje.setTexture('personaje');
-                this.currentSpritesheet = 'personaje';
-                this.personaje.anims.play('walk');
-            }
-
-        }
-
-        if (Phaser.Input.Keyboard.JustDown(teclaB)) { //cambia la animación del cangrejo1 al cangrejo con la carta
-            if (this.currentSpritesheet !== 'cangrejo_caja') {
-                this.personaje.setTexture('cangrejo_caja');
-                this.currentSpritesheet = 'cangrejo_caja';
-                this.personaje.anims.play('walk_cangrejo_caja');
-            } else {
-                this.personaje.setTexture('personaje');
-                this.currentSpritesheet = 'personaje';
-                this.personaje.anims.play('walk');
-                this.personaje.anims.play('walk');
-            }
-
-        }
-        //#endregion
-*/
         var auxObjeto1;//variable auxiliar
         this.objetosCinta.children.iterate(function (objeto) {
             for (let i = 0; i < 2; i++) {
@@ -1159,7 +971,7 @@ class OfflineGame extends Phaser.Scene {
 
     reciclarObjeto(i) {
         let obj = this.objetoEnMano(i);
-        if (obj.obj.nombre == 'paquete' || obj.obj.nombre == 'carta') {
+        if (obj.obj.nombre === 'paquete' || obj.obj.nombre === 'carta') {
             var tipoObjeto = obj.obj.imagen;
             obj.setTexture(tipoObjeto);
 
@@ -1278,7 +1090,7 @@ class OfflineGame extends Phaser.Scene {
             this.puntuacion -= 100;
         }
 
-        if (cajaEvaluar.peso <= 5 && cajaEvaluar.sello === "sellos paquetes 1") {
+        else if (cajaEvaluar.peso <= 5 && cajaEvaluar.sello === "sellos paquetes 1") {
             this.puntuacion += 100;
         }
 
@@ -1300,7 +1112,7 @@ class OfflineGame extends Phaser.Scene {
         this.personajes[i].objeto = undefined
         obj.destroy()
 
-        console.log("Has ganado " + this.puntuacion + " puntos con este paquete");
+        console.log("Tienes " + this.puntuacion + " puntos con este paquete");
     }
 
     interaccionBuzonCartas(i) {
@@ -1320,6 +1132,7 @@ class OfflineGame extends Phaser.Scene {
                     console.log("Has abierto el buzon de las cartas");
                     this.sonidoBuzones.play();
                     this.buzonCartas.estado = "abierto";
+                    return true;
                 }
 
             } else if (this.buzonCartas.estado === "abierto") {
@@ -1333,13 +1146,13 @@ class OfflineGame extends Phaser.Scene {
 
                         this.comprobarSobre(i);
                         //this.reciclarObjeto()
+                        return true;
                     } else {
                         console.log("Mete el papel en el sobre");
                     }
                 }
 
             }
-            return true;
         }
 
 
@@ -1426,11 +1239,11 @@ class OfflineGame extends Phaser.Scene {
                     objeto.obj.sobre = true;
                     
                     this.personajes[i].objeto.sobre = true;
+                    return true;
                 } else {
                     console.log("Ya has metido el papel en el sobre");
                 }
             }
-            return true;
         }
 
     }
@@ -1607,6 +1420,10 @@ class OfflineGame extends Phaser.Scene {
                 peso = 0;
                 name = 'carta'
                 break;
+            case 'peluche':
+                peso = 1000;
+                name = 'paquete'
+                break;
             default:
                 console.error('Objeto sin tipo'+item)
                 peso = 1000000;
@@ -1645,9 +1462,10 @@ class OfflineGame extends Phaser.Scene {
 
         var a = this.objetosCinta.getFirstAlive()
         //si el objeto esta fuera de la cinta, pasamos ese objeto a la lista objetos
-        if (a.y < this.cinta.imagen.y - 150) {
+        if (a.y < this.cinta.imagen.y - 100) {
             this.objetosCinta.remove(a);
-            this.objetos.add(a);
+            a.destroy()
+            //this.objetos.add(a);
         }
         //animacion de mover la cinta
         this.tweens.add({
