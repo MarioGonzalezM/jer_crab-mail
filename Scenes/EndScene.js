@@ -31,7 +31,7 @@ class EndScene extends Phaser.Scene {
         buttonArea.setInteractive();
         // Agrega un evento de clic al botón
         buttonArea.on('pointerdown', this.volverAlMenu, this);
-        //create(puntos);
+        create(this.puntuacion);
 
     }
 
