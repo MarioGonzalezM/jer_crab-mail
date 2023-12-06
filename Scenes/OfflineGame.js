@@ -375,39 +375,39 @@ class OfflineGame extends Phaser.Scene {
         //#region REGION MAQUINAS
 
         // Agregamos el buzon de cartas
-        this.buzonCartas = new Maquina("buzon cartas", "interaccion", -1, this.physics.add.image(267, 767, 'buzonCartas').setScale(0.08).setImmovable(), this.physics.add.image(252, 765).setScale(1, 4.7));
-        this.buzonCartas.imagen.setSize(1020, 2350);
+        this.buzonCartas = new Maquina("buzon cartas", "interaccion", -1, this.physics.add.image(210, 767, 'buzonCartas').setScale(0.35).setImmovable(), this.physics.add.image(252, 765).setScale(1, 4.7));
+        this.buzonCartas.imagen.setSize(240, 600);
         this.buzonCartas.imagen.setOffset(400, 70);
         Phaser.Utils.Array.Add(this.maquinas, this.buzonCartas);
         this.numMaquinas++;
         this.buzonCartas.estado = "cerrado"; // 2 posibles estados: cerrado y abierto
 
         // Agregamos el buzon de los paquetes
-        this.buzonPaquetes = new Maquina("buzon paquetes", "interaccion", 1, this.physics.add.image(1600, 767, 'buzonPaquetes').setScale(0.08).setImmovable(), this.physics.add.image(1615, 765).setScale(1, 4.7));
-        this.buzonPaquetes.imagen.setSize(1020, 2350);
-        this.buzonPaquetes.imagen.setOffset(2100, 70);
+        this.buzonPaquetes = new Maquina("buzon paquetes", "interaccion", 1, this.physics.add.image(1660, 757, 'buzonPaquetes').setScale(0.35).setImmovable(), this.physics.add.image(1615, 765).setScale(1, 4.7));
+        this.buzonPaquetes.imagen.setSize(240, 600);
+        this.buzonPaquetes.imagen.setOffset(430, 100);
         this.buzonPaquetes.imagen.rotation = Math.PI;
         Phaser.Utils.Array.Add(this.maquinas, this.buzonPaquetes);
         this.numMaquinas++;
 
 
         // Agregamos la caja de sobres
-        this.cajaSobres = new Maquina("caja sobres", "interaccion", 1, this.physics.add.image(320, 400, 'cajaSobres').setScale(0.07).setImmovable(), this.physics.add.image(300, 407).setScale(0.9, 4));
-        this.cajaSobres.imagen.setSize(2020, 1850);
-        this.cajaSobres.imagen.setOffset(10, 920);
+        this.cajaSobres = new Maquina("caja sobres", "interaccion", 1, this.physics.add.image(255, 408, 'cajaSobres').setScale(0.33).setImmovable(), this.physics.add.image(300, 407).setScale(0.9, 4));
+        this.cajaSobres.imagen.setSize(430, 380);
+        this.cajaSobres.imagen.setOffset(210, 160);
         Phaser.Utils.Array.Add(this.maquinas, this.cajaSobres);
         this.numMaquinas++;
         this.buzonPaquetes.estado = "cerrado"; // 2 posibles estados: abierto y cerrado
 
 
         // Agregamos la mesa de sellos
-        this.mesaSellos = new Maquina("mesa sellos", "interaccion", 1, this.physics.add.image(940, 150, 'mesaSellos').setScale(0.16).setImmovable(), this.physics.add.image(300, 8007).setScale(0.9, 4));
-        this.mesaSellos.imagen.setSize(3330, 500);
-        this.mesaSellos.imagen.setOffset(100, 870);
+        this.mesaSellos = new Maquina("mesa sellos", "interaccion", 1, this.physics.add.image(930, 130, 'mesaSellos').setScale(0.55).setImmovable(), this.physics.add.image(300, 8007).setScale(0.9, 4));
+        this.mesaSellos.imagen.setSize(920, 200);
+        this.mesaSellos.imagen.setOffset(90, 223);
         this.mesaSellos.colliderCartas = this.physics.add.image(738, 175).setScale(2, 0.7);
         this.mesaSellos.colliderPaquetes1 = this.physics.add.image(878, 175).setScale(2, 0.7);
-        this.mesaSellos.colliderPaquetes2 = this.physics.add.image(1023, 175).setScale(2, 0.7);
-        this.mesaSellos.colliderPaquetes3 = this.physics.add.image(1155, 175).setScale(2, 0.7);
+        this.mesaSellos.colliderPaquetes2 = this.physics.add.image(1013, 175).setScale(2, 0.7);
+        this.mesaSellos.colliderPaquetes3 = this.physics.add.image(1135, 175).setScale(2, 0.7);
         Phaser.Utils.Array.Add(this.maquinas, this.mesaSellos);
 
         this.mesaSellos.cartasInteractuable = [false,false]
@@ -417,46 +417,46 @@ class OfflineGame extends Phaser.Scene {
         this.numMaquinas++;
 
         // Agregamos la estacion de reciclado
-        this.reciclado = new Maquina("reciclado", "interaccion", 1, this.physics.add.image(1220, 807, 'reciclado').setScale(0.04).setImmovable(), this.physics.add.image(1213, 757).setScale(2, 0.7));
-        this.reciclado.imagen.setSize(2400, 2350);
-        this.reciclado.imagen.setOffset(1100, 720);
+        this.reciclado = new Maquina("reciclado", "interaccion", 1, this.physics.add.image(1215, 809, 'reciclado').setScale(0.20).setImmovable(), this.physics.add.image(1213, 757).setScale(2, 0.7));
+        this.reciclado.imagen.setSize(450,450);
+        this.reciclado.imagen.setOffset(300, 140);
         this.reciclado.imagen.rotation = -Math.PI;
         Phaser.Utils.Array.Add(this.maquinas, this.reciclado);
         this.numMaquinas++;
 
         // Agregamos la papelera
-        this.papelera = new Maquina("papelera", "interaccion", 1, this.physics.add.image(1340, 807, 'papelera').setScale(0.04).setImmovable(), this.physics.add.image(1335, 757).setScale(2, 0.7));
-        this.papelera.imagen.setSize(2400, 2350);
-        this.papelera.imagen.setOffset(1150, 720);
+        this.papelera = new Maquina("papelera", "interaccion", 1, this.physics.add.image(1335, 817, 'papelera').setScale(0.17).setImmovable(), this.physics.add.image(1335, 757).setScale(2, 0.7));
+        this.papelera.imagen.setSize(580, 600);
+        this.papelera.imagen.setOffset(250, 50);
         this.papelera.imagen.rotation = -Math.PI;
         Phaser.Utils.Array.Add(this.maquinas, this.papelera);
         this.numMaquinas++;
 
 
         // Agregamos el ordenador
-        this.ordenador = new Maquina("ordenador", "interaccion", 1, this.physics.add.image(950, 645, 'ordenador').setScale(0.05).setImmovable(), this.physics.add.image(950, 597).setScale(4, 0.7));
+        this.ordenador = new Maquina("ordenador", "interaccion", 1, this.physics.add.image(950, 645, 'ordenador').setScale(0.13).setImmovable(), this.physics.add.image(950, 597).setScale(4, 0.7));
         this.ordenador.imagen.rotation = -Math.PI;
         Phaser.Utils.Array.Add(this.maquinas, this.ordenador);
         this.numMaquinas++;
 
         // Agregamos la bascula
-        this.bascula = new Maquina("bascula", "interaccion", 1, this.physics.add.image(980, 310, 'bascula').setScale(0.05).setImmovable(), this.physics.add.image(965, 350).setScale(2.5, 0.7));
+        this.bascula = new Maquina("bascula", "interaccion", 1, this.physics.add.image(975, 305, 'bascula').setScale(0.21).setImmovable(), this.physics.add.image(965, 350).setScale(2.5, 0.7));
         Phaser.Utils.Array.Add(this.maquinas, this.bascula);
         this.numMaquinas++;
         this.bascula.estado = "sin objeto"; // 2 posibles estados: sin objeto, con objeto
 
         // Añado la cinta
-        this.cinta = new Maquina("cinta", "undefined", 1, this.physics.add.image(1680, 205, 'cinta').setScale(0.08).setImmovable(), this.physics.add.image(5065, 350).setScale(2.5, 0.7));
+        this.cinta = new Maquina("cinta", "undefined", 1, this.physics.add.image(1680, 220, 'cinta').setScale(0.46).setImmovable(), this.physics.add.image(5065, 350).setScale(2.5, 0.7));
         this.cinta.imagen.rotation = -Math.PI / 2;
-        this.cinta.imagen.setSize(800, 2950);
-        this.cinta.imagen.setOffset(1960, 420);
-        this.cinta.colliderExtra = this.physics.add.image(1674, 348).setScale(6.8, 1.8).setImmovable();
+        this.cinta.imagen.setSize(200, 600);
+        this.cinta.imagen.setOffset(455, 80);
+        this.cinta.colliderExtra = this.physics.add.image(1674, 348).setScale(6.8, 1.9).setImmovable();
 
         // Añado la estacion de empaquetado
-        this.empaquetado = new Maquina("empaquetado", "timer", 1, this.physics.add.image(1673, 510, 'empaquetado').setScale(0.06).setImmovable(), this.physics.add.image(5065, 350).setScale(2.5, 0.7));
+        this.empaquetado = new Maquina("empaquetado", "timer", 1, this.physics.add.image(1673, 510, 'empaquetado').setScale(0.313).setImmovable(), this.physics.add.image(5065, 350).setScale(2.5, 0.7));
         this.empaquetado.imagen.rotation = -Math.PI / 2;
-        this.empaquetado.imagen.setSize(1200, 4100);
-        this.empaquetado.imagen.setOffset(1900, -300);
+        this.empaquetado.imagen.setSize(500, 1000);
+        this.empaquetado.imagen.setOffset(420, -200);
         this.empaquetado.colliderInicio = this.physics.add.image(1630, 445).setScale(0.5, 3.7);
         this.empaquetado.colliderFin = this.physics.add.image(1630, 575).setScale(0.5, 3.7);
         this.empaquetado.colliderExtra = this.physics.add.image(1674, 513).setScale(4.6, 1.5).setImmovable();
@@ -471,9 +471,9 @@ class OfflineGame extends Phaser.Scene {
         this.empaquetado.estadoObjeto = "sin objeto"; // 2 posibles objetos: sin objeto, con objeto
 
         //// Agregamos la impresora al juego
-        this.impresora = new Maquina("impresora", "timer", "down", this.physics.add.image(500, 800, 'impresora').setScale(0.06).setImmovable(), this.physics.add.image(497, 758).setScale(2.9, 1));
-        this.impresora.imagen.setSize(2750, 1650);
-        this.impresora.imagen.setOffset(1075, 1350);
+        this.impresora = new Maquina("impresora", "timer", "down", this.physics.add.image(500, 790, 'impresora').setScale(0.31).setImmovable(), this.physics.add.image(497, 758).setScale(2.9, 1));
+        this.impresora.imagen.setSize(520, 400);
+        this.impresora.imagen.setOffset(270, 295);
         this.impresora.imagen.rotation = -Math.PI;
         Phaser.Utils.Array.Add(this.maquinas, this.impresora);
         this.numMaquinas++;
