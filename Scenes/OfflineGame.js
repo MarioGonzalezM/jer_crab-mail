@@ -567,7 +567,10 @@ class OfflineGame extends Phaser.Scene {
         this.sonidoRapido = this.sound.add('rapido');
         this.sonidoAlarma = this.sound.add('alarma');
         this.sonidoCompletado = this.sound.add('completado');
-        
+        this.ajustarVolumen();
+        //
+        //
+        // this.events.on('resume', this.ajustarVolumen,this)
 
         //Texto
         this.pesado = this.add.text(1009, 294, '0.00', { fontSize: '19px', fill: '#FF0000' }, { font: "Monospace" });
@@ -607,18 +610,19 @@ class OfflineGame extends Phaser.Scene {
 
     cambioMusica() {
         this.sonidoLento.stop();
-        this.sonidoAlarma.setVolume(dataSettings.master * dataSettings.sfx / 10000);
         this.sonidoAlarma.play();
 
         this.sonidoRapido.loop = true;
-        this.sonidoRapido.setVolume(dataSettings.master * dataSettings.music / 10000);
         this.sonidoRapido.play();
     }
 
-
-    update() {
+    /**
+     * Takes the volume information and updates the volumes
+     */
+    ajustarVolumen(){
+        console.log("Ajustes de sonido actualizados")
         // Sonidos
-        let sfxVolume = dataSettings.sfx * dataSettings.master / 10000
+        let sfxVolume = dataSettings.sfx * dataSettings.master / 10000;
         this.sonidoImpresora.setVolume(sfxVolume)
         this.sonidoBuzones.setVolume(sfxVolume)
         this.sonidoReinicio.setVolume(sfxVolume)
@@ -629,10 +633,15 @@ class OfflineGame extends Phaser.Scene {
         this.sonidoEmpaquetado.setVolume(sfxVolume)
         this.sonidoLento.setVolume(sfxVolume)
         this.sonidoRapido.setVolume(sfxVolume)
-        this.sonidoAlarma.setVolume(sfxVolume)
-        let musicVolume = dataSettings.music * dataSettings.master / 10000
+        let musicVolume = dataSettings.music * dataSettings.master / 10000;
+        this.sonidoAlarma.setVolume(musicVolume)
         this.sonidoRapido.setVolume(musicVolume);
         this.sonidoLento.setVolume(musicVolume);
+    }
+
+
+    update() {
+
 
 
         this.actualizarInteraccion();
