@@ -1,4 +1,4 @@
-package com.example.demo;
+package demo.example.demo;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -21,7 +21,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -43,6 +43,7 @@
     "WebServerToolWindowFactoryState": "false",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
+    "last_directory_selection": "C:/Users/PC GAMING/Documents/GitHub/jer_crab-mail/project1/src/test/java/com/example/demo",
     "last_opened_file_path": "C:/Users/PC GAMING/Documents/GitHub/jer_crab-mail/Assets/OptionsMenu",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -86,11 +87,15 @@
     </configuration>
     <configuration name="Project1Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="project1" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo.Project1Application" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="demo.example.demo.Project1Application" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Node.js.juego.js" />
+      <item itemvalue="Spring Boot.Project1Application" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -108,7 +113,7 @@
       <workItem from="1701941171425" duration="2346000" />
       <workItem from="1702743590375" duration="427000" />
       <workItem from="1702744606909" duration="20000" />
-      <workItem from="1702744633547" duration="1090000" />
+      <workItem from="1702744633547" duration="6710000" />
     </task>
     <servers />
   </component>

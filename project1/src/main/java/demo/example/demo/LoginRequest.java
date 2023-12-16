@@ -1,4 +1,4 @@
-package com.example.demo;
+package demo.example.demo;
 
 public class LoginRequest {
 
