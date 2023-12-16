@@ -1,73 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="phaser.min.js"></script>
+    <script type="text/javascript" src="./Scenes/EndScene.js"></script>
+    <script type="text/javascript" src="./Scenes/DataSettings.js"></script>
+    <script type="text/javascript" src="./Assets/EventManager.js"></script>
+    <!--<script type="text/javascript" src="./movement.js"></script>-->
+    <script type="text/javascript" src="Scenes/OfflineGame.js"></script>
+    <script type="text/javascript" src="./Scenes/UnderConstructionScene.js"></script>
+    <script type="text/javascript" src="./Scenes/OptionsMenu.js"></script>
+    <script type="text/javascript" src="./Scenes/PauseMenu.js"></script>
+    <script type="text/javascript" src="./Scenes/MainMenuScene.js"></script>
+
+
+
 </head>
 <body>
-	
-  <form id="loginForm">
-    <input type="text" id="nombreUsuario" placeholder="Nombre de usuario"><br>
-    <input type="password" id="contraseña" placeholder="Contraseña"><br>
-    <button type="button" onclick="login()">Iniciar sesión</button>
-  </form>
-  <form id="RegisterForm">
-    <input type="text" id="nombreUsuario1" placeholder="Nombre de usuario"><br>
-    <input type="password" id="contraseña1" placeholder="Contraseña"><br>
-    <button type="button" onclick="Register()">Registrarse</button>
-  </form>
-
-  <script>
-    function login() {
-      const username = document.getElementById('nombreUsuario').value;
-      const password = document.getElementById('contraseña').value;  
-      
-      const data = {
-        username: username,
-        password: password 
-      };
-
-   $.ajax({
-    method: 'POST',
-    url: "http://127.0.0.1:8080/login",
-    contentType: 'application/json', // Utiliza 'contentType' en lugar de 'datatype'
-    data: JSON.stringify(data),
-}).done(function (data, textStatus, jqXHR) {
-    console.log("¡Éxito!");
-    
-}).fail(function (jqXHR, textStatus, errorThrown) {
-    console.log("Error:");
-    
-});
-    }
-    
-    function Register()
-    {
-		const username = document.getElementById('nombreUsuario1').value;
-      const password = document.getElementById('contraseña1').value;  
-      
-      const data = {
-        username: username,
-        password: password 
-      };
-		
-		 $.ajax({
-    method: 'POST',
-    url: "http://127.0.0.1:8080/register",
-    contentType: 'application/json', // Utiliza 'contentType' en lugar de 'datatype'
-    data: JSON.stringify(data),
-}).done(function (data, textStatus, jqXHR) {
-    console.log("¡Éxito!");
-
-}).fail(function (jqXHR, textStatus, errorThrown) {
-    console.log("Error:");
-    
-});
-    }
-	
-
-
-  </script>
 </body>
 </html>
