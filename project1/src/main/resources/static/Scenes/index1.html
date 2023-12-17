@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	
+	<button id="botonLogin"onclick="mostrarFormulario('loginForm')">Login</button>
+	<button id="botonRegister" onclick="mostrarFormulario('RegisterForm')">Register</button>
+	<button id="cambiarEscena">Cambiar a Escena de Phaser</button>
+	<button id="botonActualizar" onclick="mostrarFormulario('UpdateForm')" style = display:none>Actualizar Contraseña</button>
+	<button id="botonCerrarSesion"onclick="cerrarSesion()" style = display:none>Cerrar Sesion</button>
+	
+  <form id="loginForm" style = display:none>
+    <input type="text" id="nombreUsuario" placeholder="Nombre de usuario"><br>
+    <input type="password" id="contraseña" placeholder="Contraseña"><br>
+    <button type="button" onclick="login()">Iniciar sesión</button>
+  </form>
+  <form id="RegisterForm" style = display:none>
+    <input type="text" id="nombreUsuario1" placeholder="Nombre de usuario"><br>
+    <input type="password" id="contraseña1" placeholder="Contraseña"><br>
+    <button type="button" onclick="Register()">Registrarse</button>
+  </form>
+  
+  <button id="botonMostrar"type="button" onclick="MostrarUsuarios()" style = display:none>Mostrar Usuarios</button>
+  <textarea id="userList" rows="10" cols="50" style = display:none></textarea>
+
+  <form id="UpdateForm" style = display:none>
+    <input type="password" id="contraseñaActual" placeholder="Contraseña Actual"><br>
+    <input type="password" id="contraseñaNueva" placeholder="Contraseña Nueva"><br>
+    <button type="button" onclick="actualizarContraseña()">Actualizar Contraseña</button>
+  </form>
+
+	<button type="button" onclick="BorrarCuenta()" style = display:none>Borrar Cuenta</button>
+	
+	
+  <script>
+	  
+  	function cerrarSesion()
+  	{
+		document.getElementById('botonLogin').style.display = 'block';
+		document.getElementById('botonRegister').style.display = 'block';
+		document.getElementById('botonCerrarSesion').style.display = 'none';
+		document.getElementById('botonActualizar').style.display = 'none';
+		document.getElementById('botonMostrar').style.display = 'none';
+		document.getElementById('userList').style.display = 'none';
+		mostrarFormulario();  
+	}
+	function mostrarFormulario(tipo) {
+        // Ocultar todos los formularios
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('RegisterForm').style.display = 'none';
+        document.getElementById('UpdateForm').style.display = 'none';
+
+        // Mostrar el formulario correspondiente al botón clicado
+        if(tipo){
+        document.getElementById(tipo).style.display = 'block';
+        }
+    }  
+	  
+	function enviarMensaje() {
+        window.parent.postMessage('cambiarEscena', '*');
+    }
+    // Agregar un manejador de eventos al botón
+    document.getElementById('cambiarEscena').addEventListener('click', enviarMensaje);
+	  
+	  /////////////////////////////////////////// METODOS HTTP /////////////////////////////////////////////////////////////////
+	  
+    function login() 
+    {
+      const username = document.getElementById('nombreUsuario').value;
+      const password = document.getElementById('contraseña').value;  
+      
+      const data = {
+        username: username,
+        password: password 
+      };
+	
+    $.ajax({
+    method: 'POST',
+    url: "http://127.0.0.1:8080/login",
+    contentType: 'application/json', 
+    data: JSON.stringify(data),
+	}).done(function (data) {
+    console.log("¡Éxito!");
+    console.log(data);
+    if(data==="Login exitoso")
+    {
+		mostrarFormulario('UpdateForm');
+		mostrarFormulario('botonActualizar');
+		document.getElementById('botonLogin').style.display = 'none';
+		document.getElementById('botonRegister').style.display = 'none';
+		document.getElementById('botonCerrarSesion').style.display = 'block';
+		document.getElementById('botonMostrar').style.display = 'block';
+		document.getElementById('userList').style.display = 'block';
+	}
+	}).fail(function (jqXHR, textStatus, errorThrown) {
+    console.log("Error:");
+    
+	});
+    }    
+    function Register()
+    {
+		const username = document.getElementById('nombreUsuario1').value;
+      	const password = document.getElementById('contraseña1').value;  
+      
+      	const data = {
+        	username: username,
+        	password: password 
+    	};
+		
+		$.ajax({
+    	method: 'POST',
+    	url: "http://127.0.0.1:8080/register",
+    	contentType: 'application/json', // Utiliza 'contentType' en lugar de 'datatype'
+    	data: JSON.stringify(data),
+		}).done(function (data) {
+    	console.log("¡Éxito!");
+    	console.log(data);
+
+		}).fail(function () {
+    	console.log("Error:");   
+		});
+   	 }
+	function MostrarUsuarios()
+	{
+		 $.ajax({
+    	method: 'GET',
+    	url: "http://127.0.0.1:8080/listaUsuarios",
+    
+		}).done(function (data) {
+    	console.log("¡Éxito!");
+    	console.log(data);   	
+  		$('#userList').val(data.join('\n'));		
+		}).fail(function () {
+    	console.log("Error:");
+    
+	});
+		
+	}
+	function actualizarContraseña()
+	{
+		const username = document.getElementById('contraseñaActual').value;
+      	const password = document.getElementById('contraseñaNueva').value;  
+      	
+      	const data = {
+        username: username,
+        password: password
+    	};
+      	
+      	$.ajax({
+    	method: 'PUT',
+    	url: "http://127.0.0.1:8080/actualizar",
+    	contentType: 'application/json', 
+    	data: JSON.stringify(data),
+		}).done(function (data) {
+    	console.log("¡Éxito!");
+    	console.log(data);
+		}).fail(function () {
+    	console.log("Error:");
+    	
+		});
+		
+	}
+	
+	function BorrarCuenta()
+	{
+		 $.ajax({
+    	method: 'DELETE',
+    	url: "http://127.0.0.1:8080/borrarCuenta",
+    
+		}).done(function (data) {
+    	console.log("¡Éxito!");
+    	console.log(data);   	
+  			
+		}).fail(function () {
+    	console.log("Error:");
+    
+	});
+		
+	}
+  </script>
+</body>
+</html>
