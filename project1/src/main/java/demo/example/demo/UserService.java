@@ -6,25 +6,35 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LoginService {
+public class UserService {
 
 	private Map<String,String> registers = new HashMap<>();
 	
 	
-	public  String authenticate(String username, String password) {
+	public  ResponseEntity authenticateLogin(String username, String password) {
 		
         if(!this.registers.containsKey(username)) 
         {
-        	return "Usuario no encontrado";
+        	return ResponseEntity.ok("Usuario no encontrado");
         }
         if(this.registers.get(username).equals(password))
         {
-        	return "Login Exitoso";
+        	return ResponseEntity.ok("Login exitoso");
         }else {
         
-        return "Contraseña incorrecta";
+        	return ResponseEntity.ok("Contraseña incorrecta");
         }
     }
+	public ResponseEntity authenticateRegister(String username, String password) 
+	{
+	  if(!registers.containsKey(username))	
+        {
+        	addRegisters(username, password);      	
+        	return ResponseEntity.ok("Registro exitoso");
+        }      	
+       return ResponseEntity.ok("Usuario ya registrado");
+		
+	}
 	
 	public Map<String,String> getRegisters()
 	{
