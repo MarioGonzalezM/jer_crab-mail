@@ -7,12 +7,13 @@ class MainMenuScene extends Phaser.Scene{
     buttons
     buttonMaxX = 384.5
     buttonMinX= 279.5
-    buttonScenes = ['UnderConstruction', 'OfflineGame', 'UnderConstruction', 'OptionsMenu']
+    buttonScenes = ['UnderConstruction', 'OfflineGame', 'Perfil', 'OptionsMenu']
    //Sonidos
     sonidoFondo
     sonidoBoton
     preload()
     {
+        //this.load.plugin('rexinputtextplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexinputtextplugin.min.js', true);
         this.load.image('background', 'Assets/MainMenu/FondoMP.png');
         this.load.image('post', 'Assets/MainMenu/PosteMP.png');
         this.load.image('gameLogo', 'Assets/MainMenu/GameLogoMP.png');
@@ -101,11 +102,12 @@ class MainMenuScene extends Phaser.Scene{
     }
 }
 
-
+let divId = document.getElementById("gameDiv");
 var config = {
     type: Phaser.AUTO,
     width: 1920,
     height: 1080,
+    parent: 'gameDiv',
     physics: {
         default: 'arcade',
         arcade: {
@@ -118,7 +120,11 @@ var config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    scene: [MainMenuScene, OfflineGame, UnderConstructionScene, OptionsMenu, PauseMenu, EndScene]
+    dom: {
+        createContainer: true
+    },
+    scene: [MainMenuScene, OfflineGame, Perfil, OptionsMenu, PauseMenu, EndScene],
+
 };
 const game = new Phaser.Game(config);
 
