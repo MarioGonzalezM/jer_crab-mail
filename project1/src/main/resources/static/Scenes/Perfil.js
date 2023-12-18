@@ -37,6 +37,10 @@ class Perfil extends Phaser.Scene {
         this.load.image('fondoInicioSesion',"Assets/Perfil/FondoInicioSesion.png")
         this.load.image('fondoRegistrarse',"Assets/Perfil/FondoRegistrarse.png")
         this.load.image('fondo',"Assets/Chat/fondoChat.png")
+        this.load.image('actualizarContrasena',"Assets/actualizarContrasena.png")
+        this.load.image('botonYes',"Assets/Chat/botonSi.png")
+        this.load.image('botonNo',"Assets/Chat/botonNo.png")
+        this.load.image('botonBorrar',"Assets/Chat/botonBorrar.png")
         
 		/*
         this.load.image('backgroundU', 'Assets/UnderConstructionMenu/Background.png')
@@ -58,7 +62,7 @@ class Perfil extends Phaser.Scene {
         this.resaltoEnviar.visible = false;
         this.resaltoVolver.visible = false;
      //#region BOTON UPDATE 
-        this.updateButton = this.add.image(960,400,'botonEnviar');
+        this.updateButton = this.add.image(960,400,'actualizarContrasena');
         this.updateButton.visible = false;
         
          this.updateButton.on('pointerdown', ()=> {
@@ -115,10 +119,10 @@ class Perfil extends Phaser.Scene {
    
         this.deleteButton = this.add.image(960,800,'botonEnviar');
         this.deleteButton.visible = false;
-        this.confirmDelete = this.add.image(960,400,'botonEnviar')//que ponga quieres borrar la cuenta?
+        this.confirmDelete = this.add.image(960,400,'botonBorrar')//que ponga quieres borrar la cuenta?
         this.confirmDelete.visible = false;
-        this.buttonNo = this.add.image(600,800,'botonEnviar')
-        this.buttonYes = this.add.image(1200,800,'botonEnviar')
+        this.buttonNo = this.add.image(600,800,'botonNo')
+        this.buttonYes = this.add.image(1200,800,'botonYes')
         this.buttonNo.visible = false;
         this.buttonYes.visible = false;
         
