@@ -11,6 +11,7 @@ class OptionsMenu extends Phaser.Scene{
         this.load.image('optionsQuit','Assets/OptionsMenu/OptionsQuit.png')
         this.load.image('optionsForeground','Assets/OptionsMenu/OptionsForeground.png')
         this.load.spritesheet('sliderCrab','Assets/OptionsMenu/OptionsSlider.png', { frameWidth: 185, frameHeight: 142 });
+        this.load.image('resaltoVolver',"Assets/Perfil/resaltoVolver.png")
         this.delay = 0;
     }
     sliders
@@ -21,10 +22,12 @@ class OptionsMenu extends Phaser.Scene{
     delay;
     returnButton;
     quitButton;
+    resaltoVolver
     create(data){
         let prevScene = data[0];
         let gameScene = data[1]
         this.sliders = new Array(3);
+
         /*
         let spacing = 0;
         let self = this;
@@ -159,10 +162,20 @@ class OptionsMenu extends Phaser.Scene{
         //#endregion
         //*/
 
+        this.resaltoVolver = this.add.image(1569, 130,'resaltoVolver')
+        this.resaltoVolver.visible = false;
+
         this.quitButton = this.add.image(351, 120, 'optionsQuit');
         this.returnButton =  this.add.image(1569, 120, 'optionsReturn');
 
         this.quitButton.setInteractive()
+        this.quitButton.on('pointerover',function () {
+            //this.resalto.setPosition(this.sendButton.x, this.sendButton.y);
+            this.resaltoVolver.visible = true;
+        },this)
+        this.quitButton.on('pointerout',function () {
+            this.resaltoVolver.visible = false;
+        },this)
         this.quitButton.on("pointerdown",function () {
             if(typeof gameScene === "string"){
                 this.scene.stop(prevScene);

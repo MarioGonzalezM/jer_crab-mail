@@ -11,6 +11,8 @@ class Perfil extends Phaser.Scene {
     usernameInput;
     cambioBoton;
     fondo
+    resaltoEnviar
+    resaltoVolver
     passwordInput;
     preload()
     {
@@ -18,6 +20,8 @@ class Perfil extends Phaser.Scene {
         this.load.plugin('rexinputtextplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexinputtextplugin.min.js', true);
 
         this.load.spritesheet('cambioBoton',"Assets/Perfil/CambioBoton.png",{ frameWidth: 241, frameHeight: 36 })
+        this.load.image('resaltoEnviar',"Assets/Perfil/resaltoEnviar.png")
+        this.load.image('resaltoVolver',"Assets/Perfil/resaltoVolver.png")
         this.load.image('botonVolver',"Assets/Perfil/BotonVolver.png")
         this.load.image('botonEnviar',"Assets/Perfil/BotonEnviar.png")
         this.load.image('fondoInicioSesion',"Assets/Perfil/FondoInicioSesion.png")
@@ -36,9 +40,20 @@ class Perfil extends Phaser.Scene {
         let gameScene = data[1]
 
         this.fondo = this.add.image(960,540,'fondoInicioSesion');
+        this.resaltoEnviar = this.add.image(960,883,'resaltoEnviar')
+        this.resaltoVolver = this.add.image(294,120,'resaltoVolver')
+        this.resaltoEnviar.visible = false;
+        this.resaltoVolver.visible = false;
 
         this.sendButton = this.add.image(960,883,'botonEnviar');
         this.sendButton.setInteractive();
+        this.sendButton.on('pointerover',function () {
+            //this.resalto.setPosition(this.sendButton.x, this.sendButton.y);
+            this.resaltoEnviar.visible = true;
+        },this)
+        this.sendButton.on('pointerout',function () {
+            this.resaltoEnviar.visible = false;
+        },this)
         this.sendButton.on('pointerdown', function () {
             const username = this.usernameInput.text;
             const password = this.passwordInput.text;
@@ -87,6 +102,7 @@ class Perfil extends Phaser.Scene {
 
         this.cambioBoton = this.add.image(960,961,'cambioBoton').setFrame(0);
         this.cambioBoton.setInteractive();
+
         this.cambioBoton.on('pointerdown', function () {
             this.inicioSesion = !this.inicioSesion;
             if(this.inicioSesion) {
@@ -102,6 +118,13 @@ class Perfil extends Phaser.Scene {
 
         this.volverBoton = this.add.image(294,120,'botonVolver');
         this.volverBoton.setInteractive();
+        this.volverBoton.on('pointerover',function () {
+            //this.resalto.setPosition(this.sendButton.x, this.sendButton.y);
+            this.resaltoVolver.visible = true;
+        },this)
+        this.volverBoton.on('pointerout',function () {
+            this.resaltoVolver.visible = false;
+        },this)
         this.volverBoton.on("pointerdown",function () {
             if(typeof prevScene !== "string")
                 this.scene.start('MainMenu')
