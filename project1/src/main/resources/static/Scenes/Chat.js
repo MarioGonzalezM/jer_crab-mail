@@ -113,11 +113,7 @@ class Chat extends Phaser.Scene {
 	   
 	   
    }
-   CreatePanel = function (this) {
-    var panel = this.rexUI.add.sizer({
-        orientation: 'x',
-        space: { item: 50, top: 20, bottom: 20 }
-    })
+  
    
    
    

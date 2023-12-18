@@ -75,7 +75,7 @@ public class UserController{
     	{
     		d.put(currentUser.getUsername(),newPassword);
     		currentUser.setPassword(newPassword);    		
-    		return ResponseEntity.ok("Contraseña actualizada");
+    		return ResponseEntity.ok("actualizada");
     	}    	
     	return ResponseEntity.ok("Contraseña actual invalida");
     	
