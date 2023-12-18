@@ -26,6 +26,7 @@ class Perfil extends Phaser.Scene {
         this.load.image('botonEnviar',"Assets/Perfil/BotonEnviar.png")
         this.load.image('fondoInicioSesion',"Assets/Perfil/FondoInicioSesion.png")
         this.load.image('fondoRegistrarse',"Assets/Perfil/FondoRegistrarse.png")
+        
 		/*
         this.load.image('backgroundU', 'Assets/UnderConstructionMenu/Background.png')
         this.load.image('chains', 'Assets/UnderConstructionMenu/Chains.png')
