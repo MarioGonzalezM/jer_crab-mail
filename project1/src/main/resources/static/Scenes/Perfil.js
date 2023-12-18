@@ -38,9 +38,10 @@ class Perfil extends Phaser.Scene {
         this.load.image('fondoRegistrarse',"Assets/Perfil/FondoRegistrarse.png")
         this.load.image('fondo',"Assets/Chat/fondoChat.png")
         this.load.image('actualizarContrasena',"Assets/actualizarContrasena.png")
-        this.load.image('botonYes',"Assets/Chat/botonSi.png")
-        this.load.image('botonNo',"Assets/Chat/botonNo.png")
-        this.load.image('botonBorrar',"Assets/Chat/botonBorrar.png")
+        this.load.image('botonYes',"Assets/botonSi.png")
+        this.load.image('botonNo',"Assets/botonNo.png")
+        this.load.image('avisoBorrado',"Assets/avisoBorrado.png")
+        this.load.image('botonBorrar',"Assets/botonBorrar.png")
         
 		/*
         this.load.image('backgroundU', 'Assets/UnderConstructionMenu/Background.png')
@@ -62,7 +63,7 @@ class Perfil extends Phaser.Scene {
         this.resaltoEnviar.visible = false;
         this.resaltoVolver.visible = false;
      //#region BOTON UPDATE 
-        this.updateButton = this.add.image(960,400,'actualizarContrasena');
+        this.updateButton = this.add.image(990,400,'actualizarContrasena');
         this.updateButton.visible = false;
         
          this.updateButton.on('pointerdown', ()=> {
@@ -117,12 +118,12 @@ class Perfil extends Phaser.Scene {
     //#endregion 
    
    
-        this.deleteButton = this.add.image(960,800,'botonEnviar');
+        this.deleteButton = this.add.image(990,600,'botonBorrar');
         this.deleteButton.visible = false;
-        this.confirmDelete = this.add.image(960,400,'botonBorrar')//que ponga quieres borrar la cuenta?
+        this.confirmDelete = this.add.image(995,350,'avisoBorrado')//que ponga quieres borrar la cuenta?
         this.confirmDelete.visible = false;
-        this.buttonNo = this.add.image(600,800,'botonNo')
-        this.buttonYes = this.add.image(1200,800,'botonYes')
+        this.buttonNo = this.add.image(1300,800,'botonNo').setScale(0.8)
+        this.buttonYes = this.add.image(700,800,'botonYes').setScale(0.8)
         this.buttonNo.visible = false;
         this.buttonYes.visible = false;
         
