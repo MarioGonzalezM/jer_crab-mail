@@ -9,6 +9,14 @@ class PauseMenu extends Phaser.Scene{
     }
 
     create(gameScene){
+        //this.quitButton.on("pointerdown",function () {
+        //    if(typeof gameScene === "string"){
+        //        this.scene.stop(prevScene);
+        //        this.scene.stop(gameScene);
+        //    }
+        //    this.scene.start('MainMenu');
+        //},this)
+
         const resume = this.add.image(660, 440, 'resume').setScale(0.5);
         const options = this.add.image(1260, 640, 'options').setScale(0.5);
         const self = this;

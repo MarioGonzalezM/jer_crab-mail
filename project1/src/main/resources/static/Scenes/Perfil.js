@@ -384,9 +384,7 @@ class Perfil extends Phaser.Scene {
         this.volverBoton.on("pointerdown",function () {
             if(typeof prevScene !== "string")
                 this.scene.start('MainMenu')
-
             else {
-                console.log(prevScene)
                 this.scene.wake(prevScene);
             }
             this.scene.sleep();

@@ -7,8 +7,7 @@ class OptionsMenu extends Phaser.Scene{
         this.load.plugin('rexsliderplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexsliderplugin.min.js', true);
 
         this.load.image('optionsBackground','Assets/OptionsMenu/OptionsBackground.png')
-        this.load.image('optionsReturn','Assets/OptionsMenu/OptionsReturn.png')
-        this.load.image('optionsQuit','Assets/OptionsMenu/OptionsQuit.png')
+        this.load.image('optionsReturn','Assets/Perfil/BotonVolver.png')
         this.load.image('optionsForeground','Assets/OptionsMenu/OptionsForeground.png')
         this.load.spritesheet('sliderCrab','Assets/OptionsMenu/OptionsSlider.png', { frameWidth: 185, frameHeight: 142 });
         this.load.image('resaltoVolver',"Assets/Perfil/resaltoVolver.png")
@@ -21,7 +20,6 @@ class OptionsMenu extends Phaser.Scene{
     cursorsKey
     delay;
     returnButton;
-    quitButton;
     resaltoVolver
     create(data){
         let prevScene = data[0];
@@ -162,28 +160,21 @@ class OptionsMenu extends Phaser.Scene{
         //#endregion
         //*/
 
-        this.resaltoVolver = this.add.image(1569, 130,'resaltoVolver')
+        this.resaltoVolver = this.add.image(294,120,'resaltoVolver')
         this.resaltoVolver.visible = false;
 
-        this.quitButton = this.add.image(351, 120, 'optionsQuit');
-        this.returnButton =  this.add.image(1569, 120, 'optionsReturn');
+        this.returnButton =  this.add.image(294,120, 'optionsReturn');
 
-        this.quitButton.setInteractive()
-        this.quitButton.on('pointerover',function () {
-            //this.resalto.setPosition(this.sendButton.x, this.sendButton.y);
+
+
+
+        this.returnButton.setInteractive()
+        this.returnButton.on("pointerover",()=> {
             this.resaltoVolver.visible = true;
         },this)
-        this.quitButton.on('pointerout',function () {
+        this.returnButton.on("pointerout",()=> {
             this.resaltoVolver.visible = false;
         },this)
-        this.quitButton.on("pointerdown",function () {
-            if(typeof gameScene === "string"){
-                this.scene.stop(prevScene);
-                this.scene.stop(gameScene);
-            }
-            this.scene.start('MainMenu');
-        },this)
-        this.returnButton.setInteractive()
         this.returnButton.on("pointerdown",function () {
             if(typeof prevScene !== "string")
                 this.scene.start('MainMenu')

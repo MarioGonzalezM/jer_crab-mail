@@ -163,7 +163,6 @@ class Chat extends Phaser.Scene {
 
        });
    }
-
 }
 
 let createPanel = function (scene, text) {

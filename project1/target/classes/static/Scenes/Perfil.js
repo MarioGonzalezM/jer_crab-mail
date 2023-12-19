@@ -59,9 +59,7 @@ class Perfil extends Phaser.Scene {
 
         let prevScene = data[0];
         let gameScene = data[1]
-        console.log(dataSettings.IP)
         
-
         this.fondo = this.add.image(960,540,'fondoInicioSesion');
         this.resaltoEnviar = this.add.image(960,883,'resaltoEnviar')
         this.resaltoVolver = this.add.image(294,120,'resaltoVolver')
@@ -386,9 +384,7 @@ class Perfil extends Phaser.Scene {
         this.volverBoton.on("pointerdown",function () {
             if(typeof prevScene !== "string")
                 this.scene.start('MainMenu')
-
             else {
-                console.log(prevScene)
                 this.scene.wake(prevScene);
             }
             this.scene.sleep();
