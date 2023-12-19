@@ -48,7 +48,7 @@ Crab Mail es un divertido juego cooperativo en el que los jugadores controlan a 
    - 5.4 Interfaces
    - 5.5 Personajes
    - 5.6 Música
-6. Integracion de API REST
+6. Integración de API REST
    - 6.1 Sistema de usuarios
    - 6.2 Chat
    - 6.3 Instrucciones de ejecución
@@ -357,7 +357,7 @@ Para crear la musica, se ha utilizado Musescore 4. En él, se han usado instrume
 También se han incluido sonidos que se reproducen al interactuar con las distintas máquinas del juego, como la impresora, la estación de empaquetado o el ordenador;y también cuando completas un pedido.
 Si bien la música ha sido creada por nosotros, los sonidos de las máquinas y de los menús se han obtenido de una librería de sonidos en internet.  (https://pixabay.com/es/)
 
-## 6. Integracion de API REST
+## 6. Integración de API REST
 Se ha hecho uso de una API Rest y de llamadas a la misma para crear dos funcionalidades que usan un servidor. Estas son un sistema de usuarios, que incluye el login, registro y más características; y un sistema de chat en el que los usuarios pueden comunicarse entre sí y donde estos pueden ver los usuarios que hay registrados en la página.
 
 ### 6.1 Sistema de usuarios
