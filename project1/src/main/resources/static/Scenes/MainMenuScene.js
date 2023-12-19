@@ -25,6 +25,7 @@ class MainMenuScene extends Phaser.Scene{
 
     create()
     {
+
         this.sonidoFondo = this.sound.add('fondoSonido');
 
         this.sonidoFondo.loop = true;

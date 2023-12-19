@@ -25,9 +25,17 @@ class Chat extends Phaser.Scene {
        this.load.image('botonVolver',"Assets/Perfil/BotonVolver.png")
        this.load.image('resaltoVolver',"Assets/Perfil/resaltoVolver.png")
 	   this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
+
+       this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
    }
    create()
    {
+       WebFont.load({
+           google: {
+               families: ['Lobster']
+           }
+       });
+
 	   this.fondo = this.add.image(960,540,'fondoChat');
        this.resaltoVolver = this.add.image(265,120,'resaltoVolver').setScale(0.8)
        this.resaltoVolver.visible=false;
@@ -65,7 +73,7 @@ class Chat extends Phaser.Scene {
            header: this.rexUI.add.label({
                space: { left: 5, right: 5, top: 5, bottom: 5 },
                background: this.rexUI.add.roundRectangle({ color: COLOR_PRIMARY }),
-               text: this.add.text(0, 0, 'Chat Online', { fontSize: 20 })
+               text: this.add.text(0, 0, 'Chat Online', { fontSize: 20,fontFamily: 'Lobster' })
            }),
 
            footer: this.rexUI.add.label({
@@ -81,7 +89,7 @@ class Chat extends Phaser.Scene {
             type: 'textarea',
             placeholder: 'Introducir mensaje',
             backgroundColor: 'transparent',
-            fontFamily: "Gill Sans",
+            fontFamily: "Lobster",
             align: 'center',
             fontSize: '25px',
             color: COLOR_DARK,
@@ -177,7 +185,7 @@ let createPanel = function (scene, text) {
 }
 var createMessage = function (scene, text) {
 
-    let textBox = scene.add.text(0, 0, text,{fontSize:25});
+    let textBox = scene.add.text(0, 0, text,{fontSize:25,fontFamily:'Lobster'});
 
     let w = Phaser.Math.Clamp(textBox.width,10,900);
     let h = (Math.ceil(textBox.width/w))*textBox.height;
@@ -195,7 +203,7 @@ var createMessage = function (scene, text) {
 
         align: 'start'
     })
-    .add(scene.rexUI.wrapExpandText(scene.add.text(0, 0, text,{fontSize: 25})),
+    .add(scene.rexUI.wrapExpandText(scene.add.text(0, 0, text,{fontSize: 25,fontFamily:'Lobster'})),
         {
             proportion: 1,
             expand: true

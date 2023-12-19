@@ -11,7 +11,7 @@ class Perfil extends Phaser.Scene {
     volverBoton;
     usernameInput;
     cambioBoton;
-    fondo
+    fondoPerfil
     resaltoEnviar
     resaltoVolver
     passwordInput;
@@ -39,13 +39,13 @@ class Perfil extends Phaser.Scene {
         this.load.image('botonEnviar',"Assets/Perfil/BotonEnviar.png")
         this.load.image('fondoInicioSesion',"Assets/Perfil/FondoInicioSesion.png")
         this.load.image('fondoRegistrarse',"Assets/Perfil/FondoRegistrarse.png")
-        this.load.image('fondo',"Assets/Chat/fondoChat.png")
+        this.load.image('fondoPerfil',"Assets/Chat/fondoChat.png")
         this.load.image('actualizarContrasena',"Assets/actualizarContrasena.png")
         this.load.image('botonYes',"Assets/botonSi.png")
         this.load.image('botonNo',"Assets/botonNo.png")
         this.load.image('avisoBorrado',"Assets/Perfil/avisoBorrado.png")
         this.load.image('botonBorrar',"Assets/botonBorrar.png")
-        this.load.image('fondoActualizar',"Assets/Perfil/fondo.png")
+        this.load.image('fondoActualizar',"Assets/Perfil/fondoPerfil.png")
         this.load.image('botonCancelar',"Assets/Perfil/botonCancelar.png")
 		/*
         this.load.image('backgroundU', 'Assets/UnderConstructionMenu/Background.png')
@@ -54,25 +54,30 @@ class Perfil extends Phaser.Scene {
         this.load.image('return', 'Assets/UnderConstructionMenu/ReturnButton.png')
         this.load.image('shadow', 'Assets/UnderConstructionMenu/Shadow.png')
         */
+        this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
     }
     create(data) {
-
+        WebFont.load({
+            google: {
+                families: ['Lobster']
+            }
+        });
         let prevScene = data[0];
         let gameScene = data[1]
         
-        this.fondo = this.add.image(960,540,'fondoInicioSesion');
+        this.fondoPerfil = this.add.image(960,540,'fondoInicioSesion');
         this.resaltoEnviar = this.add.image(960,883,'resaltoEnviar')
         this.resaltoVolver = this.add.image(294,120,'resaltoVolver')
         this.resaltoEnviar.visible = false;
         this.resaltoVolver.visible = false;
-        this.textError = this.add.text(800,1000,'',{fontFamily:'Georgia',color:"#cd4d4d",fontSize: 30 })
+        this.textError = this.add.text(800,1000,'',{fontFamily:'Lobster',color:"#cd4d4d",fontSize: 30 })
      //#region BOTON UPDATE
         this.updateButton = this.add.image(960,340,'actualizarContrasena');
         this.updateButton.visible = false;
 
         this.updateButton.on('pointerdown', ()=> {
 
-            this.fondo.setTexture('fondoActualizar')
+            this.fondoPerfil.setTexture('fondoActualizar')
             this.updateButton.disableInteractive();
             this.resaltoEnviar.visible = false;
             this.currentPasswordInput.setActive(true).setVisible(true);
@@ -142,7 +147,7 @@ class Perfil extends Phaser.Scene {
 
                 this.textError.setText('')
                 this.resaltoEnviar.visible = false;
-                this.fondo.setTexture('fondo')
+                this.fondoPerfil.setTexture('fondoPerfil')
                 this.sendButtonUpdate.disableInteractive();
                 this.sendButtonUpdate.visible=false;
                 this.currentPasswordInput.setActive(false).setVisible(false);
@@ -310,7 +315,7 @@ class Perfil extends Phaser.Scene {
 					if(data === "Login exitoso")
 					{
 						dataSettings.user = username;
-						this.fondo.setTexture("fondo");
+						this.fondoPerfil.setTexture("fondoPerfil");
                         this.textError.setText('')
 						//desactivamos
 						this.sendButton.disableInteractive()
@@ -363,11 +368,11 @@ class Perfil extends Phaser.Scene {
             this.inicioSesion = !this.inicioSesion;
             if(this.inicioSesion) {
                 this.cambioBoton.setFrame(0)
-                this.fondo.setTexture("fondoInicioSesion")
+                this.fondoPerfil.setTexture("fondoInicioSesion")
             }
             else {
                 this.cambioBoton.setFrame(1);
-                this.fondo.setTexture("fondoRegistrarse")
+                this.fondoPerfil.setTexture("fondoRegistrarse")
             }
         },this)
 
@@ -397,7 +402,7 @@ class Perfil extends Phaser.Scene {
             placeholder: 'Introducir usuario',
 
             backgroundColor: 'transparent',
-            fontFamily: "Gill Sans",
+            fontFamily: "Lobster",
 
             align: 'center',
             fontSize: '30px',
@@ -409,9 +414,9 @@ class Perfil extends Phaser.Scene {
 
         this.passwordInput = this.add.rexInputText(960, 711, 510, 70, {
             type: 'password',
-            placeholder: 'Introducir contraseña',
+            placeholder: 'Introducir contrase\u00f1a',
 
-            fontFamily: "Gill Sans",
+            fontFamily: "Lobster",
 
             align: 'center',
             fontSize: '30px',
@@ -423,10 +428,10 @@ class Perfil extends Phaser.Scene {
         
          this.currentPasswordInput = this.add.rexInputText(960, 551, 510, 70, {
             type: 'password',
-            placeholder: 'Introducir contraseña actual',
+            placeholder: 'Introducir contrase\u00f1a actual',
 
             backgroundColor: 'transparent',
-            fontFamily: "Gill Sans",
+            fontFamily: "Lobster",
 
             align: 'center',
             fontSize: '30px',
@@ -439,10 +444,10 @@ class Perfil extends Phaser.Scene {
         
         this.newPasswordInput = this.add.rexInputText(960, 700, 510, 70, {
             type: 'password',
-            placeholder: 'Introducir contraseña nueva',
+            placeholder: 'Introducir contrase\u00f1a nueva',
 
             backgroundColor: 'transparent',
-            fontFamily: "Gill Sans",
+            fontFamily: "Lobster",
 
             align: 'center',
             fontSize: '30px',
