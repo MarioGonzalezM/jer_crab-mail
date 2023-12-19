@@ -76,22 +76,22 @@ class Chat extends Phaser.Scene {
             backgroundColor: 'transparent',
             fontFamily: "Gill Sans",
             align: 'center',
-            fontSize: '20px',
+            fontSize: '25px',
             color: COLOR_DARK,
         })
 
 
 	   this.botonEnviar.on('pointerdown', function () {
-           var mensaje = this.chatInput.text.trimEnd().trimStart();
+           var mensaje = [dataSettings.user, this.chatInput.text.trimEnd().trimStart()];
 
-           if (mensaje.trim() !== '') {
+           if (mensaje[1].trim() !== '') {
                this.chatBox.getElement('panel').add(createMessage(this,mensaje))
                this.chatInput.text = ''; // Limpiar el campo de texto después de enviar el mensaje
                this.chatBox.layout()
 
                $.ajax({
                    method: 'POST',
-                   url: "http://192.168.2.109:8080/envioTexto",
+                   url: "http://"+dataSettings.IP+":8080/envioTexto",
                    contentType: 'application/json', // Utiliza 'contentType' en lugar de 'datatype'
                    data: JSON.stringify(mensaje),
                }).done(function (mensaje, textStatus, jqXHR) {
@@ -116,15 +116,18 @@ class Chat extends Phaser.Scene {
    reloadChat(){
        $.ajax({
            method: 'GET',
-           url: "http://192.168.2.109:8080/recargarChat",
+           url: "http://"+dataSettings.IP+":8080/recargarChat",
        }).done((mensajes) =>
        {
            let scroll = this.chatBox.t;
            this.chatBox.getElement('panel').removeAll(true)
 
            for (let mensaje of mensajes) {
-               if (mensaje.trim() !== '') {
-                   this.chatBox.getElement('panel').add(createMessage(this,mensaje.slice(1,-1)));
+               if (mensaje[1].trim() !== '') {
+                   console.log(mensaje[0])
+                   let userMessage = (mensaje[0] === null) ? '<Anonimo>: ' : `<${mensaje[0]}>: `;
+
+                   this.chatBox.getElement('panel').add(createMessage(this,userMessage + mensaje[1]));
                    this.chatBox.layout();
                }
            }
@@ -150,7 +153,8 @@ let createPanel = function (scene, text) {
         .setSize(200, textBox.height);
 }
 var createMessage = function (scene, text) {
-    let textBox = scene.add.text(0, 0, text);
+
+    let textBox = scene.add.text(0, 0, text,{fontSize:25});
 
     let w = Phaser.Math.Clamp(textBox.width,10,900);
     let h = (Math.ceil(textBox.width/w))*textBox.height;
@@ -167,8 +171,8 @@ var createMessage = function (scene, text) {
         space: { left: 5, right: 5, top: 5, bottom: 5},
 
         align: 'start'
-    }).setSize(w, h)
-    .add(scene.rexUI.wrapExpandText(scene.add.text(0, 0, text)),
+    })
+    .add(scene.rexUI.wrapExpandText(scene.add.text(0, 0, text,{fontSize: 25})),
         {
             proportion: 1,
             expand: true

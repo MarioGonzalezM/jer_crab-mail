@@ -3,7 +3,7 @@ class Perfil extends Phaser.Scene {
         super({key: 'Perfil',})
     }
 
-    buttonTween;
+
     inicioSesion;
     range = 5;
     sendButton;
@@ -24,6 +24,8 @@ class Perfil extends Phaser.Scene {
     confirmDelete;
     buttonYes;
     buttonNo;
+    buttonCancel;
+    textError;
     preload()
     {
         this.inicioSesion = true;
@@ -42,7 +44,8 @@ class Perfil extends Phaser.Scene {
         this.load.image('botonNo',"Assets/botonNo.png")
         this.load.image('avisoBorrado',"Assets/avisoBorrado.png")
         this.load.image('botonBorrar',"Assets/botonBorrar.png")
-        
+        this.load.image('fondoActualizar',"Assets/Perfil/fondo.png")
+        this.load.image('botonCancelar',"Assets/Perfil/botonCancelar.png")
 		/*
         this.load.image('backgroundU', 'Assets/UnderConstructionMenu/Background.png')
         this.load.image('chains', 'Assets/UnderConstructionMenu/Chains.png')
@@ -55,6 +58,7 @@ class Perfil extends Phaser.Scene {
 
         let prevScene = data[0];
         let gameScene = data[1]
+        console.log(dataSettings.IP)
         
 
         this.fondo = this.add.image(960,540,'fondoInicioSesion');
@@ -62,73 +66,133 @@ class Perfil extends Phaser.Scene {
         this.resaltoVolver = this.add.image(294,120,'resaltoVolver')
         this.resaltoEnviar.visible = false;
         this.resaltoVolver.visible = false;
+        this.textError = this.add.text(800,1000,'',{fontFamily:'Georgia',color:"#cd4d4d",fontSize: 30 })
      //#region BOTON UPDATE 
-        this.updateButton = this.add.image(990,400,'actualizarContrasena');
+        this.updateButton = this.add.image(960,340,'actualizarContrasena');
         this.updateButton.visible = false;
         
-         this.updateButton.on('pointerdown', ()=> {
-         
-         this.currentPasswordInput.setActive(true).setVisible(true);
-         this.newPasswordInput.setActive(true).setVisible(true);
-         
-         
-         this.deleteButton.disableInteractive();
-         this.deleteButton.visible = false;
-          this.sendButtonUpdate = this.add.image(960,883,'resaltoEnviar');
-          this.sendButtonUpdate.setInteractive();
-          this.sendButtonUpdate.on('pointerdown',function () {
-			const currentPassword = this.currentPasswordInput.text;
-            const newPassword = this.newPasswordInput.text;
-            
-            if(currentPassword.length === 0 || newPassword.length === 0){
-                console.log("Alguno de los campos esta vacio")
-                return;
-            }
+        this.updateButton.on('pointerdown', ()=> {
 
-            const data = {
-                username: currentPassword,
-                password: newPassword
-            };
-            var IP = "127.0.0.1";
-            
-            	$.ajax({
-    	method: 'PUT',
-    	url: "http://"+IP+":8080/actualizar",
-    	contentType: 'application/json', 
-    	data: JSON.stringify(data),
-		}).done( (data)=> {
-			
-    	console.log("¡Éxito!");
-    	console.log(data);
-    	if(data==="actualizada")
-    	{
-			if(typeof prevScene !== "string"){
-                this.scene.start('MainMenu')
-                this.userName=null;
-           } else {		
-                console.log(prevScene)
-                this.scene.wake(prevScene);
-            }
-         }   	
-		},this).fail(function () {
-    	console.log("Error:");	
-		});		
-		},this);       
-         },this);
+            this.fondo.setTexture('fondoActualizar')
+            this.updateButton.disableInteractive();
+            this.resaltoEnviar.visible = false;
+            this.currentPasswordInput.setActive(true).setVisible(true);
+            this.newPasswordInput.setActive(true).setVisible(true);
+
+            this.deleteButton.disableInteractive();
+            this.deleteButton.visible = false;
+            this.sendButtonUpdate = this.add.image(680, 883, 'botonEnviar');
+            this.sendButtonUpdate.setInteractive();
+            this.sendButtonUpdate.on('pointerdown', function () {
+
+
+                const currentPassword = this.currentPasswordInput.text;
+                const newPassword = this.newPasswordInput.text;
+
+                if (currentPassword.length === 0 || newPassword.length === 0) {
+                    console.log("Alguno de los campos esta vacio")
+                    this.textError.setText("Alguno de los campos esta vacio")
+                    this.textError.x = 960 - this.textError.width/2.0;
+
+                    return;
+                }
+
+                const data = {
+                    username: currentPassword,
+                    password: newPassword
+                };
+
+                $.ajax({
+                    method: 'PUT',
+                    url: "http://" + dataSettings.IP + ":8080/actualizar",
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                }).done((data) => {
+
+
+                    console.log("¡Éxito!");
+                    console.log(data);
+                    this.textError.setText(data)
+                    this.textError.x = 960 - this.textError.width/2.0;
+                    if (data === "actualizada") {
+                        if (typeof prevScene !== "string") {
+                            this.scene.start('MainMenu')
+                            this.userName = null;
+                        } else {
+                            console.log(prevScene)
+                            this.scene.wake(prevScene);
+                        }
+                    }
+                }, this).fail(function () {
+                    console.log("Error:");
+                });
+            }, this);
+
+            this.sendButtonUpdate.on('pointerover',function () {
+                this.resaltoEnviar.setPosition(this.sendButtonUpdate.x, this.sendButtonUpdate.y);
+                this.resaltoEnviar.setScale(1,1)
+                this.resaltoEnviar.visible = true;
+            },this)
+            this.sendButtonUpdate.on('pointerout',function () {
+                this.resaltoEnviar.visible = false;
+            },this)
+
+            this.buttonCancel = this.add.image(1240, 883, 'botonCancelar');
+            this.buttonCancel.setInteractive();
+            this.buttonCancel.on('pointerdown',  ()=>{
+
+                this.textError.setText('')
+                this.resaltoEnviar.visible = false;
+                this.fondo.setTexture('fondo')
+                this.sendButtonUpdate.disableInteractive();
+                this.sendButtonUpdate.visible=false;
+                this.currentPasswordInput.setActive(false).setVisible(false);
+                this.newPasswordInput.setActive(false).setVisible(false);
+                this.buttonCancel.visible=false;
+                this.buttonCancel.disableInteractive();
+
+                this.updateButton.visible = true;
+                this.updateButton.setInteractive();
+                this.deleteButton.visible=true;
+                this.deleteButton.setInteractive();
+
+
+            },this);
+
+            this.buttonCancel.on('pointerover',function () {
+                this.resaltoEnviar.setPosition(this.buttonCancel.x, this.buttonCancel.y);
+                this.resaltoEnviar.setScale(1,1)
+                this.resaltoEnviar.visible = true;
+            },this)
+            this.buttonCancel.on('pointerout',function () {
+                this.resaltoEnviar.visible = false;
+            },this)
+
+        },this);
+
+        this.updateButton.on('pointerover',function () {
+            this.resaltoEnviar.setPosition(this.updateButton.x, this.updateButton.y);
+            this.resaltoEnviar.setScale(2,1.5)
+            this.resaltoEnviar.visible = true;
+        },this)
+        this.updateButton.on('pointerout',function () {
+            this.resaltoEnviar.visible = false;
+        },this)
     //#endregion 
    
    
-        this.deleteButton = this.add.image(990,600,'botonBorrar');
+        this.deleteButton = this.add.image(960,600,'botonBorrar');
         this.deleteButton.visible = false;
         this.confirmDelete = this.add.image(995,350,'avisoBorrado')//que ponga quieres borrar la cuenta?
         this.confirmDelete.visible = false;
-        this.buttonNo = this.add.image(1300,800,'botonNo').setScale(0.8)
-        this.buttonYes = this.add.image(700,800,'botonYes').setScale(0.8)
+        this.buttonNo = this.add.image(1150,700,'botonNo').setScale(0.8)
+        this.buttonYes = this.add.image(850,700,'botonYes').setScale(0.8)
         this.buttonNo.visible = false;
         this.buttonYes.visible = false;
         
         this.deleteButton.on('pointerdown', ()=> {
-			
+
+            this.resaltoEnviar.visible=false;
 			this.updateButton.visible = false;
 			this.updateButton.disableInteractive();
 			this.deleteButton.visible=false;
@@ -141,10 +205,9 @@ class Perfil extends Phaser.Scene {
         	this.buttonYes.setInteractive();
         	
         	this.buttonYes.on('pointerdown', ()=> {
-				var IP = "127.0.0.1";
 				 $.ajax({
     			method: 'DELETE',
-    			url: "http://"+IP+":8080/borrarCuenta",
+    			url: "http://"+dataSettings.IP+":8080/borrarCuenta",
     
 				}).done( (data)=> {
     			console.log("¡Éxito!");
@@ -162,9 +225,18 @@ class Perfil extends Phaser.Scene {
 				});
 				
 			},this);
-			
-				this.buttonNo.on('pointerdown', ()=> {
-					
+            this.buttonYes.on('pointerover',function () {
+                this.resaltoEnviar.setPosition(this.buttonYes.x, this.buttonYes.y);
+                this.resaltoEnviar.setScale(0.55,0.8)
+                this.resaltoEnviar.visible = true;
+            },this)
+            this.buttonYes.on('pointerout',function () {
+                this.resaltoEnviar.visible = false;
+            },this)
+
+            this.buttonNo.on('pointerdown', ()=> {
+
+                    this.resaltoEnviar.visible = false;
 					this.confirmDelete.visible = false;
 					this.buttonNo.visible = false;
 					this.buttonNo.disableInteractive();
@@ -177,12 +249,26 @@ class Perfil extends Phaser.Scene {
 					this.deleteButton.setInteractive();
 					
 				},this);
-			
+            this.buttonNo.on('pointerover',function () {
+                this.resaltoEnviar.setPosition(this.buttonNo.x, this.buttonNo.y);
+                this.resaltoEnviar.setScale(0.55,0.8)
+                this.resaltoEnviar.visible = true;
+            },this)
+            this.buttonNo.on('pointerout',function () {
+                this.resaltoEnviar.visible = false;
+            },this)
 			
 			
 		},this);
-        
-        
+
+        this.deleteButton.on('pointerover',function () {
+            this.resaltoEnviar.setPosition(this.deleteButton.x, this.deleteButton.y);
+            this.resaltoEnviar.setScale(2,1.5)
+            this.resaltoEnviar.visible = true;
+        },this)
+        this.deleteButton.on('pointerout',function () {
+            this.resaltoEnviar.visible = false;
+        },this)
         
 
         this.sendButton = this.add.image(960,883,'botonEnviar');
@@ -200,6 +286,8 @@ class Perfil extends Phaser.Scene {
 
             if(username.length === 0 || password.length === 0){
                 console.log("Alguno de los campos esta vacio")
+                this.textError.setText("Alguno de los campos esta vacio")
+                this.textError.x = 960 - this.textError.width/2.0;
                 return;
             }
 
@@ -208,21 +296,23 @@ class Perfil extends Phaser.Scene {
                 password: password
             };
 
-            var IP = "127.0.0.1"
 
             if(this.inicioSesion) {
                 $.ajax({
                     method: 'POST',
-                    url: "http://" + IP + ":8080/login",
+                    url: "http://" + dataSettings.IP + ":8080/login",
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                 }).done((data) => {
                     console.log("¡Exito!");
                     console.log(data);
+
+
 					if(data === "Login exitoso")
 					{
-						this.userName = username;
+						dataSettings.user = username;
 						this.fondo.setTexture("fondo");
+                        this.textError.setText('')
 						//desactivamos
 						this.sendButton.disableInteractive()
 						this.sendButton.visible = false;
@@ -238,22 +328,30 @@ class Perfil extends Phaser.Scene {
         				this.deleteButton.visible = true;
         				
         										
-					}
-                }).fail(function (jqXHR, textStatus, errorThrown) {
+					}else {
+
+                        this.textError.setText(data)
+                        this.textError.x = 960 - this.textError.width/2.0;
+
+                    }
+                },this).fail(function (jqXHR, textStatus, errorThrown) {
                     console.log("Error:");
 
                 });
             }else{
                 $.ajax({
                     method: 'POST',
-                    url: "http://" + IP + ":8080/register",
+                    url: "http://" + dataSettings.IP + ":8080/register",
                     contentType: 'application/json', // Utiliza 'contentType' en lugar de 'datatype'
                     data: JSON.stringify(data),
-                }).done(function (data) {
+                }).done((data)=> {
                     console.log("¡Éxito!");
                     console.log(data);
 
-                }).fail(function () {
+                    this.textError.setText(data)
+                    this.textError.x = 960 - this.textError.width/2.0;
+
+                },this).fail(function () {
                     console.log("Error:");
                 });
             }
