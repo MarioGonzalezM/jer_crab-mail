@@ -13,8 +13,8 @@ Crab Mail es un divertido juego cooperativo en el que los jugadores controlan a 
 - Alejandro García Martínez. Correo: a.garciamart.2021@alumnos.urjc.es Cuenta de Github: AlejandroGarciaMartinez
 
 # GDD CRAB MAIL
-<img src="Assets_GDD/logoJuego.png" alt="Logo de Crab-Mail" width=50% height=50%>
-<img src="Assets_GDD/logoToroidev.png" alt="Logo de Toroidev" width=25% height=25%>
+<img src="src/main/resources/static/Assets_GDD/logoJuego.png" alt="Logo de Crab-Mail" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/logoToroidev.png" alt="Logo de Toroidev" width=25% height=25%>
 
 ## Juego creado por
 - Diego Martínez García
@@ -55,6 +55,9 @@ Primera versión del GDD creada. Se han creado distintas secciones para comprend
 
 ### Versión 2
 Se ha añadido todo lo relacionado con la creación del juego una vez desarrollado, como sprites, descripción de la música creada, menús... así como algunos aspectos que no se introdujeron en la primera versión del GDD como la historia del juego, las plataformas para las que está desarrollado, inspiraciones y el flujograma del juego. Por último, se han modificado algunos de los sprites de la primera versión para introducir su versión definitiva.
+
+### Versión 3 
+Se ha añadido al GDD la descripcion completa de como se han implementado el sistema de usuarios y el chat haciendo uso de una API Rest. También se ha añadido las interfaces relacionadas a estas 2 funcionalidades y se han actualizado el resto de interfaces afectadas. Por último se ha añadido el diagrama UML relacionado con las clases usadas para la API Rest
 
 ## 2. Introducción
 ### 2.1 Concepto
@@ -192,153 +195,153 @@ Aquí se puede ver el arte de todas las máquinas que se pueden encontrar en el 
 
 Impresora: 
 
-<img src="Assets_GDD/Impresora.png" alt="Impresora" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/Impresora.png" alt="Impresora" width=50% height=50%>
 
 Báscula: 
 
-<img src="Assets_GDD/bascula.png" alt="Bascula" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/bascula.png" alt="Bascula" width=50% height=50%>
 
 Buzón de cartas: 
 
-<img src="Assets_GDD/BuzonCartas.png" alt="Buzon de cartas" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/BuzonCartas.png" alt="Buzon de cartas" width=50% height=50%>
 
 Buzón de paquetes: 
 
-<img src="Assets_GDD/BuzonPaquetes.png" alt="Buzon de paquetes" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/BuzonPaquetes.png" alt="Buzon de paquetes" width=50% height=50%>
 
 Caja de sobres:
 
-<img src="Assets_GDD/caja.png" alt="Caja de sobres" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/caja.png" alt="Caja de sobres" width=50% height=50%>
 
 Ordenador: 
 
-<img src="Assets_GDD/ordenador.png" alt="Ordenador" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/ordenador.png" alt="Ordenador" width=50% height=50%>
 
 Mesa de sellos: 
 
-<img src="Assets_GDD/mesaSellos.png" alt="Mesa de sellos" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/mesaSellos.png" alt="Mesa de sellos" width=50% height=50%>
 
 Estación de empaquetado:
 
-<img src="Assets_GDD/Empaquetado.png" alt="Empaquetado" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/Empaquetado.png" alt="Empaquetado" width=50% height=50%>
 
 Cinta:
 
-<img src="Assets_GDD/Cinta.png" alt="Cinta" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/Cinta.png" alt="Cinta" width=50% height=50%>
 
 Papelera:
 
-<img src="Assets_GDD/Papelera.png" alt="Papelera" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/Papelera.png" alt="Papelera" width=50% height=50%>
 
 Estación de reciclado:
 
-<img src="Assets_GDD/reciclado.png" alt="Reciclado" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/reciclado.png" alt="Reciclado" width=50% height=50%>
 
 Mesa:
 
-<img src="Assets_GDD/mesa.png" alt="Mesa" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/mesa.png" alt="Mesa" width=50% height=50%>
 
 Mesa central:
 
-<img src="Assets_GDD/mesaesquina.png" alt="Mesa central" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/mesaesquina.png" alt="Mesa central" width=50% height=50%>
 
 ### 5.2 Objetos
 Se han diseñado distintos objetos que aparecen en la cinta, como una consola, un juego o un peluche. Además de los papeles que indican al jugador que debe preparar una carta.
 
 Consola:
 
-<img src="Assets_GDD/consola.png" alt="Consola" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/consola.png" alt="Consola" width=50% height=50%>
 
 Videojuego:
 
-<img src="Assets_GDD/juego.png" alt="Juego" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/juego.png" alt="Juego" width=50% height=50%>
 
 Mancuerna:
 
-<img src="Assets_GDD/mancuerna.png" alt="Mancuerna" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/mancuerna.png" alt="Mancuerna" width=50% height=50%>
 
 Peluche:
 
-<img src="Assets_GDD/peluche.png" alt="Peluche" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/peluche.png" alt="Peluche" width=50% height=50%>
 
 Yunque:
 
-<img src="Assets_GDD/yunque.png" alt="Yunque" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/yunque.png" alt="Yunque" width=50% height=50%>
 
 Papel:
 
-<img src="Assets_GDD/papel.png" alt="Papel" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/papel.png" alt="Papel" width=50% height=50%>
 
 ### 5.3 Cartas y paquetes
 También se han creado distintos sprites que representan el estado de la carta y el paquete llevado por el jugador. Por ello, encontramos un sprite de la carta/paquete sin nada, la carta/paquete con el sello o la dirección y la carta/paquete con ambas cosas.
 
 Carta sin nada:
 
-<img src="Assets_GDD/carta1.png" alt="Carta sin nada" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/carta1.png" alt="Carta sin nada" width=50% height=50%>
 
 Carta con sello:
 
-<img src="Assets_GDD/carta2.png" alt="Carta con sello" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/carta2.png" alt="Carta con sello" width=50% height=50%>
 
 Carta con dirección:
 
-<img src="Assets_GDD/carta3.png" alt="Carta con direccion" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/carta3.png" alt="Carta con direccion" width=50% height=50%>
 
 Carta con sello y dirección:
 
-<img src="Assets_GDD/carta4.png" alt="Carta con sello y direccion" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/carta4.png" alt="Carta con sello y direccion" width=50% height=50%>
 
 Paquete sin nada:
 
-<img src="Assets_GDD/paquete1.png" alt="Paquete sin nada" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/paquete1.png" alt="Paquete sin nada" width=50% height=50%>
 
 Paquete con sello:
 
-<img src="Assets_GDD/paquete2.png" alt="Paquete con sello" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/paquete2.png" alt="Paquete con sello" width=50% height=50%>
 
 Paquete con dirección:
 
-<img src="Assets_GDD/paquete3.png" alt="Paquete con direccion" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/paquete3.png" alt="Paquete con direccion" width=50% height=50%>
 
 Paquete con sello y dirección:
 
-<img src="Assets_GDD/paquete4.png" alt="Paquete con sello y direccion" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/paquete4.png" alt="Paquete con sello y direccion" width=50% height=50%>
 
 ### 5.4 Interfaces
 Menú principal: 
 
-<img src="Assets_GDD/menuPrincipal.png" alt="Menu principal" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/menuPrincipal.png" alt="Menu principal" width=50% height=50%>
 
 Menú de pausa: 
 
-<img src="Assets_GDD/menuPausa.png" alt="Menu de pausa" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/menuPausa.png" alt="Menu de pausa" width=50% height=50%>
 
 Fondo de juego: 
 
-<img src="Assets_GDD/fondoJuego.png" alt="Fondo del juego" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/fondoJuego.png" alt="Fondo del juego" width=50% height=50%>
 
 Menú final:
 
-<img src="Assets_GDD/pantalla_final.png" alt="Pantalla Final" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/pantalla_final.png" alt="Pantalla Final" width=50% height=50%>
 
 Menú de configuración:
 
-<img src="Assets_GDD/menuConfig.png" alt="Menu Configuracion" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/menuConfig.png" alt="Menu Configuracion" width=50% height=50%>
 
 Menú "en construcción":
 
-<img src="Assets_GDD/menuConstruccion.png" alt="Menu Construccion" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/menuConstruccion.png" alt="Menu Construccion" width=50% height=50%>
 
 ### 5.5 Personajes
 Para los personajes, se han creado spritesheets para la implementación de las animaciones de los personajes caminando.
 
 Sprites del jugador 1: 
 
-<img src="Assets_GDD/spritesheet crab1.png" alt="Sprites del jugador 1" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/spritesheet crab1.png" alt="Sprites del jugador 1" width=50% height=50%>
 
 Sprites del jugador 2: 
 
-<img src="Assets_GDD/spritesheet crab2.png" alt="Sprites del jugador 2" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/spritesheet crab2.png" alt="Sprites del jugador 2" width=50% height=50%>
 
 ### 5.6 Música
 Debido al ambiente alegre del juego, se ha creado una música alegre que evoque el verano. Pero, al tratarse de un juego con un componente de presión, la música tiene un ritmo que provoca un poco de tensión en los jugadores. 
@@ -349,3 +352,43 @@ Para crear la musica, se ha utilizado Musescore 4. En él, se han usado instrume
 
 También se han incluido sonidos que se reproducen al interactuar con las distintas máquinas del juego, como la impresora, la estación de empaquetado o el ordenador;y también cuando completas un pedido.
 Si bien la música ha sido creada por nosotros, los sonidos de las máquinas y de los menús se han obtenido de una librería de sonidos en internet.  (https://pixabay.com/es/)
+
+## 6. Integracion de API REST
+Se ha realizado uso de una API Rest y de llamadas a la misma para crear dos funcionalidades que usan un servidor. Estas son un sistema de usuarios, con login, registro y más características; y un sistema de chat en el que los usuarios pueden chatear entre si y donde estos pueden ver los usuarios que hay registrados en la pagina.
+
+### 6.1 Sistema de usuarios
+Se ha creado un sistema que permite a los jugadores crearse una cuenta gracias a un nombre de usuario y a una contraseña a su eleccion. También puede utilizarse para que sean identificados en el chat, donde aparecerá su nombre si estan logeados.
+
+Este sistema de usuarios también permite a los mismos manejar distintos aspectos de su cuenta, permitiéndoles actualizar su contraseña e incluso borrar su cuenta.
+
+Para implementarlo se han utilizado una clase LoginRequest que almacena el nombre de usuario y la contraseña, una clase UserService de tipo @Service que se encarga de la autenticación en el login y el registro de usuarios; y por último, una clase UserController de tipo @Controller que se encarga de la lógica del login y registro y de las funciones de actualizar la contraseña y borrar la cuenta.
+
+De este modo, para la creación de este sistema se han utilizado los siguientes metodos de API Rest:
+- GET: Devuelve una lista con todos los usuarios que se encuentran registrados en el servidor.
+- POST: Manda información al servidor en el login y el registro de usuarios. Permite al usuario iniciar sesión si ya tiene una cuenta creada o registrarse en caso de no tener ninguna.
+- PUT: Se utiliza para cambiar en el servidor la contraseña del usuario si este lo desea
+- DELETE: Se utiliza para eliminar la cuenta del servidor.
+
+  // IMAGEN DE LAS DISTINTAS PANTALLAS??
+
+### 6.2 Chat
+También se ha creado un sistema de chat que permite a los usuarios que se encuentren conectados al servidor comunicarse entre si. En este chat, cada vez que se entra a el, aparecen todos los mensajes anteriores, 
+para que el jugador pueda ver la conversación hasta el momento.
+
+Además, al lado de cada mensaje aparece el nombre del usuario que lo ha mandado. Si el usuario ha iniciado sesión en el juego, aparecerá su nombre de usuario, lo que permitirá a los demás usuarios saber quien es.
+En cambio, si el usuario no ha iniciado sesión, en vez de su nombre pondrá "Anonimo".
+
+En el chat también se permite ver a los usuarios la lista completa de usuarios que se han registrado en la pagina web.
+
+Para implementar el chat se ha utilizado una única clase de tipo @Controller llamada ChatController que se encarga de gestionar tanto el envio de mensajes, como de devolver todos los mensajes enviados anteriormente, para que el jugador pueda ver todos los mensajes en el chat.
+
+Para ello se han usado los siguientes métodos:
+- GET: Permite obtener todos los mensajes escritos anteriormente en el chat
+- POST: Mandar un mensaje al chat para que puedan verlo el resto de usuarios.
+
+INSTRUCCIONES DE EJECUCION
+
+Para iniciar el juego, hay que abrir Spring Tool Suite y importar el proyecto. Una vez importado, ejecutarlo como una java application. Despues en el navegador, conectarse a la IP ______ y al puerto ___ y ya se pueden utilizar todas las funciones del juego con normalidad.
+
+  
+
