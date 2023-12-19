@@ -354,22 +354,30 @@ También se han incluido sonidos que se reproducen al interactuar con las distin
 Si bien la música ha sido creada por nosotros, los sonidos de las máquinas y de los menús se han obtenido de una librería de sonidos en internet.  (https://pixabay.com/es/)
 
 ## 6. Integracion de API REST
-Se ha realizado uso de una API Rest y de llamadas a la misma para crear dos funcionalidades que usan un servidor. Estas son un sistema de usuarios, con login, registro y más características; y un sistema de chat en el que los usuarios pueden chatear entre si y donde estos pueden ver los usuarios que hay registrados en la pagina.
+Se ha hecho uso de una API Rest y de llamadas a la misma para crear dos funcionalidades que usan un servidor. Estas son un sistema de usuarios, que incluye el login, registro y más características; y un sistema de chat en el que los usuarios pueden comunicarse entre sí y donde estos pueden ver los usuarios que hay registrados en la página.
 
 ### 6.1 Sistema de usuarios
-Se ha creado un sistema que permite a los jugadores crearse una cuenta gracias a un nombre de usuario y a una contraseña a su eleccion. También puede utilizarse para que sean identificados en el chat, donde aparecerá su nombre si estan logeados.
+Se ha creado un sistema que permite a los jugadores crearse una cuenta gracias a un nombre de usuario y a una contraseña a su elección. También puede utilizarse para que sean identificados en el chat, donde aparecerá su nombre si están logeados.
 
-Este sistema de usuarios también permite a los mismos manejar distintos aspectos de su cuenta, permitiéndoles actualizar su contraseña e incluso borrar su cuenta.
+Este sistema de usuarios también permite a los mismos manejar distintos aspectos de su cuenta, como actualizar su contraseña e incluso borrar la cuenta.
 
-Para implementarlo se han utilizado una clase LoginRequest que almacena el nombre de usuario y la contraseña, una clase UserService de tipo @Service que se encarga de la autenticación en el login y el registro de usuarios; y por último, una clase UserController de tipo @Controller que se encarga de la lógica del login y registro y de las funciones de actualizar la contraseña y borrar la cuenta.
+Para implementarlo se ha utilizado una clase LoginRequest, que almacena el nombre de usuario y la contraseña, una clase UserService de tipo @Service que se encarga de la autenticación en el login y el registro de usuarios; y por último, una clase UserController de tipo @Controller que se encarga de la lógica del login y registro y de las funciones de actualizar la contraseña y borrar la cuenta.
 
 De este modo, para la creación de este sistema se han utilizado los siguientes metodos de API Rest:
-- GET: Devuelve una lista con todos los usuarios que se encuentran registrados en el servidor.
 - POST: Manda información al servidor en el login y el registro de usuarios. Permite al usuario iniciar sesión si ya tiene una cuenta creada o registrarse en caso de no tener ninguna.
-- PUT: Se utiliza para cambiar en el servidor la contraseña del usuario si este lo desea
+- PUT: Se utiliza para cambiar en el servidor la contraseña del usuario si este lo desea.
 - DELETE: Se utiliza para eliminar la cuenta del servidor.
 
-  // IMAGEN DE LAS DISTINTAS PANTALLAS??
+A continuación se muestran las respectivas pantallas del sistema de usuarios, así como las variaciones en el menú principal.
+
+
+  <img src="src/main/resources/static/Assets_GDD/menuPrincipalF3.png" alt="Nuevo menú principal" width=50% height=50%>
+  
+  <img src="src/main/resources/static/Assets_GDD/registro.png" alt="Pantalla de registro" width=50% height=50%>
+
+  <img src="src/main/resources/static/Assets_GDD/login.png" alt="Pantalla de inicio de sesión" width=50% height=50%>
+
+  <img src="src/main/resources/static/Assets_GDD/perfil.png" alt="Pantalla de perfil, con opciones de cuenta" width=50% height=50%>
 
 ### 6.2 Chat
 También se ha creado un sistema de chat que permite a los usuarios que se encuentren conectados al servidor comunicarse entre si. En este chat, cada vez que se entra a el, aparecen todos los mensajes anteriores, 
@@ -378,17 +386,17 @@ para que el jugador pueda ver la conversación hasta el momento.
 Además, al lado de cada mensaje aparece el nombre del usuario que lo ha mandado. Si el usuario ha iniciado sesión en el juego, aparecerá su nombre de usuario, lo que permitirá a los demás usuarios saber quien es.
 En cambio, si el usuario no ha iniciado sesión, en vez de su nombre pondrá "Anonimo".
 
-En el chat también se permite ver a los usuarios la lista completa de usuarios que se han registrado en la pagina web.
+En el chat también se permite ver a los usuarios la lista completa de usuarios que se han registrado en la página web.
 
-Para implementar el chat se ha utilizado una única clase de tipo @Controller llamada ChatController que se encarga de gestionar tanto el envio de mensajes, como de devolver todos los mensajes enviados anteriormente, para que el jugador pueda ver todos los mensajes en el chat.
+Para implementar el chat se ha utilizado una única clase de tipo @Controller llamada ChatController que se encarga de gestionar tanto el envío de mensajes, como de devolver todos los mensajes enviados anteriormente, para que el jugador pueda ver todos los mensajes en el chat.
 
 Para ello se han usado los siguientes métodos:
-- GET: Permite obtener todos los mensajes escritos anteriormente en el chat
+- GET: Permite obtener todos los mensajes escritos anteriormente en el chat.
 - POST: Mandar un mensaje al chat para que puedan verlo el resto de usuarios.
 
-INSTRUCCIONES DE EJECUCION
+INSTRUCCIONES DE EJECUCIÓN
 
-Para iniciar el juego, hay que abrir Spring Tool Suite y importar el proyecto. Una vez importado, ejecutarlo como una java application. Despues en el navegador, conectarse a la IP ______ y al puerto ___ y ya se pueden utilizar todas las funciones del juego con normalidad.
+Para iniciar el juego, hay que abrir Spring Tool Suite e importar el proyecto. Una vez importado, ejecutarlo como un java application. Después, en el navegador, conectarse a la IP y al puerto correspondiente, y ya se pueden utilizar todas las funciones del juego con normalidad.
 
   
 
