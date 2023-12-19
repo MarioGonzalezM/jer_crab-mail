@@ -43,7 +43,7 @@ class Perfil extends Phaser.Scene {
         this.load.image('actualizarContrasena',"Assets/actualizarContrasena.png")
         this.load.image('botonYes',"Assets/botonSi.png")
         this.load.image('botonNo',"Assets/botonNo.png")
-        this.load.image('avisoBorrado',"Assets/avisoBorrado.png")
+        this.load.image('avisoBorrado',"Assets/Perfil/avisoBorrado.png")
         this.load.image('botonBorrar',"Assets/botonBorrar.png")
         this.load.image('fondoActualizar',"Assets/Perfil/fondo.png")
         this.load.image('botonCancelar',"Assets/Perfil/botonCancelar.png")
@@ -394,7 +394,6 @@ class Perfil extends Phaser.Scene {
         //#region TEXT INPUT REGION
         this.usernameInput = this.add.rexInputText(960, 551, 510, 70, {
             type: 'text',
-            //text: 'Maldita sea',
             placeholder: 'Introducir usuario',
 
             backgroundColor: 'transparent',
@@ -410,7 +409,6 @@ class Perfil extends Phaser.Scene {
 
         this.passwordInput = this.add.rexInputText(960, 711, 510, 70, {
             type: 'password',
-            //text: 'Maldita sea',
             placeholder: 'Introducir contraseña',
 
             fontFamily: "Gill Sans",
@@ -424,8 +422,7 @@ class Perfil extends Phaser.Scene {
         }, this);
         
          this.currentPasswordInput = this.add.rexInputText(960, 551, 510, 70, {
-            type: 'text',
-            //text: 'Maldita sea',
+            type: 'password',
             placeholder: 'Introducir contraseña actual',
 
             backgroundColor: 'transparent',
@@ -441,8 +438,7 @@ class Perfil extends Phaser.Scene {
         this.currentPasswordInput.setActive(false).setVisible(false);
         
         this.newPasswordInput = this.add.rexInputText(960, 700, 510, 70, {
-            type: 'text',
-            //text: 'Maldita sea',
+            type: 'password',
             placeholder: 'Introducir contraseña nueva',
 
             backgroundColor: 'transparent',

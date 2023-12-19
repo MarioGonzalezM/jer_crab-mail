@@ -43,7 +43,7 @@ class Perfil extends Phaser.Scene {
         this.load.image('actualizarContrasena',"Assets/actualizarContrasena.png")
         this.load.image('botonYes',"Assets/botonSi.png")
         this.load.image('botonNo',"Assets/botonNo.png")
-        this.load.image('avisoBorrado',"Assets/avisoBorrado.png")
+        this.load.image('avisoBorrado',"Assets/Perfil/avisoBorrado.png")
         this.load.image('botonBorrar',"Assets/botonBorrar.png")
         this.load.image('fondoActualizar',"Assets/Perfil/fondo.png")
         this.load.image('botonCancelar',"Assets/Perfil/botonCancelar.png")
