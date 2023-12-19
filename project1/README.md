@@ -380,19 +380,21 @@ A continuación se muestran las respectivas pantallas del sistema de usuarios, a
   <img src="src/main/resources/static/Assets_GDD/perfil.png" alt="Pantalla de perfil, con opciones de cuenta" width=50% height=50%>
 
 ### 6.2 Chat
-También se ha creado un sistema de chat que permite a los usuarios que se encuentren conectados al servidor comunicarse entre si. En este chat, cada vez que se entra a el, aparecen todos los mensajes anteriores, 
-para que el jugador pueda ver la conversación hasta el momento.
+También se ha creado un sistema de chat que permite a los usuarios que se encuentren conectados al servidor comunicarse entre sí. En este chat, cada vez que se entra a él, aparecen todos los mensajes anteriores, 
+para que el jugador pueda ver toda la conversación hasta el momento.
 
-Además, al lado de cada mensaje aparece el nombre del usuario que lo ha mandado. Si el usuario ha iniciado sesión en el juego, aparecerá su nombre de usuario, lo que permitirá a los demás usuarios saber quien es.
-En cambio, si el usuario no ha iniciado sesión, en vez de su nombre pondrá "Anonimo".
-
-En el chat también se permite ver a los usuarios la lista completa de usuarios que se han registrado en la página web.
+Además, al lado de cada mensaje aparece el nombre del usuario que lo ha mandado. Si el usuario ha iniciado sesión en el juego, aparecerá su nombre de usuario, lo que permitirá a los demás usuarios saber quién es.
+En cambio, si el usuario no ha iniciado sesión, en vez de su nombre pondrá "Anónimo".
 
 Para implementar el chat se ha utilizado una única clase de tipo @Controller llamada ChatController que se encarga de gestionar tanto el envío de mensajes, como de devolver todos los mensajes enviados anteriormente, para que el jugador pueda ver todos los mensajes en el chat.
 
 Para ello se han usado los siguientes métodos:
 - GET: Permite obtener todos los mensajes escritos anteriormente en el chat.
 - POST: Mandar un mensaje al chat para que puedan verlo el resto de usuarios.
+
+A continuación, se adjunta una imagen del chat del juego.
+
+<img src="src/main/resources/static/Assets_GDD/chat.png" alt="Pantalla de chat" width=50% height=50%>
 
 INSTRUCCIONES DE EJECUCIÓN
 
