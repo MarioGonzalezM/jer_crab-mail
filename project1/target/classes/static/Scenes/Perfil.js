@@ -1,3 +1,4 @@
+
 class Perfil extends Phaser.Scene {
     constructor() {
         super({key: 'Perfil',})
@@ -67,10 +68,10 @@ class Perfil extends Phaser.Scene {
         this.resaltoEnviar.visible = false;
         this.resaltoVolver.visible = false;
         this.textError = this.add.text(800,1000,'',{fontFamily:'Georgia',color:"#cd4d4d",fontSize: 30 })
-     //#region BOTON UPDATE 
+     //#region BOTON UPDATE
         this.updateButton = this.add.image(960,340,'actualizarContrasena');
         this.updateButton.visible = false;
-        
+
         this.updateButton.on('pointerdown', ()=> {
 
             this.fondo.setTexture('fondoActualizar')
@@ -178,9 +179,9 @@ class Perfil extends Phaser.Scene {
         this.updateButton.on('pointerout',function () {
             this.resaltoEnviar.visible = false;
         },this)
-    //#endregion 
-   
-   
+    //#endregion
+
+
         this.deleteButton = this.add.image(960,600,'botonBorrar');
         this.deleteButton.visible = false;
         this.confirmDelete = this.add.image(995,350,'avisoBorrado')//que ponga quieres borrar la cuenta?
@@ -189,7 +190,7 @@ class Perfil extends Phaser.Scene {
         this.buttonYes = this.add.image(850,700,'botonYes').setScale(0.8)
         this.buttonNo.visible = false;
         this.buttonYes.visible = false;
-        
+
         this.deleteButton.on('pointerdown', ()=> {
 
             this.resaltoEnviar.visible=false;
@@ -197,33 +198,33 @@ class Perfil extends Phaser.Scene {
 			this.updateButton.disableInteractive();
 			this.deleteButton.visible=false;
 			this.deleteButton.disableInteractive();
-			
+
 			this.confirmDelete.visible = true;
 			this.buttonNo.visible = true;
 			this.buttonNo.setInteractive();
         	this.buttonYes.visible = true;
         	this.buttonYes.setInteractive();
-        	
+
         	this.buttonYes.on('pointerdown', ()=> {
 				 $.ajax({
     			method: 'DELETE',
     			url: "http://"+dataSettings.IP+":8080/borrarCuenta",
-    
+
 				}).done( (data)=> {
     			console.log("¡Éxito!");
-    			console.log(data);   	
+    			console.log(data);
   				if(typeof prevScene !== "string"){
                 this.scene.start('MainMenu')
                 this.userName=null;
-           		} else {		
+           		} else {
                 console.log(prevScene)
                 this.scene.wake(prevScene);
             	}
 				}).fail(function () {
     			console.log("Error:");
-    
+
 				});
-				
+
 			},this);
             this.buttonYes.on('pointerover',function () {
                 this.resaltoEnviar.setPosition(this.buttonYes.x, this.buttonYes.y);
@@ -242,12 +243,12 @@ class Perfil extends Phaser.Scene {
 					this.buttonNo.disableInteractive();
         			this.buttonYes.visible = false;
         			this.buttonYes.disableInteractive();
-					
+
 					this.updateButton.visible = true;
 					this.updateButton.setInteractive();
 					this.deleteButton.visible=true;
 					this.deleteButton.setInteractive();
-					
+
 				},this);
             this.buttonNo.on('pointerover',function () {
                 this.resaltoEnviar.setPosition(this.buttonNo.x, this.buttonNo.y);
@@ -257,8 +258,8 @@ class Perfil extends Phaser.Scene {
             this.buttonNo.on('pointerout',function () {
                 this.resaltoEnviar.visible = false;
             },this)
-			
-			
+
+
 		},this);
 
         this.deleteButton.on('pointerover',function () {
@@ -269,7 +270,7 @@ class Perfil extends Phaser.Scene {
         this.deleteButton.on('pointerout',function () {
             this.resaltoEnviar.visible = false;
         },this)
-        
+
 
         this.sendButton = this.add.image(960,883,'botonEnviar');
         this.sendButton.setInteractive();
@@ -326,8 +327,8 @@ class Perfil extends Phaser.Scene {
         				this.updateButton.visible = true;
         				this.deleteButton.setInteractive();
         				this.deleteButton.visible = true;
-        				
-        										
+
+
 					}else {
 
                         this.textError.setText(data)
@@ -385,6 +386,7 @@ class Perfil extends Phaser.Scene {
         this.volverBoton.on("pointerdown",function () {
             if(typeof prevScene !== "string")
                 this.scene.start('MainMenu')
+
             else {
                 console.log(prevScene)
                 this.scene.wake(prevScene);

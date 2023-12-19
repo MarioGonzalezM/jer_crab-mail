@@ -14,17 +14,24 @@ class Chat extends Phaser.Scene {
    fondo;
    chatInput;
    chatBox;
+    volverBoton;
+    resaltoVolver;
 
    preload()
    {
 	   this.load.plugin('rexinputtextplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexinputtextplugin.min.js', true);
 	   this.load.image('botonEnviar',"Assets/Perfil/BotonEnviar.png")
 	   this.load.image('fondoChat',"Assets/Chat/fondoChat.png")
+       this.load.image('botonVolver',"Assets/Perfil/BotonVolver.png")
+       this.load.image('resaltoVolver',"Assets/Perfil/resaltoVolver.png")
 	   this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
    }
    create()
    {
 	   this.fondo = this.add.image(960,540,'fondoChat');
+       this.resaltoVolver = this.add.image(265,120,'resaltoVolver').setScale(0.8)
+       this.resaltoVolver.visible=false;
+       this.volverBoton = this.add.image(265,120,'botonVolver').setScale(0.8);
 	   this.botonEnviar = this.add.image(960,883,'botonEnviar');
 	   this.botonEnviar.setInteractive();
 	   this.chatBox = this.rexUI.add.scrollablePanel({
@@ -103,7 +110,24 @@ class Chat extends Phaser.Scene {
            }
        },this)
 
+       this.volverBoton.setInteractive();
+       this.volverBoton.on('pointerover',function () {
+           //this.resalto.setPosition(this.sendButton.x, this.sendButton.y);
+           this.resaltoVolver.visible = true;
+       },this)
+       this.volverBoton.on('pointerout',function () {
+           this.resaltoVolver.visible = false;
+       },this)
+       this.volverBoton.on("pointerdown",function () {
+           if(typeof prevScene !== "string")
+               this.scene.start('MainMenu')
 
+           else {
+               console.log(prevScene)
+               this.scene.wake(prevScene);
+           }
+           this.scene.sleep();
+       },this)
 
    }
 
