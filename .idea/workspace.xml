@@ -17,6 +17,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -41,10 +44,11 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.Project1Application.executor": "Run",
     "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_directory_selection": "C:/Users/PC GAMING/Documents/GitHub/jer_crab-mail/project1/src/test/java/com/example/demo",
-    "last_opened_file_path": "C:/Users/PC GAMING/Documents/GitHub/jer_crab-mail/project1/src/main/resources/static/Assets/Perfil",
+    "last_opened_file_path": "C:/Users/PC GAMING/Documents/GitHub/jer_crab-mail/project1/src/main/resources/static/Assets/PauseMenu",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -59,11 +63,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1\src\main\resources\static\Assets\PauseMenu" />
       <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1\src\main\resources\static\Assets\Perfil" />
       <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1\src\main\resources\static\Assets\MainMenu" />
       <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1\src\main\resources\static\Assets\OptionsMenu" />
       <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\Assets\OptionsMenu" />
-      <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\Assets\Buzon paquetes" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1\src\main\resources\static\Assets\Perfil" />
@@ -120,7 +124,7 @@
       <workItem from="1702744633547" duration="6710000" />
       <workItem from="1702831204534" duration="9180000" />
       <workItem from="1702840586761" duration="1817000" />
-      <workItem from="1702842417427" duration="27432000" />
+      <workItem from="1702842417427" duration="30459000" />
     </task>
     <servers />
   </component>

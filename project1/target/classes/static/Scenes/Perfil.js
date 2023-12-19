@@ -386,15 +386,14 @@ class Perfil extends Phaser.Scene {
                 this.scene.start('MainMenu')
             else {
                 this.scene.wake(prevScene);
+                this.scene.stop()
             }
-            this.scene.sleep();
         },this)
 
 
         //#region TEXT INPUT REGION
         this.usernameInput = this.add.rexInputText(960, 551, 510, 70, {
             type: 'text',
-            //text: 'Maldita sea',
             placeholder: 'Introducir usuario',
 
             backgroundColor: 'transparent',
@@ -410,7 +409,6 @@ class Perfil extends Phaser.Scene {
 
         this.passwordInput = this.add.rexInputText(960, 711, 510, 70, {
             type: 'password',
-            //text: 'Maldita sea',
             placeholder: 'Introducir contraseña',
 
             fontFamily: "Gill Sans",
@@ -424,8 +422,7 @@ class Perfil extends Phaser.Scene {
         }, this);
         
          this.currentPasswordInput = this.add.rexInputText(960, 551, 510, 70, {
-            type: 'text',
-            //text: 'Maldita sea',
+            type: 'password',
             placeholder: 'Introducir contraseña actual',
 
             backgroundColor: 'transparent',
@@ -441,8 +438,7 @@ class Perfil extends Phaser.Scene {
         this.currentPasswordInput.setActive(false).setVisible(false);
         
         this.newPasswordInput = this.add.rexInputText(960, 700, 510, 70, {
-            type: 'text',
-            //text: 'Maldita sea',
+            type: 'password',
             placeholder: 'Introducir contraseña nueva',
 
             backgroundColor: 'transparent',

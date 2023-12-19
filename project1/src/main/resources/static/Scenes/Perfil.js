@@ -386,8 +386,8 @@ class Perfil extends Phaser.Scene {
                 this.scene.start('MainMenu')
             else {
                 this.scene.wake(prevScene);
+                this.scene.stop()
             }
-            this.scene.sleep();
         },this)
 
 

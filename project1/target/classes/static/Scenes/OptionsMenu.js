@@ -22,6 +22,8 @@ class OptionsMenu extends Phaser.Scene{
     returnButton;
     resaltoVolver
     create(data){
+
+
         let prevScene = data[0];
         let gameScene = data[1]
         this.sliders = new Array(3);

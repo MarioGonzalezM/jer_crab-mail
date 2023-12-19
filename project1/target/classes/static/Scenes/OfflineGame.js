@@ -606,6 +606,20 @@ class OfflineGame extends Phaser.Scene {
 
         this.crearObjetosCinta()
         this.time.delayedCall(120000, this.cambioMusica, null, this);
+
+        this.events.on('pause',()=>{
+            if(this.sonidoLento.isPlaying){
+                this.sonidoLento.pause();
+                }
+            else if(this.sonidoRapido.isPlaying)
+                this.sonidoRapido.pause();
+        },this)
+        this.events.on('resume',()=>{
+            if(this.sonidoLento.isPaused)
+                this.sonidoLento.resume();
+            else if(this.sonidoRapido.isPaused)
+                this.sonidoRapido.resume();
+        },this)
     }
 
     cambioMusica() {
