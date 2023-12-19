@@ -48,6 +48,10 @@ Crab Mail es un divertido juego cooperativo en el que los jugadores controlan a 
    - 5.4 Interfaces
    - 5.5 Personajes
    - 5.6 Música
+6. Integracion de API REST
+   - 6.1 Sistema de usuarios
+   - 6.2 Chat
+   - 6.3 Instrucciones de ejecución
 
 ## 1. Cambios
 ### Versión 1 
@@ -396,7 +400,7 @@ A continuación, se adjunta una imagen del chat del juego.
 
 <img src="src/main/resources/static/Assets_GDD/chat.png" alt="Pantalla de chat" width=50% height=50%>
 
-INSTRUCCIONES DE EJECUCIÓN
+### 6.3 Instrucciones de ejecución
 
 Para iniciar el juego, hay que abrir Spring Tool Suite e importar el proyecto. Una vez importado, ejecutarlo como un java application. Después, en el navegador, conectarse a la IP y al puerto correspondiente, y ya se pueden utilizar todas las funciones del juego con normalidad.
 
