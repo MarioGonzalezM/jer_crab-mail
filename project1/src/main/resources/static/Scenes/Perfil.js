@@ -62,10 +62,14 @@ class Perfil extends Phaser.Scene {
                 families: ['Lobster']
             }
         });
+
+        let isLogged = dataSettings.user !== null && dataSettings.user !== undefined;
+
         let prevScene = data[0];
         let gameScene = data[1]
         
         this.fondoPerfil = this.add.image(960,540,'fondoInicioSesion');
+        if(isLogged)    this.fondoPerfil.setTexture('fondoPerfil')
         this.resaltoEnviar = this.add.image(960,883,'resaltoEnviar')
         this.resaltoVolver = this.add.image(294,120,'resaltoVolver')
         this.resaltoEnviar.visible = false;
@@ -73,7 +77,7 @@ class Perfil extends Phaser.Scene {
         this.textError = this.add.text(800,1000,'',{fontFamily:'Lobster',color:"#cd4d4d",fontSize: 30 })
      //#region BOTON UPDATE
         this.updateButton = this.add.image(960,340,'actualizarContrasena');
-        this.updateButton.visible = false;
+        this.updateButton.visible = isLogged;
 
         this.updateButton.on('pointerdown', ()=> {
 
@@ -186,7 +190,7 @@ class Perfil extends Phaser.Scene {
 
 
         this.deleteButton = this.add.image(960,600,'botonBorrar');
-        this.deleteButton.visible = false;
+        this.deleteButton.visible = isLogged;
         this.confirmDelete = this.add.image(995,350,'avisoBorrado')//que ponga quieres borrar la cuenta?
         this.confirmDelete.visible = false;
         this.buttonNo = this.add.image(1150,700,'botonNo').setScale(0.8)
@@ -276,6 +280,7 @@ class Perfil extends Phaser.Scene {
 
 
         this.sendButton = this.add.image(960,883,'botonEnviar');
+        this.sendButton.visible = !isLogged;
         this.sendButton.setInteractive();
         this.sendButton.on('pointerover',function () {
             //this.resalto.setPosition(this.sendButton.x, this.sendButton.y);
@@ -362,6 +367,7 @@ class Perfil extends Phaser.Scene {
         },this)
 
         this.cambioBoton = this.add.image(960,961,'cambioBoton').setFrame(0);
+        this.cambioBoton.visible = !isLogged;
         this.cambioBoton.setInteractive();
 
         this.cambioBoton.on('pointerdown', function () {
@@ -411,7 +417,7 @@ class Perfil extends Phaser.Scene {
         {
             inputText.align = inputText.text.length <= 0 ? 'center' : 'start';
         }, this);
-
+        this.usernameInput.visible = !isLogged;
         this.passwordInput = this.add.rexInputText(960, 711, 510, 70, {
             type: 'password',
             placeholder: 'Introducir contrase\u00f1a',
@@ -441,7 +447,8 @@ class Perfil extends Phaser.Scene {
             inputText.align = inputText.text.length <= 0 ? 'center' : 'start';
         }, this);
         this.currentPasswordInput.setActive(false).setVisible(false);
-        
+
+        this.passwordInput.visible = !isLogged;
         this.newPasswordInput = this.add.rexInputText(960, 700, 510, 70, {
             type: 'password',
             placeholder: 'Introducir contrase\u00f1a nueva',
