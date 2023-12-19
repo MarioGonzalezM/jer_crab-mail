@@ -400,7 +400,14 @@ A continuación, se adjunta una imagen del chat del juego.
 
 <img src="src/main/resources/static/Assets_GDD/chat.png" alt="Pantalla de chat" width=50% height=50%>
 
-### 6.3 Instrucciones de ejecución
+### 6.3 Diagrama UML
+
+A continuación se adjunta un diagrama UML de las clases usadas en la implementación de la API REST. El diagrama se ha creado usando IntelliJ.
+
+<img src="src/main/resources/static/Assets_GDD/javaDiagram.png" alt="Pantalla de chat" width=50% height=50%>
+
+
+### 6.4 Instrucciones de ejecución
 
 Para iniciar el juego, hay que abrir Spring Tool Suite e importar el proyecto. Una vez importado, ejecutarlo como un java application. Después, en el navegador, conectarse a la IP y al puerto correspondiente, y ya se pueden utilizar todas las funciones del juego con normalidad.
 
