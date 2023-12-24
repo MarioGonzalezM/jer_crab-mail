@@ -64,7 +64,6 @@ class Perfil extends Phaser.Scene {
         });
 
         let isLogged = dataSettings.user !== null && dataSettings.user !== undefined;
-
         let prevScene = data[0];
         let gameScene = data[1]
         
@@ -78,6 +77,9 @@ class Perfil extends Phaser.Scene {
      //#region BOTON UPDATE
         this.updateButton = this.add.image(960,340,'actualizarContrasena');
         this.updateButton.visible = isLogged;
+        if(isLogged){
+            this.updateButton.setInteractive();
+        }
 
         this.updateButton.on('pointerdown', ()=> {
 
@@ -106,8 +108,9 @@ class Perfil extends Phaser.Scene {
                 }
 
                 const data = {
-                    username: currentPassword,
-                    password: newPassword
+                    username: dataSettings.user,
+                    password: currentPassword,
+                    newPassword: newPassword
                 };
 
                 $.ajax({
@@ -125,7 +128,7 @@ class Perfil extends Phaser.Scene {
                     if (data === "actualizada") {
                         if (typeof prevScene !== "string") {
                             this.scene.start('MainMenu')
-                            this.userName = null;
+                            dataSettings.user = null;
                         } else {
                             console.log(prevScene)
                             this.scene.wake(prevScene);
@@ -191,6 +194,9 @@ class Perfil extends Phaser.Scene {
 
         this.deleteButton = this.add.image(960,600,'botonBorrar');
         this.deleteButton.visible = isLogged;
+        if(isLogged) {
+            this.deleteButton.setInteractive()
+        }
         this.confirmDelete = this.add.image(995,350,'avisoBorrado')//que ponga quieres borrar la cuenta?
         this.confirmDelete.visible = false;
         this.buttonNo = this.add.image(1150,700,'botonNo').setScale(0.8)
@@ -213,24 +219,27 @@ class Perfil extends Phaser.Scene {
         	this.buttonYes.setInteractive();
 
         	this.buttonYes.on('pointerdown', ()=> {
+                const data = {
+                    username: dataSettings.user,
+                }
 				 $.ajax({
-    			method: 'DELETE',
-    			url: "http://"+dataSettings.IP+":8080/borrarCuenta",
-
+    			    method: 'DELETE',
+    			    url: "http://"+dataSettings.IP+":8080/borrarCuenta",
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
 				}).done( (data)=> {
-    			console.log("¡Éxito!");
-    			console.log(data);
-  				if(typeof prevScene !== "string"){
-                this.scene.start('MainMenu')
-                this.userName=null;
-           		} else {
-                console.log(prevScene)
-                this.scene.wake(prevScene);
-            	}
-				}).fail(function () {
-    			console.log("Error:");
-
-				});
+                     console.log("¡Éxito!");
+                     console.log(data);
+                     dataSettings.user = null;
+                     if (typeof prevScene !== "string") {
+                         this.scene.start('MainMenu')
+                     } else {
+                         console.log(prevScene)
+                         this.scene.wake(prevScene);
+                     }
+                 }).fail(function () {
+                     console.log("Error:");
+                 });
 
 			},this);
             this.buttonYes.on('pointerover',function () {

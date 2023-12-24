@@ -21,11 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController{
 
     private UserService userService;
-    private LoginRequest currentUser;
     
     public UserController(UserService userService) {
-        this.userService = new UserService();     
-        this.currentUser = new LoginRequest();
+        this.userService = new UserService();
     }
 
     @PostMapping("/login") 
@@ -34,20 +32,13 @@ public class UserController{
         String password = loginRequest.getPassword();
        
         ResponseEntity loginStatus = userService.authenticateLogin(username, password);
-        if(loginStatus.equals(ResponseEntity.ok("Login exitoso"))) 
-        {
-        	 currentUser.setUsername(username);
-             currentUser.setPassword(password);
-        }      
         return loginStatus;
     }
     
     @GetMapping("/listaUsuarios")
     public List<String> showUsers()
     {
-    	Map<String,String> d = this.userService.getRegisters();
-    	List<String> userList = new ArrayList<>(d.keySet());
-    	return userList;
+        return new ArrayList<>(this.userService.getRegisters().keySet());
     	
     }
     
@@ -57,24 +48,18 @@ public class UserController{
     		String username = loginRequest.getUsername();
         	String password = loginRequest.getPassword();  
         
-        	Map<String,String> d = this.userService.getRegisters();
-       
-        	ResponseEntity registerStatus = userService.authenticateRegister(username, password);
-        	return registerStatus;
+        	var d = this.userService.getRegisters();
+
+        return userService.authenticateRegister(username, password);
     
     }
     
     @PutMapping("/actualizar")
-    public ResponseEntity updatePassword(@RequestBody LoginRequest passwords)
+    public ResponseEntity updatePassword(@RequestBody UpdatePasswordRequest request)
     {
-    	Map<String,String> d = this.userService.getRegisters();
-    	String currentPassword = passwords.getUsername();
-    	String newPassword = passwords.getPassword();
-    	
-    	if(d.get(currentUser.getUsername()).equals(currentPassword)) 
+    	if(this.userService.checkPassword(request.getUsername(), request.getOldPassword()))
     	{
-    		d.put(currentUser.getUsername(),newPassword);
-    		currentUser.setPassword(newPassword);    		
+    		this.userService.updatePassword(request.getUsername(),request.getNewPassword());
     		return ResponseEntity.ok("actualizada");
     	}    	
     	return ResponseEntity.ok("Contraseña actual invalida");
@@ -82,11 +67,9 @@ public class UserController{
     }
     
     @DeleteMapping("/borrarCuenta")
-    public ResponseEntity deleteUser() 
+    public ResponseEntity deleteUser(@RequestBody LoginRequest request)
     {   	
-    	Map<String,String> d = this.userService.getRegisters();
-    	d.remove(currentUser.getUsername());
-    	this.currentUser = new LoginRequest();
+    	this.userService.delete(request.getUsername());
     	return ResponseEntity.ok("Usuario borrado");
     }
 }
