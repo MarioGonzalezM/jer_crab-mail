@@ -1,2 +1,2 @@
-User: a; Password: a; Record: 0
-User: b; Password: b; Record: 0
+User: Diego; Password: vivaJER; Record: 99999
+User: DEV; Password: toroidev; Record: 33

@@ -70,10 +70,12 @@ public class UserService {
 		Usuario updatedUser = registers.get(username);
 		updatedUser.password = password;
 		registers.replace(username, updatedUser);
+		SaveToFile();
 	}
 
 	public void delete(String username){
 		var a = registers.remove(username);
+		SaveToFile();
 	}
 
 	public void SaveToFile(){
