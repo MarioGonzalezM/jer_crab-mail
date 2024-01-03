@@ -636,7 +636,7 @@ class OfflineGame extends Phaser.Scene {
             method: 'GET',
         }).done((data)=> {
 
-            this.wsConnection = new WebSocket('ws://'+dataSettings.IP+':8080/juego');
+            this.wsConnection = new WebSocket(`ws://${dataSettings.IP}:8080/juego`);
             this.wsConnection.ready = true;
 
             this.wsConnection.onopen =  (event)=> {
@@ -647,56 +647,66 @@ class OfflineGame extends Phaser.Scene {
 
             this.wsConnection.onmessage =  (event)=> {
                 console.log('Mensaje recibido desde el servidor:', event.data);
-                let dato = event.data;
-                let datos;
-                if(dato.includes("Mi id es:"))
-                {
-                    datos = dato.split(':');
-                    this.sessionId = datos[1].trim();
-                    this.playerN = parseInt(datos[2].trim());
-                    console.log("Mi sesion es :" + this.sessionId + "\nMi número de jugador es: " + this.playerN)
-                }else
-                {
-                    datos=dato.split(':');
-                    console.log(" ESTA ES MI ID"+this.sessionId+" ESTA ES LA ID EL OTRO"+datos[0].trim())
-                    if(this.sessionId ===datos[0].trim())
-                    {console.log("ES IGUAL LAS ID")
-                        // if (datos[1] === "tecla A") {
-                        //     this.personajes[1].setAngularVelocity(-150);
-                        // } else if (datos[1] === "tecla D") {
-                        //     this.personajes[1].setAngularVelocity(150);
-                        //
-                        // } else {
-                        //     this.personajes[1].setAngularVelocity(0);
-                        // }
-                        // if (datos[1] === "tecla W") {
-                        //     this.physics.velocityFromRotation(this.personajes[1].rotation, 200, this.personajes[1].body.velocity);
-                        // } else if (datos[1] === "tecla S") {
-                        //     this.physics.velocityFromRotation(this.personajes[1].rotation + Math.PI, 200, this.personajes[1].body.velocity);
-                        //
-                        // } else {
-                        //     this.personajes[1].setVelocity(0);
-                        // }
-                    }else
-                    {console.log("NO ES IGUAL LAS ID")
-                        if (datos[1] === "tecla A") {
-                            this.personajes[1-this.playerN].setAngularVelocity(-150);
-                        } else if (datos[1] === "tecla D") {
-                            this.personajes[1-this.playerN].setAngularVelocity(150);
-
-                        } else{
-                            this.personajes[1-this.playerN].setAngularVelocity(0);
-                        }
-                        if (datos[1] === "tecla W") {
-                            this.physics.velocityFromRotation(this.personajes[0].rotation, 200, this.personajes[1-this.playerN].body.velocity);
-                        } else if (datos[1] === "tecla S") {
-                            this.physics.velocityFromRotation(this.personajes[0].rotation + Math.PI, 200, this.personajes[1-this.playerN].body.velocity);
-
-                        } else {
-                            this.personajes[1-this.playerN].setVelocity(0);
-                        }
-                    }
+                let dato = JSON.parse(event.data);
+                console.log("DAAATRAAAAA: " + event.data)
+                if(dato.init){
+                    this.sessionId = dato.id;
+                    this.playerN = dato.playerN;
+                }else{
+                    this.personajes[dato.sender].setPosition(dato.x,dato.y);
+                    this.personajes[dato.sender].setRotation(dato.rotation);
+                    if(dato.sender === 0)
+                        this.tiempoTranscurrido =dato.timer;
                 }
+                // let datos;
+                // if(dato.includes("Mi id es:"))
+                // {
+                //     datos = dato.split(':');
+                //     this.sessionId = datos[1].trim();
+                //     this.playerN = parseInt(datos[2].trim());
+                //     console.log("Mi sesion es :" + this.sessionId + "\nMi número de jugador es: " + this.playerN)
+                // }else
+                // {
+                //     datos=dato.split(':');
+                //     console.log(" ESTe ES MI ID"+this.sessionId+" ESTe ES el ID EL OTRO"+datos[0].trim())
+                //     if(this.sessionId ===datos[0].trim())
+                //     {console.log("ES IGUAL LAS ID")
+                //         // if (datos[1] === "tecla A") {
+                //         //     this.personajes[1].setAngularVelocity(-150);
+                //         // } else if (datos[1] === "tecla D") {
+                //         //     this.personajes[1].setAngularVelocity(150);
+                //         //
+                //         // } else {
+                //         //     this.personajes[1].setAngularVelocity(0);
+                //         // }
+                //         // if (datos[1] === "tecla W") {
+                //         //     this.physics.velocityFromRotation(this.personajes[1].rotation, 200, this.personajes[1].body.velocity);
+                //         // } else if (datos[1] === "tecla S") {
+                //         //     this.physics.velocityFromRotation(this.personajes[1].rotation + Math.PI, 200, this.personajes[1].body.velocity);
+                //         //
+                //         // } else {
+                //         //     this.personajes[1].setVelocity(0);
+                //         // }
+                //     }else
+                //     {console.log("NO ES IGUAL LAS ID")
+                //         if (datos[1] === "tecla A") {
+                //             this.personajes[1-this.playerN].setAngularVelocity(-150);
+                //         } else if (datos[1] === "tecla D") {
+                //             this.personajes[1-this.playerN].setAngularVelocity(150);
+                //
+                //         } else{
+                //             this.personajes[1-this.playerN].setAngularVelocity(0);
+                //         }
+                //         if (datos[1] === "tecla W") {
+                //             this.physics.velocityFromRotation(this.personajes[0].rotation, 200, this.personajes[1-this.playerN].body.velocity);
+                //         } else if (datos[1] === "tecla S") {
+                //             this.physics.velocityFromRotation(this.personajes[0].rotation + Math.PI, 200, this.personajes[1-this.playerN].body.velocity);
+                //
+                //         } else {
+                //             this.personajes[1-this.playerN].setVelocity(0);
+                //         }
+                //     }
+                // }
 
 
 
@@ -783,11 +793,11 @@ class OfflineGame extends Phaser.Scene {
       if (teclaA.isDown) {
           this.personajes[this.playerN].setAngularVelocity(-150);
 
-          this.wsConnection.send("tecla A")
+          //this.wsConnection.send("tecla A")
 
       } else if (teclaD.isDown) {
           this.personajes[this.playerN].setAngularVelocity(150);
-          this.wsConnection.send("tecla D")
+          //this.wsConnection.send("tecla D")
 
       } else {
           this.personajes[this.playerN].setAngularVelocity(0);
@@ -800,17 +810,27 @@ class OfflineGame extends Phaser.Scene {
       if (teclaW.isDown) {
           // Avanzar hacia adelante
           this.physics.velocityFromRotation(this.personajes[this.playerN].rotation, 200, this.personajes[this.playerN].body.velocity);
-          this.wsConnection.send("tecla W")
+          //this.wsConnection.send("tecla W")
       }
       else if (teclaS.isDown) {
           // Retroceder
-          this.wsConnection.send("tecla S")
+          //this.wsConnection.send("tecla S")
           this.physics.velocityFromRotation(this.personajes[this.playerN].rotation + Math.PI, 200, this.personajes[this.playerN].body.velocity);
       }
       else {
           // Detenerse si no se presionan las teclas de dirección
           this.personajes[this.playerN].setVelocity(0);
       }
+      let timer = this.playerN === 0? this.tiempoTranscurrido : null;
+        let json =
+            {
+                sender: this.playerN,
+                x: this.personajes[this.playerN].x,
+                y: this.personajes[this.playerN].y,
+                rotation: this.personajes[this.playerN].rotation,
+                timer: timer
+            };
+        this.wsConnection.send(JSON.stringify(json))
       // //personaje 2
       // if (this.cursors.up.isDown) {
       //    // Avanzar hacia adelante
@@ -863,7 +883,6 @@ class OfflineGame extends Phaser.Scene {
             this.objetosCinta.remove(auxObjeto1);
             this.objetos.add(auxObjeto1);
         }
-
     }
 
     actualizarInteraccion() {
