@@ -17,9 +17,9 @@ public class WebSocketGame extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 
-        onlineUsers++;
         sessions.add(session);
-        session.sendMessage(new TextMessage("Mi id es: "+session.getId()));
+        session.sendMessage(new TextMessage("Mi id es: "+session.getId() + ":" + onlineUsers));
+        onlineUsers++;
     }
 
     @Override
