@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9b99bd8-0ffe-4a70-ac54-44996a7d8bba" name="Changes" comment="" />
+    <list default="true" id="c9b99bd8-0ffe-4a70-ac54-44996a7d8bba" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/project1/src/main/java/demo/example/demo/WebSocketGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project1/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/project1/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project1/src/main/java/demo/example/demo/Project1Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/project1/src/main/java/demo/example/demo/Project1Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project1/src/main/resources/static/Scenes/DataSettings.js" beforeDir="false" afterPath="$PROJECT_DIR$/project1/src/main/resources/static/Scenes/DataSettings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project1/src/main/resources/static/Scenes/EndScene.js" beforeDir="false" afterPath="$PROJECT_DIR$/project1/src/main/resources/static/Scenes/EndScene.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project1/src/main/resources/static/Scenes/OfflineGame.js" beforeDir="false" afterPath="$PROJECT_DIR$/project1/src/main/resources/static/Scenes/OfflineGame.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project1/target/classes/demo/example/demo/Project1Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/project1/target/classes/demo/example/demo/Project1Application.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project1/target/classes/static/Scenes/DataSettings.js" beforeDir="false" afterPath="$PROJECT_DIR$/project1/target/classes/static/Scenes/DataSettings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project1/target/classes/static/Scenes/EndScene.js" beforeDir="false" afterPath="$PROJECT_DIR$/project1/target/classes/static/Scenes/EndScene.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project1/target/classes/static/Scenes/OfflineGame.js" beforeDir="false" afterPath="$PROJECT_DIR$/project1/target/classes/static/Scenes/OfflineGame.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,6 +26,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -95,6 +108,13 @@
       <item itemvalue="Spring Boot.Project1Application" />
     </list>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.1-openjdk-21.0.1-f644763e9732-f98dd351" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -120,11 +140,27 @@
       <workItem from="1703017465069" duration="127000" />
       <workItem from="1703017665695" duration="99000" />
       <workItem from="1703351960472" duration="9404000" />
+      <workItem from="1704030204454" duration="7440000" />
+      <workItem from="1704038194643" duration="7885000" />
+      <workItem from="1704114648941" duration="3091000" />
+      <workItem from="1704235788182" duration="13000" />
+      <workItem from="1704272969789" duration="480000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/project1/src/main/resources/static/Scenes/Perfil.js</url>
+          <line>73</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

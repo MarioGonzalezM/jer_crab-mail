@@ -8,6 +8,7 @@ class EndScene extends Phaser.Scene {
     buttonMinX= 279.5
     buttonScenes = ['UnderConstruction','OfflineGame','UnderConstruction','OptionsMenu']*/
     sonidoHurra;
+
     preload() {
         this.load.image('pantallafin', 'Assets/EndScene/pantalla final.png');
         console.log('Pantalla cargada');
