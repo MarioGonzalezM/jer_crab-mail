@@ -667,6 +667,8 @@ class OfflineGame extends Phaser.Scene {
                         this.tiempoTranscurrido = dato.timer;
                 }else if(dato.spawnCinta){
                     this.spawnObject(dato.obj)
+                }else if(dato.exit){
+                    scene.scene.start("MainMenu");
                 }
 
             };
