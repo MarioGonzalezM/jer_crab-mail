@@ -1,4 +1,5 @@
 
+
 class MainMenuScene extends Phaser.Scene{
     constructor( ...args ) {
         super({ key: 'MainMenu', ...args })
@@ -11,26 +12,41 @@ class MainMenuScene extends Phaser.Scene{
    //Sonidos
     sonidoFondo
     sonidoBoton
+    sonidoMeme
+    fondoMeme
+    fondoNegro
+    botonSalir
     preload()
     {
         //this.load.plugin('rexinputtextplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexinputtextplugin.min.js', true);
         this.load.image('background', 'Assets/MainMenu/FondoMP.png');
         this.load.image('post', 'Assets/MainMenu/PosteMP.png');
         this.load.image('gameLogo', 'Assets/MainMenu/GameLogoMP.png');
+        this.load.image('crabMail2', 'Assets/crabMail2.png');
+        this.load.image('negro', 'Assets/ne.png');
+        this.load.image('salirMeme', 'Assets/salirMeme.png');
         this.load.spritesheet('buttons', 'Assets/MainMenu/SpriteSheetBotonesMP.png', { frameWidth: 700, frameHeight: 239 });
         this.load.audio('sonidoBoton', ['Sounds/botones.mp3']);
         this.load.audio('fondoSonido', ['Sounds/fondo.mp3']);
+        this.load.audio('meme', ['Sounds/megalovania.mp3']);
     }
 
 
     create()
     {
 
-        this.sonidoFondo = this.sound.add('fondoSonido');
+        
 
+        this.sonidoFondo = this.sound.add('fondoSonido');
         this.sonidoFondo.loop = true;
         this.sonidoFondo.setVolume(dataSettings.master *dataSettings.music/10000.0)
         this.sonidoFondo.play();
+
+		this.sonidoMeme = this.sound.add('meme');
+		this.sonidoMeme.loop = true;
+        this.sonidoMeme.setVolume(dataSettings.master *dataSettings.music/10000.0)
+		
+
 
         //Add all images
         this.add.image(960, 540, 'background');
@@ -48,12 +64,17 @@ class MainMenuScene extends Phaser.Scene{
             setXY: { x: this.buttonMinX, y: 898.5, stepY: -239 }
         });//*/
         let scene = this;
+        
+     
+		
         this.buttons.children.iterate(function (child) {
             let link = scene.buttonScenes[child.frame.name];
+            
+            
             child.setInteractive();
 
             if(typeof link !==  "undefined") child.on("pointerdown",function (){
-
+				
                 scene.sonidoFondo.stop();
                 scene.sonidoBoton.play();
                 console.log(link)
@@ -88,14 +109,60 @@ class MainMenuScene extends Phaser.Scene{
             })
 
         });
+        
 
         //We want the buttons to be partially hidden behind the post
         this.add.image(960, 540, 'post');
-
+        
+        
+        this.fondoNegro = this.add.image(960, 540, 'negro');
+		this.fondoNegro.setScale(3.0,3.0);
+		this.fondoNegro.visible = false;
+		
+		this.fondoMeme = this.add.image(960, 540, 'crabMail2');
+		this.fondoMeme.setScale(0.8,0.4);
+		this.fondoMeme.visible = false;
+		
+		this.botonSalir = this.add.image(200, 140, 'salirMeme');
+		this.botonSalir.setScale(0.2,0.2);
+		this.botonSalir.visible = false;
+		
+		this.botonSalir.on('pointerup', function() {
+        this.fondoNegro.visible = false;
+        this.fondoMeme.visible = false;
+        this.botonSalir.visible = false;
+        
+        this.buttons.children.iterate(function (child) {
+			 child.setInteractive();
+		});
+        
+        this.sonidoFondo.play();
+        this.sonidoMeme.stop();
+   		},this);
+		
+		var combo = this.input.keyboard.createCombo('CRAB');
+        this.input.keyboard.on('keycombomatch', function (event) {
+        console.log('Combo de teclas detectado: ' + event.keyCodes);
+        this.sonidoFondo.stop();
+        this.fondoNegro.visible = true;
+        this.fondoMeme.visible = true;
+        this.botonSalir.visible = true;
+        this.buttons.children.iterate(function (child) {
+			 child.disableInteractive();
+		});
+        this.sonidoMeme.play();
+        this.botonSalir.setInteractive();
+    	},this);
+    	
+    	
         
     }
 
     update() {
+		
+		
+		
+		
         this.sonidoFondo.setVolume(dataSettings.master *dataSettings.music/10000.0)
         this.sonidoBoton.setVolume(dataSettings.master *dataSettings.sfx/10000.0);
     }
@@ -126,6 +193,9 @@ var config = {
 
 };
 const game = new Phaser.Game(config);
+
+
+
 
 
 
