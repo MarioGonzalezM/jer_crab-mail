@@ -3,6 +3,7 @@ package demo.example.demo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -27,6 +28,7 @@ public class WebSocketGame extends TextWebSocketHandler {
         public float y;
         public float rotation;
         public String timer;
+        public boolean t;
     }
     public static class Init implements Serializable{
 
@@ -39,7 +41,16 @@ public class WebSocketGame extends TextWebSocketHandler {
         public String id;
         public boolean init;
     }
+    public static class ObjectInfo implements Serializable{
+        public Object obj;
+        public boolean estaEnCinta;
+        public int id;
+        public float x;
+        public float y;
+    }
+
     private final List<WebSocketSession> sessions = new ArrayList<>();
+
 
     private int onlineUsers = 0;
 
@@ -59,19 +70,26 @@ public class WebSocketGame extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println(message.getPayload());
         ObjectMapper objectMapper = new ObjectMapper();
-        PlayerInfo playerInfo = objectMapper.readValue(message.getPayload(), PlayerInfo.class);
+        TextMessage newMessage = null;
+        try {
+            PlayerInfo playerInfo = objectMapper.readValue(message.getPayload(), PlayerInfo.class);
+            newMessage = new TextMessage(objectMapper.writeValueAsString(playerInfo));
 
-        TextMessage newMessage = new TextMessage(objectMapper.writeValueAsString(playerInfo));
+        }catch (UnrecognizedPropertyException ignored){
 
-        for (WebSocketSession webSocketSession : sessions){
-            if(webSocketSession.equals(session)){
-                System.out.println("eQUALAS");
-                continue;
+            ObjectInfo objectInfo = objectMapper.readValue(message.getPayload(), ObjectInfo.class);
+            newMessage = new TextMessage(objectMapper.writeValueAsString(objectInfo));
+
+        }finally {
+            for (WebSocketSession webSocketSession : sessions){
+                if(webSocketSession.equals(session)){
+                    continue;
+                }
+                webSocketSession.sendMessage(newMessage);
             }
-            webSocketSession.sendMessage(newMessage);
         }
+
     }
 
 

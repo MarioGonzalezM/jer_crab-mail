@@ -28,6 +28,7 @@ class OfflineGame extends Phaser.Scene {
         super({ key: 'OfflineGame' })
     }
 
+//#region LocalVariablesRegion
     width = 1920;
     height = 1080;
 
@@ -128,6 +129,8 @@ class OfflineGame extends Phaser.Scene {
             ready:false
         }
     sessionId
+
+    //#endregion
     preload() {
         //Sprites sin objetos
         //#region REGION SPRITESHEET
@@ -648,15 +651,42 @@ class OfflineGame extends Phaser.Scene {
             this.wsConnection.onmessage =  (event)=> {
                 console.log('Mensaje recibido desde el servidor:', event.data);
                 let dato = JSON.parse(event.data);
-                console.log("DAAATRAAAAA: " + event.data)
+
                 if(dato.init){
                     this.sessionId = dato.id;
                     this.playerN = dato.playerN;
-                }else{
+                }else if(typeof dato.sender === "number"){
                     this.personajes[dato.sender].setPosition(dato.x,dato.y);
                     this.personajes[dato.sender].setRotation(dato.rotation);
+                    if(dato.t){
+                        if (!this.interaccionMaquinas(dato.sender))
+                            this.cogerObjeto(dato.sender);
+                    }
+
                     if(dato.sender === 0)
-                        this.tiempoTranscurrido =dato.timer;
+                        this.tiempoTranscurrido = dato.timer;
+                }else{
+                    if(dato.estaEnCinta){
+                        if(this.objetosCinta.getChildren().length < dato.id){
+                            let objeto = this.physics.add.image(dato.x,dato.y, dato.obj.imagen).setScale(0.08).refreshBody();//hay que escalar bien la imagen
+                            objeto.t = [false,false];
+                            objeto.obj = dato.obj;
+                            this.objetosCinta.add(objeto);
+                        }else {
+                            this.objetosCinta.getChildren()[dato.id].setPosition(dato.x, dato.y);
+                            this.objetosCinta.getChildren()[dato.id].obj = dato.obj;
+                        }
+                    }else{
+                        if(this.objetos.getChildren().length < dato.id){
+                            let objeto = this.physics.add.image(dato.x,dato.y, dato.obj.imagen).setScale(0.08).refreshBody();//hay que escalar bien la imagen
+                            objeto.t = [false,false];
+                            objeto.obj = dato.obj;
+                            this.objetos.add(objeto);
+                        }else {
+                            this.objetos.getChildren()[dato.id].setPosition(dato.x, dato.y);
+                            this.objetos.getChildren()[dato.id].obj = dato.obj;
+                        }
+                    }
                 }
                 // let datos;
                 // if(dato.includes("Mi id es:"))
@@ -821,6 +851,12 @@ class OfflineGame extends Phaser.Scene {
           // Detenerse si no se presionan las teclas de dirección
           this.personajes[this.playerN].setVelocity(0);
       }
+      let t = false;
+        if (Phaser.Input.Keyboard.JustDown(teclaE)) {
+            if (!this.interaccionMaquinas(0))
+                this.cogerObjeto(0);
+            t = true;
+        }
       let timer = this.playerN === 0? this.tiempoTranscurrido : null;
         let json =
             {
@@ -828,31 +864,14 @@ class OfflineGame extends Phaser.Scene {
                 x: this.personajes[this.playerN].x,
                 y: this.personajes[this.playerN].y,
                 rotation: this.personajes[this.playerN].rotation,
-                timer: timer
+                timer: timer,
+                t:t
             };
+
         this.wsConnection.send(JSON.stringify(json))
-      // //personaje 2
-      // if (this.cursors.up.isDown) {
-      //    // Avanzar hacia adelante
-      //    this.physics.velocityFromRotation(this.personajes[1].rotation, 200, this.personajes[1].body.velocity);
-      // }
-      // else if (this.cursors.down.isDown) {
-      //    // Retroceder
-      //    this.physics.velocityFromRotation(this.personajes[1].rotation + Math.PI, 200, this.personajes[1].body.velocity);
-      // }
-      // else {
-      //    // Detenerse si no se presionan las teclas de dirección
-      //    this.personajes[1].setVelocity(0);
-      // }
 
         //interactuar con los objetos
-        if (Phaser.Input.Keyboard.JustDown(teclaE)) {
-            if(!this.interaccionMaquinas(0))
-                this.cogerObjeto(0);
-        }if (Phaser.Input.Keyboard.JustDown(teclaO)) {
-            if(!this.interaccionMaquinas(1))
-                this.cogerObjeto(1);
-        }
+
 
         //mueve y rota el objeto llevado delante del personaje
         this.objetos.children.iterate(function (objeto) {
@@ -1547,7 +1566,14 @@ class OfflineGame extends Phaser.Scene {
         return this.arrayObjetosCinta[aux];
 
     }
+
+    spawnObject(tipoObjeto, peso){
+
+    }
+
     crearObjetosCinta() {
+        if(this.playerN !== 0)  return;
+
         var tipoObjeto = this.obtenerObjetoCinta();
 
         var objeto = this.physics.add.image(this.cinta.imagen.x - 10, this.cinta.imagen.y + 80, tipoObjeto).setScale(0.08).refreshBody();//hay que escalar bien la imagen
@@ -1574,5 +1600,19 @@ class OfflineGame extends Phaser.Scene {
         }else {
             this.temporizadorCinta.timeScale = 1;
         }console.log(this.objetosCinta.countActive())
+
+        for (let i = 0; i < this.objetosCinta.countActive(); i++) {
+            let json =
+                {
+                    obj: objeto.obj,
+                    x: objeto.x,
+                    y:objeto.y,
+                    estaEnCinta: true,
+                    id: i
+                };
+
+            this.wsConnection.send(JSON.stringify(json))
+        }
+
     }
 }
