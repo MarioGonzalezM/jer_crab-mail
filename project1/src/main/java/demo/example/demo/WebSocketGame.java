@@ -79,8 +79,9 @@ public class WebSocketGame extends TextWebSocketHandler {
 
         }catch (UnrecognizedPropertyException ignored){
 
-            ObjectInfo objectInfo = objectMapper.readValue(message.getPayload(), ObjectInfo.class);
-            newMessage = new TextMessage(objectMapper.writeValueAsString(objectInfo));
+            var obj = objectMapper.readTree(message.getPayload());
+            newMessage = message;
+            System.out.println(newMessage.getPayload());
 
         }finally {
             for (WebSocketSession webSocketSession : sessions){

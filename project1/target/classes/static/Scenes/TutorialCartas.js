@@ -20,15 +20,12 @@ function Objeto(nombre, peso) {
 
 
 
-var puntuacion;
-
-class OfflineGame extends Phaser.Scene {
+class TutorialCartas extends Phaser.Scene {
 
     constructor( ) {
-        super({ key: 'OfflineGame' })
+        super({ key: 'TutorialCartas' })
     }
 
-//#region LocalVariablesRegion
     width = 1920;
     height = 1080;
 
@@ -45,6 +42,7 @@ class OfflineGame extends Phaser.Scene {
     personajes;
 
     fondo;
+    dialogo;
     star;
     objetos;
     objetosCinta;
@@ -122,15 +120,6 @@ class OfflineGame extends Phaser.Scene {
 
     temporizadorCinta
 
-
-    playerN;
-    wsConnection=
-        {
-            ready:false
-        }
-    sessionId
-
-    //#endregion
     preload() {
         //Sprites sin objetos
         //#region REGION SPRITESHEET
@@ -254,6 +243,9 @@ class OfflineGame extends Phaser.Scene {
         this.load.image('mensaje', 'Assets/Objetos/mensaje.png');
         this.load.image('mensajeVacio', 'Assets/Objetos/mensajeVacio.png');
 
+        //Diálogos
+        this.load.image('dialogo1', 'Assets/Tutorial/dialogo1.png');
+
 
         // Sonidos
         this.load.audio('impresora', ['Sounds/impresoraSonido.mp3']);
@@ -286,17 +278,14 @@ class OfflineGame extends Phaser.Scene {
     create() {
 
 
-
         this.personajes = [this.personaje, this.personaje2]
-
-
-        this.arrayObjetosCinta = ["yunque", "mancuerna",'ps5', 'ps5Game','mensajeVacio','mensajeVacio','mensajeVacio','mensajeVacio', 'peluche'];//ids de los objetos que salen de la cinta
+        this.arrayObjetosCinta = ['mensajeVacio'];//ids de los objetos que salen de la cinta
 
         //Code to pause the menu
         let self = this;
         this.input.keyboard.on("keydown-P", function (event){
             console.log("Paused")
-            self.scene.launch('PauseMenu', 'OfflineGame')
+            self.scene.launch('PauseMenu', 'TutorialCartas')
             self.scene.pause();
         });
 
@@ -304,6 +293,8 @@ class OfflineGame extends Phaser.Scene {
         this.scale.refresh();
 
         this.fondo = this.add.image(960, 540, 'fondo');//Fondo
+
+        this.dialogo = this.add.image(940, 980, 'dialogo1');
 
         //////////////////////////////////////////////////////
         ///////////AÑADO LAS MAQUINAS Y LAS MESAS////////////
@@ -396,12 +387,13 @@ class OfflineGame extends Phaser.Scene {
         this.buzonCartas.estado = "cerrado"; // 2 posibles estados: cerrado y abierto
 
         // Agregamos el buzon de los paquetes
-        this.buzonPaquetes = new Maquina("buzon paquetes", "interaccion", 1, this.physics.add.image(1660, 757, 'buzonPaquetes').setScale(0.35).setImmovable(), this.physics.add.image(1615, 765).setScale(1, 4.7));
+        /*this.buzonPaquetes = new Maquina("buzon paquetes", "interaccion", 1, this.physics.add.image(1660, 757, 'buzonPaquetes').setScale(0.35).setImmovable(), this.physics.add.image(1615, 765).setScale(1, 4.7));
         this.buzonPaquetes.imagen.setSize(240, 600);
         this.buzonPaquetes.imagen.setOffset(430, 100);
         this.buzonPaquetes.imagen.rotation = Math.PI;
         Phaser.Utils.Array.Add(this.maquinas, this.buzonPaquetes);
         this.numMaquinas++;
+        */
 
 
         // Agregamos la caja de sobres
@@ -410,8 +402,6 @@ class OfflineGame extends Phaser.Scene {
         this.cajaSobres.imagen.setOffset(210, 160);
         Phaser.Utils.Array.Add(this.maquinas, this.cajaSobres);
         this.numMaquinas++;
-        this.buzonPaquetes.estado = "cerrado"; // 2 posibles estados: abierto y cerrado
-
 
         // Agregamos la mesa de sellos
         this.mesaSellos = new Maquina("mesa sellos", "interaccion", 1, this.physics.add.image(930, 130, 'mesaSellos').setScale(0.55).setImmovable(), this.physics.add.image(300, 8007).setScale(0.9, 4));
@@ -453,10 +443,11 @@ class OfflineGame extends Phaser.Scene {
         this.numMaquinas++;
 
         // Agregamos la bascula
-        this.bascula = new Maquina("bascula", "interaccion", 1, this.physics.add.image(975, 305, 'bascula').setScale(0.21).setImmovable(), this.physics.add.image(965, 350).setScale(2.5, 0.7));
+        /*this.bascula = new Maquina("bascula", "interaccion", 1, this.physics.add.image(975, 305, 'bascula').setScale(0.21).setImmovable(), this.physics.add.image(965, 350).setScale(2.5, 0.7));
         Phaser.Utils.Array.Add(this.maquinas, this.bascula);
         this.numMaquinas++;
         this.bascula.estado = "sin objeto"; // 2 posibles estados: sin objeto, con objeto
+        */
 
         // Añado la cinta
         this.cinta = new Maquina("cinta", "undefined", 1, this.physics.add.image(1680, 220, 'cinta').setScale(0.46).setImmovable(), this.physics.add.image(5065, 350).setScale(2.5, 0.7));
@@ -466,7 +457,7 @@ class OfflineGame extends Phaser.Scene {
         this.cinta.colliderExtra = this.physics.add.image(1674, 348).setScale(6.8, 1.9).setImmovable();
 
         // Añado la estacion de empaquetado
-        this.empaquetado = new Maquina("empaquetado", "timer", 1, this.physics.add.image(1673, 510, 'empaquetado').setScale(0.313).setImmovable(), this.physics.add.image(5065, 350).setScale(2.5, 0.7));
+        /*this.empaquetado = new Maquina("empaquetado", "timer", 1, this.physics.add.image(1673, 510, 'empaquetado').setScale(0.313).setImmovable(), this.physics.add.image(5065, 350).setScale(2.5, 0.7));
         this.empaquetado.imagen.rotation = -Math.PI / 2;
         this.empaquetado.imagen.setSize(500, 1000);
         this.empaquetado.imagen.setOffset(420, -200);
@@ -482,6 +473,7 @@ class OfflineGame extends Phaser.Scene {
 
         this.empaquetado.estado = "parado"; // 3 posibles estados : parado, funcionando, finalizado
         this.empaquetado.estadoObjeto = "sin objeto"; // 2 posibles objetos: sin objeto, con objeto
+        */
 
         //// Agregamos la impresora al juego
         this.impresora = new Maquina("impresora", "timer", "down", this.physics.add.image(500, 790, 'impresora').setScale(0.31).setImmovable(), this.physics.add.image(497, 758).setScale(2.9, 1));
@@ -497,10 +489,10 @@ class OfflineGame extends Phaser.Scene {
 
         ///////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////
-        this.textoInicio = this.add.text(1610, 380, 'Inicio', { fontSize: '27px', fill: '#482F22' }, { font: "Monospace" });
-        this.textoInicio.setAngle(90);
-        this.textoFin = this.add.text(1610, 560, 'Fin', { fontSize: '30px', fill: '#482F22' }, { font: "Monospace" });
-        this.textoFin.setAngle(90);
+        //this.textoInicio = this.add.text(1610, 380, 'Inicio', { fontSize: '27px', fill: '#482F22' }, { font: "Monospace" });
+        //this.textoInicio.setAngle(90);
+        //this.textoFin = this.add.text(1610, 560, 'Fin', { fontSize: '30px', fill: '#482F22' }, { font: "Monospace" });
+        //this.textoFin.setAngle(90);
         this.textoCartas = this.add.text(690, 180, 'Cartas', { fontSize: '27px', fill: '#482F22' }, { font: "Monospace" });
         this.textoMenos5 = this.add.text(830, 180, '<5 kg', { fontSize: '27px', fill: '#482F22' }, { font: "Monospace" });
         this.texto5_10 = this.add.text(960, 180, '5-10 kg', { fontSize: '27px', fill: '#482F22' }, { font: "Monospace" });
@@ -508,14 +500,14 @@ class OfflineGame extends Phaser.Scene {
 
 
         for(let i = 0; i < 2; i++) {
-            this.personajes[i] = this.physics.add.sprite(400, 600 + 100, 'personaje').setScale(0.1).refreshBody();//Personaje
+            this.personajes[i] = this.physics.add.sprite(400, 600 + 100*i, 'personaje').setScale(0.1).refreshBody();//Personaje
             this.personajes[i].t = false;
             this.personajes[i].setPushable(false);
             this.personajes[i].objeto = undefined
             this.personajes[i].setCollideWorldBounds(true);
-            this.physics.add.collider(this.personajes[i], [this.impresora.imagen,this.buzonCartas.imagen,this.buzonPaquetes.imagen,
+            this.physics.add.collider(this.personajes[i], [this.impresora.imagen,this.buzonCartas.imagen,
                 this.cajaSobres.imagen,this.mesaSellos.imagen,this.reciclado.imagen,this.papelera.imagen,this.cinta.imagen,
-                this.cinta.colliderExtra,this.empaquetado.imagen,this.empaquetado.colliderExtra,this.mesaArriba1,this.mesaArriba2,
+                this.cinta.colliderExtra,this.mesaArriba1,this.mesaArriba2,
                 this.mesaArriba3,this.mesaAbajo1,this.mesaAbajo2,this.mesaAbajo3,this.mesaIzq1,this.mesaIzq2,this.mesaDcha1,
                 this.mesaDcha2,this.mesaCentral1,this.mesaCentral1.colliderExtra,this.mesaCentral2,this.mesaCentral2.colliderExtra]);
         }
@@ -561,7 +553,7 @@ class OfflineGame extends Phaser.Scene {
 
         //funcion que se ejecuta cada cierto tiempo
         this.temporizadorCinta = this.time.addEvent({
-            delay: 15000,  // El intervalo en milisegundos
+            delay: 1500000,  // El intervalo en milisegundos
             callback: this.crearObjetosCinta,
             callbackScope: this,
             loop: true  //true para que el evento se repita
@@ -586,32 +578,13 @@ class OfflineGame extends Phaser.Scene {
         // this.events.on('resume', this.ajustarVolumen,this)
 
         //Texto
-        this.pesado = this.add.text(1009, 294, '0.00', { fontSize: '19px', fill: '#FF0000' }, { font: "Monospace" });
-        this.textoPuntuacion = this.add.text(850, 864, 'Puntuación: 0', { fontSize: '30px', fill: '#FFFFFF' }, { font: "Monospace" });
+        //this.pesado = this.add.text(1009, 294, '0.00', { fontSize: '19px', fill: '#FF0000' }, { font: "Monospace" });
+        //this.textoPuntuacion = this.add.text(850, 864, 'Puntuación: 0', { fontSize: '30px', fill: '#FFFFFF' }, { font: "Monospace" });
 
         //Temporizador
-        this.tiempoJuego = 180; //tiempo de partida en segundos
-        this.tiempoTranscurrido = 0;   
-        this.time.addEvent({
-            delay: 1000,
-            callback: function () {
-                if (this.tiempoTranscurrido >= this.tiempoJuego) {
-                    this.texto.setText('Tiempo Restante: 0:00');
-                    this.sonidoRapido.stop();
-                    this.scene.start('EndScene');
-                } else {
-                    var minuto = Math.floor((this.tiempoJuego - this.tiempoTranscurrido) / 60);
-                    var segundo = this.tiempoJuego - 60 * minuto - this.tiempoTranscurrido;
-                    var cero = (segundo >= 10) ? '' : '0';
-                    this.texto.setText('Tiempo Restante: ' + minuto + ":" + cero + segundo);
-                    this.tiempoTranscurrido += 1;
-                }
-            },
-            callbackScope: this,
-            loop: true
-        });
+        
 
-        this.texto = this.add.text(185, 60, 'Tiempo Restante: 3:00', { fontSize: '35px', fill: '#fff' });
+        //this.texto = this.add.text(185, 60, 'Tiempo Restante: 3:00', { fontSize: '35px', fill: '#fff' });
 
         this.sonidoLento.loop = true;
         this.sonidoLento.setVolume(dataSettings.master * dataSettings.music / 10000);
@@ -633,66 +606,15 @@ class OfflineGame extends Phaser.Scene {
             else if(this.sonidoRapido.isPaused)
                 this.sonidoRapido.resume();
         },this)
-
-        $.ajax({
-            url: 'http://'+dataSettings.IP+':8080',
-            method: 'GET',
-        }).done((data)=> {
-
-            this.wsConnection = new WebSocket(`ws://${dataSettings.IP}:8080/juego`);
-            this.wsConnection.ready = true;
-
-            this.wsConnection.onopen =  (event)=> {
-                console.log('Conexión WebSocket abierta:', event);
-
-            };
-
-
-            this.wsConnection.onmessage =  (event)=> {
-                console.log('Mensaje recibido desde el servidor:', event.data);
-                let dato = JSON.parse(event.data);
-
-                if(dato.init){
-                    this.sessionId = dato.id;
-                    this.playerN = dato.playerN;
-                }else if(typeof dato.sender === "number"){
-                    this.personajes[dato.sender].setPosition(dato.x,dato.y);
-                    this.personajes[dato.sender].setRotation(dato.rotation);
-                    if(dato.t){
-                        if (!this.interaccionMaquinas(dato.sender))
-                            this.cogerObjeto(dato.sender);
-                    }
-
-                    if(dato.sender === 0)
-                        this.tiempoTranscurrido = dato.timer;
-                }else if(dato.spawnCinta){
-                    this.spawnObject(dato.obj)
-                }
-
-            };
-
-            this.wsConnection.onclose = function (event) {
-                console.log('Conexión WebSocket cerrada:', event);
-            };
-
-            this.wsConnection.onerror = function (event) {
-                console.error('Error en la conexión WebSocket:', event);
-            };
-        },this).fail((error)=>
-        {
-            console.error('Error en la solicitud HTTP:', error);
-        },this);
-
-
     }
 
-    cambioMusica() {
+    /*cambioMusica() {
         this.sonidoLento.stop();
         this.sonidoAlarma.play();
 
         this.sonidoRapido.loop = true;
         this.sonidoRapido.play();
-    }
+    } */
 
     /**
      * Takes the volume information and updates the volumes
@@ -730,79 +652,78 @@ class OfflineGame extends Phaser.Scene {
         const teclaW = this.input.keyboard.addKey('W');
         const teclaS = this.input.keyboard.addKey('S');
         const teclaE = this.input.keyboard.addKey('E');
+        const teclaZ = this.input.keyboard.addKey('Z');
+        const teclaX = this.input.keyboard.addKey('X');
+        const teclaC = this.input.keyboard.addKey('C');
+        const teclaV = this.input.keyboard.addKey('V');
+        const teclaB = this.input.keyboard.addKey('B');
         const teclaO = this.input.keyboard.addKey('O');
-
 
 
         // Control de la rotación
         //personaje 2
-      //if (this.cursors.left.isDown) {
+        if (this.cursors.left.isDown) {
 
-      //    this.personajes[1].setAngularVelocity(-150);
-
-
-      //} else if (this.cursors.right.isDown) {
-      //    this.personajes[1].setAngularVelocity(150);
-
-      //} else {
-      //    this.personajes[1].setAngularVelocity(0);
-      //}
-        if(typeof this.playerN != "number") return;
-      ////personaje 1
-      if (teclaA.isDown) {
-          this.personajes[this.playerN].setAngularVelocity(-150);
-
-          //this.wsConnection.send("tecla A")
-
-      } else if (teclaD.isDown) {
-          this.personajes[this.playerN].setAngularVelocity(150);
-          //this.wsConnection.send("tecla D")
-
-      } else {
-          this.personajes[this.playerN].setAngularVelocity(0);
-          //this.wsConnection.send("no tecla")
-      }
+            this.personajes[1].setAngularVelocity(-150);
 
 
-      //// Control del movimiento
-      ////personaje 1
-      if (teclaW.isDown) {
-          // Avanzar hacia adelante
-          this.physics.velocityFromRotation(this.personajes[this.playerN].rotation, 200, this.personajes[this.playerN].body.velocity);
-          //this.wsConnection.send("tecla W")
-      }
-      else if (teclaS.isDown) {
-          // Retroceder
-          //this.wsConnection.send("tecla S")
-          this.physics.velocityFromRotation(this.personajes[this.playerN].rotation + Math.PI, 200, this.personajes[this.playerN].body.velocity);
-      }
-      else {
-          // Detenerse si no se presionan las teclas de dirección
-          this.personajes[this.playerN].setVelocity(0);
-      }
-      let t = false;
-        if (Phaser.Input.Keyboard.JustDown(teclaE)) {
-            if (!this.interaccionMaquinas(this.playerN))
-                this.cogerObjeto(this.playerN);
-            t = true;
+        } else if (this.cursors.right.isDown) {
+            this.personajes[1].setAngularVelocity(150);
+
+        } else {
+            this.personajes[1].setAngularVelocity(0);
         }
-      let timer = this.playerN === 0? this.tiempoTranscurrido : null;
-        let json =
-            {
-                sender: this.playerN,
-                x: this.personajes[this.playerN].x,
-                y: this.personajes[this.playerN].y,
-                rotation: this.personajes[this.playerN].rotation,
-                timer: timer,
-                t:t
-            };
 
-        this.wsConnection.send(JSON.stringify(json))
+        //personaje 1
+        if (teclaA.isDown) {
+
+            this.personajes[0].setAngularVelocity(-150);
 
 
+        } else if (teclaD.isDown) {
+            this.personajes[0].setAngularVelocity(150);
+
+        } else {
+            this.personajes[0].setAngularVelocity(0);
+        }
+
+
+        // Control del movimiento
+        //personaje 1
+        if (teclaW.isDown) {
+            // Avanzar hacia adelante
+            this.physics.velocityFromRotation(this.personajes[0].rotation, 200, this.personajes[0].body.velocity);
+        }
+        else if (teclaS.isDown) {
+            // Retroceder
+            this.physics.velocityFromRotation(this.personajes[0].rotation + Math.PI, 200, this.personajes[0].body.velocity);
+        }
+        else {
+            // Detenerse si no se presionan las teclas de dirección
+            this.personajes[0].setVelocity(0);
+        }
+        //personaje 2
+        if (this.cursors.up.isDown) {
+            // Avanzar hacia adelante
+            this.physics.velocityFromRotation(this.personajes[1].rotation, 200, this.personajes[1].body.velocity);
+        }
+        else if (this.cursors.down.isDown) {
+            // Retroceder
+            this.physics.velocityFromRotation(this.personajes[1].rotation + Math.PI, 200, this.personajes[1].body.velocity);
+        }
+        else {
+            // Detenerse si no se presionan las teclas de dirección
+            this.personajes[1].setVelocity(0);
+        }
 
         //interactuar con los objetos
-
+        if (Phaser.Input.Keyboard.JustDown(teclaE)) {
+            if(!this.interaccionMaquinas(0))
+                this.cogerObjeto(0);
+        }if (Phaser.Input.Keyboard.JustDown(teclaO)) {
+            if(!this.interaccionMaquinas(1))
+                this.cogerObjeto(1);
+        }
 
         //mueve y rota el objeto llevado delante del personaje
         this.objetos.children.iterate(function (objeto) {
@@ -815,33 +736,6 @@ class OfflineGame extends Phaser.Scene {
             }
 
         }, this);
-        /*
-        for (let i = 0; i < this.objetosCinta.countActive(); i++) {
-            let json =
-                {
-                    obj: this.objetosCinta.getChildren()[i].obj,
-                    x: this.objetosCinta.getChildren()[i].x,
-                    y: this.objetosCinta.getChildren()[i].y,
-                    rot:this.objetosCinta.getChildren()[i].rotation,
-                    estaEnCinta: true,
-                    id: i
-                };
-
-            this.wsConnection.send(JSON.stringify(json))
-        }
-        for (let i = 0; i < this.objetos.countActive(); i++) {
-            let json =
-                {
-                    obj: this.objetos.getChildren()[i].obj,
-                    x: this.objetos.getChildren()[i].x,
-                    y: this.objetos.getChildren()[i].y,
-                    rot:this.objetos.getChildren()[i].rotation,
-                    estaEnCinta: false,
-                    id: i
-                };
-
-            this.wsConnection.send(JSON.stringify(json))
-        }*/
 
 
         var auxObjeto1;//variable auxiliar
@@ -857,10 +751,10 @@ class OfflineGame extends Phaser.Scene {
         }, this);
         //si el personaje coge el objeto, cambiamos dicho objeto de la lista de objetosCinta a objetos
         if (auxObjeto1 != null) {
-
             this.objetosCinta.remove(auxObjeto1);
             this.objetos.add(auxObjeto1);
         }
+
     }
 
     actualizarInteraccion() {
@@ -896,8 +790,7 @@ class OfflineGame extends Phaser.Scene {
     interaccionMaquinas(i) {
         
         return this.interaccionImpresora(i) || this.interaccionReciclado(i) || this.interaccionPapelera(i) ||
-            this.interaccionOrdenador(i) || this.interaccionEmpaquetado(i) || this.interaccionBuzonPaquetes(i) ||
-            this.interaccionBascula(i) || this.interaccionMesaSellos(i) || this.interaccionCajaSobres(i) || this.interaccionBuzonCartas(i);
+            this.interaccionOrdenador(i) || this.interaccionMesaSellos(i) || this.interaccionCajaSobres(i) || this.interaccionBuzonCartas(i);
     }
 
     interaccionImpresora(i) {
@@ -958,7 +851,7 @@ class OfflineGame extends Phaser.Scene {
         
     }
 
-    interaccionEmpaquetado(i) {
+    /*interaccionEmpaquetado(i) {
         if ((((this.personajes[i].rotation < 0.6) && (this.personajes[i].rotation > - 0.6)))) {
 
             if (this.empaquetado.inicioInteractuable[i] && this.empaquetado.estado === "parado" && this.empaquetado.obj === undefined) {
@@ -1015,7 +908,7 @@ class OfflineGame extends Phaser.Scene {
             }
         }
 
-    }
+    }*/
 
     finEmpaquetado(paquete) {
         paquete.x = this.empaquetado.imagen.x
@@ -1253,15 +1146,16 @@ class OfflineGame extends Phaser.Scene {
         if (cartaEvaluar.direccion) {
             puntuacion += 50;
         }
-        this.textoPuntuacion.setText('Puntuación: ' + puntuacion);
+        //this.textoPuntuacion.setText('Puntuación: ' + puntuacion);
         this.personajes[i].objeto = undefined
         this.personajes[i].t = false
         this.objetoEnMano(i).destroy()
         this.sonidoCompletado.play();
+        this.scene.start('TutorialPaquetes');
         console.log("Has ganado " + puntuacion + " puntos");
     }
 
-    interaccionBascula(i) {
+    /*interaccionBascula(i) {
         if (this.bascula.estado === "sin objeto" && this.personajes[i].t) {
             if (this.bascula.interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > -2.6)) {
                 console.log("Has puesto el objeto en la bascula");
@@ -1291,7 +1185,7 @@ class OfflineGame extends Phaser.Scene {
             }
         }
 
-    }
+    }*/
 
     interaccionCajaSobres(i) {
         if (this.personajes[i].objeto !== undefined) {
@@ -1457,7 +1351,7 @@ class OfflineGame extends Phaser.Scene {
 
         let distancia = Phaser.Math.Distance.Between(this.personajes[i].x, this.personajes[i].y, objeto.x, objeto.y);
 
-        if ((distancia < 60) && !this.personajes[i].t && !objeto.t[i]) {//si el personaje esta cerca de un objeto y no lleva nada en la mano, coge el objeto
+        if ((distancia < 60) && !this.personajes[i].t && !objeto.t[1-i]) {//si el personaje esta cerca de un objeto y no lleva nada en la mano, coge el objeto
             objeto.t[i] = true;
             this.personajes[i].t = true;
             this.personajes[i].objeto = objeto.obj;
@@ -1525,12 +1419,13 @@ class OfflineGame extends Phaser.Scene {
         return this.arrayObjetosCinta[aux];
 
     }
+    crearObjetosCinta() {
+        var tipoObjeto = this.obtenerObjetoCinta();
 
-    spawnObject(obj){
-
-        let objeto = this.physics.add.image(this.cinta.imagen.x - 10, this.cinta.imagen.y + 80, obj.imagen).setScale(0.08).refreshBody();//hay que escalar bien la imagen
+        var objeto = this.physics.add.image(this.cinta.imagen.x - 10, this.cinta.imagen.y + 80, tipoObjeto).setScale(0.08).refreshBody();//hay que escalar bien la imagen
         objeto.t = [false,false];
-        objeto.obj = obj;
+        objeto.obj = this.obtenerObjeto(tipoObjeto)
+        objeto.obj.imagen = tipoObjeto;
         this.objetosCinta.add(objeto);
 
         var a = this.objetosCinta.getFirstAlive()
@@ -1550,21 +1445,6 @@ class OfflineGame extends Phaser.Scene {
             this.temporizadorCinta.timeScale = 5;
         }else {
             this.temporizadorCinta.timeScale = 1;
-        }
-    }
-
-    crearObjetosCinta() {
-        if(this.playerN !== 0)  return;
-
-        var tipoObjeto = this.obtenerObjetoCinta();
-
-        let obj = this.obtenerObjeto(tipoObjeto);
-        obj.imagen = tipoObjeto;
-        let json = {
-            spawnCinta: true,
-            obj: obj
-        }
-        this.wsConnection.send(JSON.stringify(json))
-        this.spawnObject(obj)
+        }console.log(this.objetosCinta.countActive())
     }
 }

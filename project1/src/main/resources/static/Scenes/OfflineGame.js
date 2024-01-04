@@ -665,84 +665,9 @@ class OfflineGame extends Phaser.Scene {
 
                     if(dato.sender === 0)
                         this.tiempoTranscurrido = dato.timer;
-                }else{
-                    if(dato.estaEnCinta){
-                        if(this.objetosCinta.getChildren().length <= dato.id){
-                            console.warn("CREADOOOO")
-                            let objeto = this.physics.add.image(dato.x,dato.y, dato.obj.imagen).setScale(0.08).refreshBody();
-                            objeto.t = [false,false];
-                            objeto.obj = dato.obj;
-                            this.objetosCinta.add(objeto);
-                        }else {
-
-                            this.objetosCinta.getChildren()[dato.id].setPosition(dato.x, dato.y);
-                            this.objetosCinta.getChildren()[dato.id].setRotation(dato.rot);
-                            this.objetosCinta.getChildren()[dato.id].obj = dato.obj;
-                        }
-                    }else{
-                        if(this.objetos.getChildren().length <= dato.id){
-                            let objeto = this.physics.add.image(dato.x,dato.y, dato.obj.imagen).setScale(0.08).refreshBody();
-                            objeto.t = [false,false];
-                            objeto.obj = dato.obj;
-                            this.objetos.add(objeto);
-                        }else {
-                            this.objetos.getChildren()[dato.id].setPosition(dato.x, dato.y);
-                            this.objetos.getChildren()[dato.id].setRotation(dato.rot);
-                            this.objetos.getChildren()[dato.id].obj = dato.obj;
-                        }
-                    }
+                }else if(dato.spawnCinta){
+                    this.spawnObject(dato.obj)
                 }
-                // let datos;
-                // if(dato.includes("Mi id es:"))
-                // {
-                //     datos = dato.split(':');
-                //     this.sessionId = datos[1].trim();
-                //     this.playerN = parseInt(datos[2].trim());
-                //     console.log("Mi sesion es :" + this.sessionId + "\nMi número de jugador es: " + this.playerN)
-                // }else
-                // {
-                //     datos=dato.split(':');
-                //     console.log(" ESTe ES MI ID"+this.sessionId+" ESTe ES el ID EL OTRO"+datos[0].trim())
-                //     if(this.sessionId ===datos[0].trim())
-                //     {console.log("ES IGUAL LAS ID")
-                //         // if (datos[1] === "tecla A") {
-                //         //     this.personajes[1].setAngularVelocity(-150);
-                //         // } else if (datos[1] === "tecla D") {
-                //         //     this.personajes[1].setAngularVelocity(150);
-                //         //
-                //         // } else {
-                //         //     this.personajes[1].setAngularVelocity(0);
-                //         // }
-                //         // if (datos[1] === "tecla W") {
-                //         //     this.physics.velocityFromRotation(this.personajes[1].rotation, 200, this.personajes[1].body.velocity);
-                //         // } else if (datos[1] === "tecla S") {
-                //         //     this.physics.velocityFromRotation(this.personajes[1].rotation + Math.PI, 200, this.personajes[1].body.velocity);
-                //         //
-                //         // } else {
-                //         //     this.personajes[1].setVelocity(0);
-                //         // }
-                //     }else
-                //     {console.log("NO ES IGUAL LAS ID")
-                //         if (datos[1] === "tecla A") {
-                //             this.personajes[1-this.playerN].setAngularVelocity(-150);
-                //         } else if (datos[1] === "tecla D") {
-                //             this.personajes[1-this.playerN].setAngularVelocity(150);
-                //
-                //         } else{
-                //             this.personajes[1-this.playerN].setAngularVelocity(0);
-                //         }
-                //         if (datos[1] === "tecla W") {
-                //             this.physics.velocityFromRotation(this.personajes[0].rotation, 200, this.personajes[1-this.playerN].body.velocity);
-                //         } else if (datos[1] === "tecla S") {
-                //             this.physics.velocityFromRotation(this.personajes[0].rotation + Math.PI, 200, this.personajes[1-this.playerN].body.velocity);
-                //
-                //         } else {
-                //             this.personajes[1-this.playerN].setVelocity(0);
-                //         }
-                //     }
-                // }
-
-
 
             };
 
@@ -874,19 +799,7 @@ class OfflineGame extends Phaser.Scene {
 
         this.wsConnection.send(JSON.stringify(json))
 
-     for (let i = 0; i < this.objetosCinta.countActive(); i++) {
-         let json =
-             {
-                 obj: this.objetosCinta.getChildren()[i].obj,
-                 x: this.objetosCinta.getChildren()[i].x,
-                 y: this.objetosCinta.getChildren()[i].y,
-                 rot:this.objetosCinta.getChildren()[i].rotation,
-                 estaEnCinta: true,
-                 id: i
-             };
 
-         this.wsConnection.send(JSON.stringify(json))
-     }
 
         //interactuar con los objetos
 
@@ -902,7 +815,20 @@ class OfflineGame extends Phaser.Scene {
             }
 
         }, this);
+        /*
+        for (let i = 0; i < this.objetosCinta.countActive(); i++) {
+            let json =
+                {
+                    obj: this.objetosCinta.getChildren()[i].obj,
+                    x: this.objetosCinta.getChildren()[i].x,
+                    y: this.objetosCinta.getChildren()[i].y,
+                    rot:this.objetosCinta.getChildren()[i].rotation,
+                    estaEnCinta: true,
+                    id: i
+                };
 
+            this.wsConnection.send(JSON.stringify(json))
+        }
         for (let i = 0; i < this.objetos.countActive(); i++) {
             let json =
                 {
@@ -915,7 +841,7 @@ class OfflineGame extends Phaser.Scene {
                 };
 
             this.wsConnection.send(JSON.stringify(json))
-        }
+        }*/
 
 
         var auxObjeto1;//variable auxiliar
@@ -1600,19 +1526,11 @@ class OfflineGame extends Phaser.Scene {
 
     }
 
-    spawnObject(tipoObjeto, peso){
+    spawnObject(obj){
 
-    }
-
-    crearObjetosCinta() {
-        if(this.playerN !== 0)  return;
-
-        var tipoObjeto = this.obtenerObjetoCinta();
-
-        var objeto = this.physics.add.image(this.cinta.imagen.x - 10, this.cinta.imagen.y + 80, tipoObjeto).setScale(0.08).refreshBody();//hay que escalar bien la imagen
+        let objeto = this.physics.add.image(this.cinta.imagen.x - 10, this.cinta.imagen.y + 80, obj.imagen).setScale(0.08).refreshBody();//hay que escalar bien la imagen
         objeto.t = [false,false];
-        objeto.obj = this.obtenerObjeto(tipoObjeto)
-        objeto.obj.imagen = tipoObjeto;
+        objeto.obj = obj;
         this.objetosCinta.add(objeto);
 
         var a = this.objetosCinta.getFirstAlive()
@@ -1632,12 +1550,21 @@ class OfflineGame extends Phaser.Scene {
             this.temporizadorCinta.timeScale = 5;
         }else {
             this.temporizadorCinta.timeScale = 1;
-        }console.log(this.objetosCinta.countActive())
+        }
+    }
 
+    crearObjetosCinta() {
+        if(this.playerN !== 0)  return;
 
+        var tipoObjeto = this.obtenerObjetoCinta();
 
-
-
-
+        let obj = this.obtenerObjeto(tipoObjeto);
+        obj.imagen = tipoObjeto;
+        let json = {
+            spawnCinta: true,
+            obj: obj
+        }
+        this.wsConnection.send(JSON.stringify(json))
+        this.spawnObject(obj)
     }
 }

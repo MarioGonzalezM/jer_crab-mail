@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9b99bd8-0ffe-4a70-ac54-44996a7d8bba" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project1/src/main/java/demo/example/demo/WebSocketGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/project1/src/main/java/demo/example/demo/WebSocketGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project1/src/main/resources/static/Scenes/DataSettings.js" beforeDir="false" afterPath="$PROJECT_DIR$/project1/src/main/resources/static/Scenes/DataSettings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project1/src/main/resources/static/Scenes/OfflineGame.js" beforeDir="false" afterPath="$PROJECT_DIR$/project1/src/main/resources/static/Scenes/OfflineGame.js" afterDir="false" />
-    </list>
+    <list default="true" id="c9b99bd8-0ffe-4a70-ac54-44996a7d8bba" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -154,12 +149,6 @@
           <url>file://$PROJECT_DIR$/project1/src/main/resources/static/Scenes/Perfil.js</url>
           <line>73</line>
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/project1/src/main/resources/static/Scenes/OfflineGame.js</url>
-          <line>24</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

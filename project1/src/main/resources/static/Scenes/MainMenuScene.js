@@ -7,7 +7,7 @@ class MainMenuScene extends Phaser.Scene{
     buttons
     buttonMaxX = 384.5
     buttonMinX= 279.5
-    buttonScenes = ['Chat', 'TutorialCartas', 'Perfil', 'OptionsMenu']
+    buttonScenes = ['Chat', 'OfflineGame', 'Perfil', 'OptionsMenu']
    //Sonidos
     sonidoFondo
     sonidoBoton
@@ -97,9 +97,7 @@ class MainMenuScene extends Phaser.Scene{
 
     update() {
         this.sonidoFondo.setVolume(dataSettings.master *dataSettings.music/10000.0)
-        console.log(dataSettings.master *dataSettings.music/10000.0)
         this.sonidoBoton.setVolume(dataSettings.master *dataSettings.sfx/10000.0);
-
     }
 }
 

@@ -97,9 +97,7 @@ class MainMenuScene extends Phaser.Scene{
 
     update() {
         this.sonidoFondo.setVolume(dataSettings.master *dataSettings.music/10000.0)
-        console.log(dataSettings.master *dataSettings.music/10000.0)
         this.sonidoBoton.setVolume(dataSettings.master *dataSettings.sfx/10000.0);
-
     }
 }
 
@@ -124,7 +122,7 @@ var config = {
     dom: {
         createContainer: true
     },
-    scene: [MainMenuScene, OfflineGame, Perfil, OptionsMenu, PauseMenu, EndScene, Chat],
+    scene: [MainMenuScene, OfflineGame, Perfil, OptionsMenu, PauseMenu, EndScene, Chat, TutorialCartas, TutorialPaquetes],
 
 };
 const game = new Phaser.Game(config);
