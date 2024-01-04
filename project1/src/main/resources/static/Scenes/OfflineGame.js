@@ -668,22 +668,26 @@ class OfflineGame extends Phaser.Scene {
                 }else{
                     if(dato.estaEnCinta){
                         if(this.objetosCinta.getChildren().length <= dato.id){
-                            let objeto = this.physics.add.image(dato.x,dato.y, dato.obj.imagen).setScale(0.08).refreshBody();//hay que escalar bien la imagen
+                            console.warn("CREADOOOO")
+                            let objeto = this.physics.add.image(dato.x,dato.y, dato.obj.imagen).setScale(0.08).refreshBody();
                             objeto.t = [false,false];
                             objeto.obj = dato.obj;
                             this.objetosCinta.add(objeto);
                         }else {
+
                             this.objetosCinta.getChildren()[dato.id].setPosition(dato.x, dato.y);
+                            this.objetosCinta.getChildren()[dato.id].setRotation(dato.rot);
                             this.objetosCinta.getChildren()[dato.id].obj = dato.obj;
                         }
                     }else{
                         if(this.objetos.getChildren().length <= dato.id){
-                            let objeto = this.physics.add.image(dato.x,dato.y, dato.obj.imagen).setScale(0.08).refreshBody();//hay que escalar bien la imagen
+                            let objeto = this.physics.add.image(dato.x,dato.y, dato.obj.imagen).setScale(0.08).refreshBody();
                             objeto.t = [false,false];
                             objeto.obj = dato.obj;
                             this.objetos.add(objeto);
                         }else {
                             this.objetos.getChildren()[dato.id].setPosition(dato.x, dato.y);
+                            this.objetos.getChildren()[dato.id].setRotation(dato.rot);
                             this.objetos.getChildren()[dato.id].obj = dato.obj;
                         }
                     }
@@ -853,8 +857,8 @@ class OfflineGame extends Phaser.Scene {
       }
       let t = false;
         if (Phaser.Input.Keyboard.JustDown(teclaE)) {
-            if (!this.interaccionMaquinas(0))
-                this.cogerObjeto(0);
+            if (!this.interaccionMaquinas(this.playerN))
+                this.cogerObjeto(this.playerN);
             t = true;
         }
       let timer = this.playerN === 0? this.tiempoTranscurrido : null;
@@ -869,6 +873,20 @@ class OfflineGame extends Phaser.Scene {
             };
 
         this.wsConnection.send(JSON.stringify(json))
+
+     for (let i = 0; i < this.objetosCinta.countActive(); i++) {
+         let json =
+             {
+                 obj: this.objetosCinta.getChildren()[i].obj,
+                 x: this.objetosCinta.getChildren()[i].x,
+                 y: this.objetosCinta.getChildren()[i].y,
+                 rot:this.objetosCinta.getChildren()[i].rotation,
+                 estaEnCinta: true,
+                 id: i
+             };
+
+         this.wsConnection.send(JSON.stringify(json))
+     }
 
         //interactuar con los objetos
 
@@ -885,6 +903,20 @@ class OfflineGame extends Phaser.Scene {
 
         }, this);
 
+        for (let i = 0; i < this.objetos.countActive(); i++) {
+            let json =
+                {
+                    obj: this.objetos.getChildren()[i].obj,
+                    x: this.objetos.getChildren()[i].x,
+                    y: this.objetos.getChildren()[i].y,
+                    rot:this.objetos.getChildren()[i].rotation,
+                    estaEnCinta: false,
+                    id: i
+                };
+
+            this.wsConnection.send(JSON.stringify(json))
+        }
+
 
         var auxObjeto1;//variable auxiliar
         this.objetosCinta.children.iterate(function (objeto) {
@@ -899,6 +931,7 @@ class OfflineGame extends Phaser.Scene {
         }, this);
         //si el personaje coge el objeto, cambiamos dicho objeto de la lista de objetosCinta a objetos
         if (auxObjeto1 != null) {
+
             this.objetosCinta.remove(auxObjeto1);
             this.objetos.add(auxObjeto1);
         }
@@ -1498,7 +1531,7 @@ class OfflineGame extends Phaser.Scene {
 
         let distancia = Phaser.Math.Distance.Between(this.personajes[i].x, this.personajes[i].y, objeto.x, objeto.y);
 
-        if ((distancia < 60) && !this.personajes[i].t && !objeto.t[1-i]) {//si el personaje esta cerca de un objeto y no lleva nada en la mano, coge el objeto
+        if ((distancia < 60) && !this.personajes[i].t && !objeto.t[i]) {//si el personaje esta cerca de un objeto y no lleva nada en la mano, coge el objeto
             objeto.t[i] = true;
             this.personajes[i].t = true;
             this.personajes[i].objeto = objeto.obj;
@@ -1601,18 +1634,10 @@ class OfflineGame extends Phaser.Scene {
             this.temporizadorCinta.timeScale = 1;
         }console.log(this.objetosCinta.countActive())
 
-        for (let i = 0; i < this.objetosCinta.countActive(); i++) {
-            let json =
-                {
-                    obj: objeto.obj,
-                    x: objeto.x,
-                    y:objeto.y,
-                    estaEnCinta: true,
-                    id: i
-                };
 
-            this.wsConnection.send(JSON.stringify(json))
-        }
+
+
+
 
     }
 }

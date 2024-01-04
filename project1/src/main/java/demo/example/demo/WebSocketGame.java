@@ -47,6 +47,7 @@ public class WebSocketGame extends TextWebSocketHandler {
         public int id;
         public float x;
         public float y;
+        public float rot;
     }
 
     private final List<WebSocketSession> sessions = new ArrayList<>();
