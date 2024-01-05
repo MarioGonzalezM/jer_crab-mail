@@ -42,7 +42,7 @@ class TutorialCartas extends Phaser.Scene {
     personajes;
 
     fondo;
-    dialogo;
+    
     star;
     objetos;
     objetosCinta;
@@ -119,6 +119,10 @@ class TutorialCartas extends Phaser.Scene {
     texto;
 
     temporizadorCinta
+    
+    // TUTORIAL
+    dialogo;
+    numDialogoTutorial;
 
     preload() {
         //Sprites sin objetos
@@ -245,6 +249,8 @@ class TutorialCartas extends Phaser.Scene {
 
         //Diálogos
         this.load.image('dialogo1', 'Assets/Tutorial/dialogo1.png');
+        this.load.image('dialogo2', 'Assets/Tutorial/dialogo2.png');
+        this.load.image('dialogo3', 'Assets/Tutorial/dialogo3.png');
 
 
         // Sonidos
@@ -295,6 +301,7 @@ class TutorialCartas extends Phaser.Scene {
         this.fondo = this.add.image(960, 540, 'fondo');//Fondo
 
         this.dialogo = this.add.image(940, 980, 'dialogo1');
+        this.numDialogoTutorial = 1;
 
         //////////////////////////////////////////////////////
         ///////////AÑADO LAS MAQUINAS Y LAS MESAS////////////
@@ -395,7 +402,8 @@ class TutorialCartas extends Phaser.Scene {
         this.numMaquinas++;
         */
 
-
+ 		this.dialogo = this.add.image(940, 980, 'dialogo1');
+        this.numDialogoTutorial = 1;
         // Agregamos la caja de sobres
         this.cajaSobres = new Maquina("caja sobres", "interaccion", 1, this.physics.add.image(255, 408, 'cajaSobres').setScale(0.33).setImmovable(), this.physics.add.image(300, 407).setScale(0.9, 4));
         this.cajaSobres.imagen.setSize(430, 380);
@@ -607,6 +615,8 @@ class TutorialCartas extends Phaser.Scene {
                 this.sonidoRapido.resume();
         },this)
     }
+    
+    
 
     /*cambioMusica() {
         this.sonidoLento.stop();
@@ -642,7 +652,7 @@ class TutorialCartas extends Phaser.Scene {
 
     update() {
 
-
+		console.log(this.numDialogoTutorial);
 
         this.actualizarInteraccion();
 
@@ -718,8 +728,16 @@ class TutorialCartas extends Phaser.Scene {
 
         //interactuar con los objetos
         if (Phaser.Input.Keyboard.JustDown(teclaE)) {
+            
+			if(this.numDialogoTutorial == 1){
+					this.dialogo = this.add.image(940, 980, 'dialogo2');
+					this.numDialogoTutorial++; 
+				}
+		
             if(!this.interaccionMaquinas(0))
                 this.cogerObjeto(0);
+                
+            
         }if (Phaser.Input.Keyboard.JustDown(teclaO)) {
             if(!this.interaccionMaquinas(1))
                 this.cogerObjeto(1);
@@ -1155,37 +1173,6 @@ class TutorialCartas extends Phaser.Scene {
         console.log("Has ganado " + puntuacion + " puntos");
     }
 
-    /*interaccionBascula(i) {
-        if (this.bascula.estado === "sin objeto" && this.personajes[i].t) {
-            if (this.bascula.interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > -2.6)) {
-                console.log("Has puesto el objeto en la bascula");
-                console.log("Tu objeto pesa " + this.personajes[i].objeto.peso);
-                this.pesado.setText(this.personajes[i].objeto.peso);
-                let obj = this.objetoEnMano(i);
-                obj.t[i]= false;
-                this.personajes[i].objeto = undefined
-                this.personajes[i].t = false;
-
-                obj.x = this.bascula.imagen.x - 15;
-                obj.y = this.bascula.imagen.y - 5;
-
-                this.bascula.obj = obj;
-                this.bascula.estado = "con objeto";
-                return true;
-            }
-        } else if (this.bascula.estado === "con objeto") {
-            if (this.bascula.interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > -2.6)) {
-                console.log("Has quitado el objeto de la bascula");
-                this.pesado.setText('0.00');
-                this.bascula.estado = "sin objeto";
-                this.bascula.obj.t[i] = true;
-                this.personajes[i].t = true;
-                this.personajes[i].objeto = this.bascula.obj.obj;
-                return true;
-            }
-        }
-
-    }*/
 
     interaccionCajaSobres(i) {
         if (this.personajes[i].objeto !== undefined) {
@@ -1355,6 +1342,10 @@ class TutorialCartas extends Phaser.Scene {
             objeto.t[i] = true;
             this.personajes[i].t = true;
             this.personajes[i].objeto = objeto.obj;
+            if(this.numDialogoTutorial == 2){
+			 			this.dialogo = this.add.image(940, 980, 'dialogo3');
+			 			this.numDialogoTutorial++;
+					}	
         }
         else if (this.personajes[i].t && objeto.t[i])// si el personaje tiene algo en la mano y es el objeto, lo suelta
         {
@@ -1401,13 +1392,14 @@ class TutorialCartas extends Phaser.Scene {
     }
 
     cogerObjeto(i) {
+		
             this.objetos.children.iterate(function (objeto) {
 
                 this.func1(objeto, i);
 
             }, this);
             this.objetosCinta.children.iterate(function (objeto) {
-
+					
                 this.func1(objeto, i);
 
             }, this);

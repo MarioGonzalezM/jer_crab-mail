@@ -8,7 +8,7 @@ class MainMenuScene extends Phaser.Scene{
     buttons
     buttonMaxX = 384.5
     buttonMinX= 279.5
-    buttonScenes = ['Chat', 'OfflineGame', 'Perfil', 'OptionsMenu']
+    buttonScenes = ['Chat', 'OfflineGame', 'Perfil', 'OptionsMenu', 'TutorialCartas']
    //Sonidos
     sonidoFondo
     sonidoBoton
@@ -16,6 +16,8 @@ class MainMenuScene extends Phaser.Scene{
     fondoMeme
     fondoNegro
     botonSalir
+    gaviota
+    
     preload()
     {
         //this.load.plugin('rexinputtextplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexinputtextplugin.min.js', true);
@@ -25,6 +27,8 @@ class MainMenuScene extends Phaser.Scene{
         this.load.image('crabMail2', 'Assets/crabMail2.png');
         this.load.image('negro', 'Assets/ne.png');
         this.load.image('salirMeme', 'Assets/salirMeme.png');
+        this.load.image('gaviota', 'Assets/gaviota.png');
+        
         this.load.spritesheet('buttons', 'Assets/MainMenu/SpriteSheetBotonesMP.png', { frameWidth: 700, frameHeight: 239 });
         this.load.audio('sonidoBoton', ['Sounds/botones.mp3']);
         this.load.audio('fondoSonido', ['Sounds/fondo.mp3']);
@@ -114,6 +118,16 @@ class MainMenuScene extends Phaser.Scene{
         //We want the buttons to be partially hidden behind the post
         this.add.image(960, 540, 'post');
         
+        this.gaviota = this.add.image(1400, 950, 'gaviota');
+        this.gaviota.setScale(0.6)
+        
+        this.gaviota.setInteractive();
+        this.gaviota.on('pointerdown', function() {
+			this.sonidoFondo.stop();
+			this.sonidoBoton.play();
+			this.scene.start('TutorialCartas');
+   		},this);
+        
         
         this.fondoNegro = this.add.image(960, 540, 'negro');
 		this.fondoNegro.setScale(3.0,3.0);
@@ -160,9 +174,6 @@ class MainMenuScene extends Phaser.Scene{
 
     update() {
 		
-		
-		
-		
         this.sonidoFondo.setVolume(dataSettings.master *dataSettings.music/10000.0)
         this.sonidoBoton.setVolume(dataSettings.master *dataSettings.sfx/10000.0);
     }
@@ -189,7 +200,7 @@ var config = {
     dom: {
         createContainer: true
     },
-    scene: [MainMenuScene, OfflineGame, Perfil, OptionsMenu, PauseMenu, EndScene, Chat],
+    scene: [MainMenuScene, OfflineGame, Perfil, OptionsMenu, PauseMenu, EndScene, Chat, TutorialCartas],
 
 };
 const game = new Phaser.Game(config);
