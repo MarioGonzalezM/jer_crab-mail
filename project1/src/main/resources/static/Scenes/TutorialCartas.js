@@ -251,6 +251,12 @@ class TutorialCartas extends Phaser.Scene {
         this.load.image('dialogo1', 'Assets/Tutorial/dialogo1.png');
         this.load.image('dialogo2', 'Assets/Tutorial/dialogo2.png');
         this.load.image('dialogo3', 'Assets/Tutorial/dialogo3.png');
+        this.load.image('dialogo4', 'Assets/Tutorial/dialogo4.png');
+        this.load.image('dialogo5', 'Assets/Tutorial/dialogo5.png');
+        this.load.image('dialogo6', 'Assets/Tutorial/dialogo6.png');
+        this.load.image('dialogo7', 'Assets/Tutorial/dialogo7.png');
+
+
 
 
         // Sonidos
@@ -851,6 +857,10 @@ class TutorialCartas extends Phaser.Scene {
                 this.personajes[i].objeto = objeto.obj;
                 this.impresora.imagen.setTexture('impresora');
                 this.impresora.estadoPapel = "sin papel";
+                if (this.numDialogoTutorial == 3) {
+                    this.dialogo = this.add.image(940, 980, 'dialogo4');
+                    this.numDialogoTutorial++;
+                }	
 
             }
             return true;
@@ -1002,8 +1012,11 @@ class TutorialCartas extends Phaser.Scene {
                                 this.objetoEnMano(i).setTexture('carta3')
                             } else { this.objetoEnMano(i).setTexture('carta4') }
 
-                           
                             this.personajes[i].objeto.direccion = true;
+                            if (this.numDialogoTutorial == 5) {
+                                this.dialogo = this.add.image(940, 980, 'dialogo6');
+                                this.numDialogoTutorial++;
+                            }	
                         } else {
                             console.log("debes meter el papel en el sobre primero")
                         }
@@ -1193,6 +1206,11 @@ class TutorialCartas extends Phaser.Scene {
                     var objeto = this.objetoEnMano(i);
                     objeto.setTexture('carta1');
                     objeto.obj.sobre = true;
+
+                    if (this.numDialogoTutorial == 4) {
+                        this.dialogo = this.add.image(940, 980, 'dialogo5');
+                        this.numDialogoTutorial++;
+                    }	
                     
                     this.personajes[i].objeto.sobre = true;
                     return true;
@@ -1221,6 +1239,11 @@ class TutorialCartas extends Phaser.Scene {
 
                             
                             this.personajes[i].objeto.sello = "sello cartas";
+
+                            if (this.numDialogoTutorial == 6) {
+                                this.dialogo = this.add.image(940, 980, 'dialogo7');
+                                this.numDialogoTutorial++;
+                            }	
                         } else {
                             console.log("Sobre primero")
                         }
