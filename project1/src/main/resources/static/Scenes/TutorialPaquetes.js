@@ -58,8 +58,8 @@ class TutorialPaquetes extends Phaser.Scene {
     buzonPaquetes;
     cajaSobres;
     mesaSellos;
-    reciclado;
-    papelera;
+    //reciclado;
+    //papelera;
     ordenador;
     cinta;
     empaquetado;
@@ -93,8 +93,8 @@ class TutorialPaquetes extends Phaser.Scene {
     //Sonidos
     sonidoImpresora;
     sonidoBuzones;
-    sonidoReinicio;
-    sonidoPapelera;
+    //sonidoReinicio;
+    //sonidoPapelera;
     sonidoOrdenador;
     sonidoCaja;
     sonidoSellos;
@@ -118,6 +118,10 @@ class TutorialPaquetes extends Phaser.Scene {
     texto;
 
     temporizadorCinta
+    
+    // PARTE TUTORIAL
+    dialogo;
+    numDialogoTutorial;
 
     preload() {
         //Sprites sin objetos
@@ -220,8 +224,8 @@ class TutorialPaquetes extends Phaser.Scene {
         this.load.image('buzonPaquetes', 'Assets/Buzon paquetes/Buzon paquetes.png');
         this.load.image('cajaSobres', 'Assets/Caja sobres/caja.png');
         this.load.image('mesaSellos', 'Assets/Mesa sellos/mesa.png');
-        this.load.image('reciclado', 'Assets/Estacion reciclado/reciclado.png');
-        this.load.image('papelera', 'Assets/Papelera/Papelera.png');
+       // this.load.image('reciclado', 'Assets/Estacion reciclado/reciclado.png');
+        //this.load.image('papelera', 'Assets/Papelera/Papelera.png');
         this.load.image('ordenador', 'Assets/Ordenador/ordenador.png');
         this.load.image('cinta', 'Assets/Cinta/Cinta.png');
         this.load.image('empaquetado', 'Assets/Empaquetado/Empaquetado.png');
@@ -246,8 +250,8 @@ class TutorialPaquetes extends Phaser.Scene {
         // Sonidos
         this.load.audio('impresora', ['Sounds/impresoraSonido.mp3']);
         this.load.audio('buzones', ['Sounds/sonidoBuzones.mp3']);
-        this.load.audio('reinicio', ['Sounds/reinicioSonido.mp3']);
-        this.load.audio('papelera', ['Sounds/papeleraSonido.mp3']);
+        //this.load.audio('reinicio', ['Sounds/reinicioSonido.mp3']);
+        //this.load.audio('papelera', ['Sounds/papeleraSonido.mp3']);
         this.load.audio('ordenador', ['Sounds/ordenadorSonido.mp3']);
         this.load.audio('caja', ['Sounds/cajaSonido.mp3']);
         this.load.audio('sellos', ['Sounds/sonidoSellos.mp3']);
@@ -268,6 +272,18 @@ class TutorialPaquetes extends Phaser.Scene {
         this.load.image('paquete2', 'Assets/Objetos/paquete2.png');
         this.load.image('paquete3', 'Assets/Objetos/paquete3.png');
         this.load.image('paquete4', 'Assets/Objetos/paquete4.png');
+        
+        // Loads del tutorial
+        
+        this.load.image('dialogo1', 'Assets/Tutorial/dialogo1.png');
+        this.load.image('dialogo2', 'Assets/Tutorial/dialogo2.png');
+        this.load.image('dialogo3', 'Assets/Tutorial/dialogo3.png');
+        this.load.image('dialogo4', 'Assets/Tutorial/dialogo4.png');
+        this.load.image('dialogo5', 'Assets/Tutorial/dialogo5.png');
+        this.load.image('dialogo6', 'Assets/Tutorial/dialogo6.png');
+        this.load.image('dialogo7', 'Assets/Tutorial/dialogo7.png');
+
+
 
     }
 
@@ -289,6 +305,8 @@ class TutorialPaquetes extends Phaser.Scene {
         this.scale.refresh();
 
         this.fondo = this.add.image(960, 540, 'fondo');//Fondo
+        
+         
 
         //////////////////////////////////////////////////////
         ///////////AÑADO LAS MAQUINAS Y LAS MESAS////////////
@@ -369,6 +387,9 @@ class TutorialPaquetes extends Phaser.Scene {
         this.mesaCentral2.colliderExtra = this.physics.add.image(718, 535).setImmovable();
         this.mesaCentral2.colliderExtra.setSize(77, 172);
         //#endregion
+        
+        this.dialogo = this.add.image(940, 980, 'dialogo1');
+        this.numDialogoTutorial = 1;
 
         //#region REGION MAQUINAS
 
@@ -414,23 +435,6 @@ class TutorialPaquetes extends Phaser.Scene {
         this.mesaSellos.paquetes2Interactuable = [false,false]
         this.mesaSellos.paquetes3Interactuable = [false,false]
         this.numMaquinas++;
-
-        // Agregamos la estacion de reciclado
-        this.reciclado = new Maquina("reciclado", "interaccion", 1, this.physics.add.image(1215, 809, 'reciclado').setScale(0.20).setImmovable(), this.physics.add.image(1213, 757).setScale(2, 0.7));
-        this.reciclado.imagen.setSize(450,450);
-        this.reciclado.imagen.setOffset(300, 140);
-        this.reciclado.imagen.rotation = -Math.PI;
-        Phaser.Utils.Array.Add(this.maquinas, this.reciclado);
-        this.numMaquinas++;
-
-        // Agregamos la papelera
-        this.papelera = new Maquina("papelera", "interaccion", 1, this.physics.add.image(1335, 817, 'papelera').setScale(0.17).setImmovable(), this.physics.add.image(1335, 757).setScale(2, 0.7));
-        this.papelera.imagen.setSize(580, 600);
-        this.papelera.imagen.setOffset(250, 50);
-        this.papelera.imagen.rotation = -Math.PI;
-        Phaser.Utils.Array.Add(this.maquinas, this.papelera);
-        this.numMaquinas++;
-
 
         // Agregamos el ordenador
         this.ordenador = new Maquina("ordenador", "interaccion", 1, this.physics.add.image(950, 645, 'ordenador').setScale(0.13).setImmovable(), this.physics.add.image(950, 597).setScale(4, 0.7));
@@ -500,7 +504,7 @@ class TutorialPaquetes extends Phaser.Scene {
             this.personajes[i].objeto = undefined
             this.personajes[i].setCollideWorldBounds(true);
             this.physics.add.collider(this.personajes[i], [this.buzonPaquetes.imagen,
-                this.mesaSellos.imagen,this.reciclado.imagen,this.papelera.imagen,this.cinta.imagen,
+                this.mesaSellos.imagen,this.cinta.imagen,
                 this.cinta.colliderExtra,this.empaquetado.imagen,this.empaquetado.colliderExtra,this.mesaArriba1,this.mesaArriba2,
                 this.mesaArriba3,this.mesaAbajo1,this.mesaAbajo2,this.mesaAbajo3,this.mesaIzq1,this.mesaIzq2,this.mesaDcha1,
                 this.mesaDcha2,this.mesaCentral1,this.mesaCentral1.colliderExtra,this.mesaCentral2,this.mesaCentral2.colliderExtra]);
@@ -547,7 +551,7 @@ class TutorialPaquetes extends Phaser.Scene {
 
         //funcion que se ejecuta cada cierto tiempo
         this.temporizadorCinta = this.time.addEvent({
-            delay: 45000,  // El intervalo en milisegundos
+            delay: 450000,  // El intervalo en milisegundos
             callback: this.crearObjetosCinta,
             callbackScope: this,
             loop: true  //true para que el evento se repita
@@ -556,8 +560,8 @@ class TutorialPaquetes extends Phaser.Scene {
         // Sonidos
         this.sonidoImpresora = this.sound.add('impresora');
         this.sonidoBuzones = this.sound.add('buzones');
-        this.sonidoReinicio = this.sound.add('reinicio');
-        this.sonidoPapelera = this.sound.add('papelera');
+        //this.sonidoReinicio = this.sound.add('reinicio');
+        //this.sonidoPapelera = this.sound.add('papelera');
         this.sonidoOrdenador = this.sound.add('ordenador');
         this.sonidoCaja = this.sound.add('caja');
         this.sonidoSellos = this.sound.add('sellos');
@@ -616,8 +620,8 @@ class TutorialPaquetes extends Phaser.Scene {
         let sfxVolume = dataSettings.sfx * dataSettings.master / 10000;
         this.sonidoImpresora.setVolume(sfxVolume)
         this.sonidoBuzones.setVolume(sfxVolume)
-        this.sonidoReinicio.setVolume(sfxVolume)
-        this.sonidoPapelera.setVolume(sfxVolume)
+       // this.sonidoReinicio.setVolume(sfxVolume)
+        //this.sonidoPapelera.setVolume(sfxVolume)
         this.sonidoOrdenador.setVolume(sfxVolume)
         this.sonidoCaja.setVolume(sfxVolume)
         this.sonidoSellos.setVolume(sfxVolume)
@@ -709,6 +713,12 @@ class TutorialPaquetes extends Phaser.Scene {
 
         //interactuar con los objetos
         if (Phaser.Input.Keyboard.JustDown(teclaE)) {
+			
+			if(this.numDialogoTutorial == 1){
+					this.dialogo = this.add.image(940, 980, 'dialogo2');
+					this.numDialogoTutorial++; 
+				}
+			
             if(!this.interaccionMaquinas(0))
                 this.cogerObjeto(0);
         }if (Phaser.Input.Keyboard.JustDown(teclaO)) {
@@ -780,8 +790,7 @@ class TutorialPaquetes extends Phaser.Scene {
 
     interaccionMaquinas(i) {
         
-        return this.interaccionReciclado(i) || this.interaccionPapelera(i) ||
-            this.interaccionOrdenador(i) || this.interaccionEmpaquetado(i) || this.interaccionBuzonPaquetes(i) ||
+        return this.interaccionOrdenador(i) || this.interaccionEmpaquetado(i) || this.interaccionBuzonPaquetes(i) ||
             this.interaccionBascula(i) || this.interaccionMesaSellos(i);
     }
 
@@ -892,6 +901,10 @@ class TutorialPaquetes extends Phaser.Scene {
 
                 this.empaquetado.estado = "parado";
                 console.log("Has recogido tu objeto recien empaquetado");
+                if (this.numDialogoTutorial == 3) {
+                    this.dialogo = this.add.image(940, 980, 'dialogo4');
+                    this.numDialogoTutorial++;
+                }
                 this.objetos.add(this.empaquetado.obj);
                 this.empaquetado.obj = undefined
                 return true;
@@ -917,16 +930,7 @@ class TutorialPaquetes extends Phaser.Scene {
         console.log("Su paquete ha sido empaquetado y esta a la espera de ser recogido");
     }
 
-    interaccionReciclado(i) {
-        if (this.personajes[i].objeto !== undefined) {
-            if (this.reciclado.interactuable[i] && (this.personajes[i].rotation < 2.4) && (this.personajes[i].rotation > 0.6)) {
-                this.reciclarObjeto(i)
-                this.sonidoReinicio.play();
-                console.log("Has reciclado tu " + this.personajes[i].objeto.nombre);
-                return true;
-            }
-        }
-    }
+    
 
     reciclarObjeto(i) {
         let obj = this.objetoEnMano(i);
@@ -949,19 +953,6 @@ class TutorialPaquetes extends Phaser.Scene {
         
     }
 
-
-    interaccionPapelera(i) {
-        if (this.papelera.interactuable[i] && (this.personajes[i].rotation < 2.4) && (this.personajes[i].rotation > 0.6)) {
-            if (this.personajes[i].objeto !== undefined) {
-                this.sonidoPapelera.play();
-                this.objetoEnMano(i).destroy();
-                this.personajes[i].objeto = undefined;
-                this.personajes[i].t = false;
-                console.log("Has tirado tu pedido");
-            }
-            return true;
-        }
-    }
 
     interaccionOrdenador(i) {
         if (this.personajes[i].objeto !== undefined) {
@@ -1346,6 +1337,10 @@ class TutorialPaquetes extends Phaser.Scene {
             objeto.t[i] = true;
             this.personajes[i].t = true;
             this.personajes[i].objeto = objeto.obj;
+            if(this.numDialogoTutorial == 2){
+			 			this.dialogo = this.add.image(940, 980, 'dialogo3');
+			 			this.numDialogoTutorial++;
+					}	
         }
         else if (this.personajes[i].t && objeto.t[i])// si el personaje tiene algo en la mano y es el objeto, lo suelta
         {

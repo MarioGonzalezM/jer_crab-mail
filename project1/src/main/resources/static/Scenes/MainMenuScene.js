@@ -8,7 +8,7 @@ class MainMenuScene extends Phaser.Scene{
     buttons
     buttonMaxX = 384.5
     buttonMinX= 279.5
-    buttonScenes = ['Chat', 'OfflineGame', 'Perfil', 'OptionsMenu', 'TutorialCartas']
+    buttonScenes = ['Chat', 'OfflineGame', 'Perfil', 'OptionsMenu', 'TutorialCartas', 'TutorialPaquetes']
    //Sonidos
     sonidoFondo
     sonidoBoton
@@ -200,7 +200,7 @@ var config = {
     dom: {
         createContainer: true
     },
-    scene: [MainMenuScene, OfflineGame, Perfil, OptionsMenu, PauseMenu, EndScene, Chat, TutorialCartas],
+    scene: [MainMenuScene, OfflineGame, Perfil, OptionsMenu, PauseMenu, EndScene, Chat, TutorialCartas, TutorialPaquetes],
 
 };
 const game = new Phaser.Game(config);

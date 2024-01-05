@@ -1,9 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Scenes",
-    "\\Sounds"
+    "\\project1",
+    "\\project1\\src",
+    "\\project1\\src\\main",
+    "\\project1\\src\\main\\java",
+    "\\project1\\src\\main\\resources",
+    "\\project1\\src\\main\\resources\\static",
+    "\\project1\\src\\main\\resources\\static\\Scenes",
+    "\\project1\\src\\test",
+    "\\project1\\target"
   ],
-  "SelectedNode": "\\Scenes\\OfflineGame.js",
+  "SelectedNode": "\\project1\\src\\main\\resources\\static\\Scenes",
   "PreviewInSolutionExplorer": false
 }

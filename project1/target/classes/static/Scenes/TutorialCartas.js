@@ -59,8 +59,8 @@ class TutorialCartas extends Phaser.Scene {
     buzonPaquetes;
     cajaSobres;
     mesaSellos;
-    reciclado;
-    papelera;
+   // reciclado;
+    //papelera;
     ordenador;
     cinta;
     empaquetado;
@@ -94,8 +94,8 @@ class TutorialCartas extends Phaser.Scene {
     //Sonidos
     sonidoImpresora;
     sonidoBuzones;
-    sonidoReinicio;
-    sonidoPapelera;
+    //sonidoReinicio;
+    //sonidoPapelera;
     sonidoOrdenador;
     sonidoCaja;
     sonidoSellos;
@@ -225,8 +225,8 @@ class TutorialCartas extends Phaser.Scene {
         this.load.image('buzonPaquetes', 'Assets/Buzon paquetes/Buzon paquetes.png');
         this.load.image('cajaSobres', 'Assets/Caja sobres/caja.png');
         this.load.image('mesaSellos', 'Assets/Mesa sellos/mesa.png');
-        this.load.image('reciclado', 'Assets/Estacion reciclado/reciclado.png');
-        this.load.image('papelera', 'Assets/Papelera/Papelera.png');
+        //this.load.image('reciclado', 'Assets/Estacion reciclado/reciclado.png');
+        //this.load.image('papelera', 'Assets/Papelera/Papelera.png');
         this.load.image('ordenador', 'Assets/Ordenador/ordenador.png');
         this.load.image('cinta', 'Assets/Cinta/Cinta.png');
         this.load.image('empaquetado', 'Assets/Empaquetado/Empaquetado.png');
@@ -251,13 +251,20 @@ class TutorialCartas extends Phaser.Scene {
         this.load.image('dialogo1', 'Assets/Tutorial/dialogo1.png');
         this.load.image('dialogo2', 'Assets/Tutorial/dialogo2.png');
         this.load.image('dialogo3', 'Assets/Tutorial/dialogo3.png');
+        this.load.image('dialogo4', 'Assets/Tutorial/dialogo4.png');
+        this.load.image('dialogo5', 'Assets/Tutorial/dialogo5.png');
+        this.load.image('dialogo6', 'Assets/Tutorial/dialogo6.png');
+        this.load.image('dialogo7', 'Assets/Tutorial/dialogo7.png');
+        this.load.image('dialogo8', 'Assets/Tutorial/dialogo8.png');
+
+
 
 
         // Sonidos
         this.load.audio('impresora', ['Sounds/impresoraSonido.mp3']);
         this.load.audio('buzones', ['Sounds/sonidoBuzones.mp3']);
-        this.load.audio('reinicio', ['Sounds/reinicioSonido.mp3']);
-        this.load.audio('papelera', ['Sounds/papeleraSonido.mp3']);
+        //this.load.audio('reinicio', ['Sounds/reinicioSonido.mp3']);
+        //this.load.audio('papelera', ['Sounds/papeleraSonido.mp3']);
         this.load.audio('ordenador', ['Sounds/ordenadorSonido.mp3']);
         this.load.audio('caja', ['Sounds/cajaSonido.mp3']);
         this.load.audio('sellos', ['Sounds/sonidoSellos.mp3']);
@@ -300,8 +307,6 @@ class TutorialCartas extends Phaser.Scene {
 
         this.fondo = this.add.image(960, 540, 'fondo');//Fondo
 
-        this.dialogo = this.add.image(940, 980, 'dialogo1');
-        this.numDialogoTutorial = 1;
 
         //////////////////////////////////////////////////////
         ///////////AÑADO LAS MAQUINAS Y LAS MESAS////////////
@@ -427,22 +432,6 @@ class TutorialCartas extends Phaser.Scene {
         this.mesaSellos.paquetes3Interactuable = [false,false]
         this.numMaquinas++;
 
-        // Agregamos la estacion de reciclado
-        this.reciclado = new Maquina("reciclado", "interaccion", 1, this.physics.add.image(1215, 809, 'reciclado').setScale(0.20).setImmovable(), this.physics.add.image(1213, 757).setScale(2, 0.7));
-        this.reciclado.imagen.setSize(450,450);
-        this.reciclado.imagen.setOffset(300, 140);
-        this.reciclado.imagen.rotation = -Math.PI;
-        Phaser.Utils.Array.Add(this.maquinas, this.reciclado);
-        this.numMaquinas++;
-
-        // Agregamos la papelera
-        this.papelera = new Maquina("papelera", "interaccion", 1, this.physics.add.image(1335, 817, 'papelera').setScale(0.17).setImmovable(), this.physics.add.image(1335, 757).setScale(2, 0.7));
-        this.papelera.imagen.setSize(580, 600);
-        this.papelera.imagen.setOffset(250, 50);
-        this.papelera.imagen.rotation = -Math.PI;
-        Phaser.Utils.Array.Add(this.maquinas, this.papelera);
-        this.numMaquinas++;
-
 
         // Agregamos el ordenador
         this.ordenador = new Maquina("ordenador", "interaccion", 1, this.physics.add.image(950, 645, 'ordenador').setScale(0.13).setImmovable(), this.physics.add.image(950, 597).setScale(4, 0.7));
@@ -514,7 +503,7 @@ class TutorialCartas extends Phaser.Scene {
             this.personajes[i].objeto = undefined
             this.personajes[i].setCollideWorldBounds(true);
             this.physics.add.collider(this.personajes[i], [this.impresora.imagen,this.buzonCartas.imagen,
-                this.cajaSobres.imagen,this.mesaSellos.imagen,this.reciclado.imagen,this.papelera.imagen,this.cinta.imagen,
+                this.cajaSobres.imagen,this.mesaSellos.imagen,this.cinta.imagen,
                 this.cinta.colliderExtra,this.mesaArriba1,this.mesaArriba2,
                 this.mesaArriba3,this.mesaAbajo1,this.mesaAbajo2,this.mesaAbajo3,this.mesaIzq1,this.mesaIzq2,this.mesaDcha1,
                 this.mesaDcha2,this.mesaCentral1,this.mesaCentral1.colliderExtra,this.mesaCentral2,this.mesaCentral2.colliderExtra]);
@@ -570,8 +559,8 @@ class TutorialCartas extends Phaser.Scene {
         // Sonidos
         this.sonidoImpresora = this.sound.add('impresora');
         this.sonidoBuzones = this.sound.add('buzones');
-        this.sonidoReinicio = this.sound.add('reinicio');
-        this.sonidoPapelera = this.sound.add('papelera');
+        //this.sonidoReinicio = this.sound.add('reinicio');
+        //this.sonidoPapelera = this.sound.add('papelera');
         this.sonidoOrdenador = this.sound.add('ordenador');
         this.sonidoCaja = this.sound.add('caja');
         this.sonidoSellos = this.sound.add('sellos');
@@ -635,8 +624,8 @@ class TutorialCartas extends Phaser.Scene {
         let sfxVolume = dataSettings.sfx * dataSettings.master / 10000;
         this.sonidoImpresora.setVolume(sfxVolume)
         this.sonidoBuzones.setVolume(sfxVolume)
-        this.sonidoReinicio.setVolume(sfxVolume)
-        this.sonidoPapelera.setVolume(sfxVolume)
+        //this.sonidoReinicio.setVolume(sfxVolume)
+        //this.sonidoPapelera.setVolume(sfxVolume)
         this.sonidoOrdenador.setVolume(sfxVolume)
         this.sonidoCaja.setVolume(sfxVolume)
         this.sonidoSellos.setVolume(sfxVolume)
@@ -725,6 +714,11 @@ class TutorialCartas extends Phaser.Scene {
             // Detenerse si no se presionan las teclas de dirección
             this.personajes[1].setVelocity(0);
         }
+        
+        if (Phaser.Input.Keyboard.JustDown(teclaB)) {
+			this.scene.stop();
+			this.scene.start('TutorialPaquetes');
+		}
 
         //interactuar con los objetos
         if (Phaser.Input.Keyboard.JustDown(teclaE)) {
@@ -733,6 +727,13 @@ class TutorialCartas extends Phaser.Scene {
 					this.dialogo = this.add.image(940, 980, 'dialogo2');
 					this.numDialogoTutorial++; 
 				}
+				
+			
+			
+			if(this.numDialogoTutorial == 8){
+				this.scene.stop();
+				this.scene.start('TutorialPaquetes');
+			}
 		
             if(!this.interaccionMaquinas(0))
                 this.cogerObjeto(0);
@@ -807,7 +808,7 @@ class TutorialCartas extends Phaser.Scene {
 
     interaccionMaquinas(i) {
         
-        return this.interaccionImpresora(i) || this.interaccionReciclado(i) || this.interaccionPapelera(i) ||
+        return this.interaccionImpresora(i) ||
             this.interaccionOrdenador(i) || this.interaccionMesaSellos(i) || this.interaccionCajaSobres(i) || this.interaccionBuzonCartas(i);
     }
 
@@ -851,6 +852,10 @@ class TutorialCartas extends Phaser.Scene {
                 this.personajes[i].objeto = objeto.obj;
                 this.impresora.imagen.setTexture('impresora');
                 this.impresora.estadoPapel = "sin papel";
+                if (this.numDialogoTutorial == 3) {
+                    this.dialogo = this.add.image(940, 980, 'dialogo4');
+                    this.numDialogoTutorial++;
+                }	
 
             }
             return true;
@@ -943,51 +948,7 @@ class TutorialCartas extends Phaser.Scene {
         console.log("Su paquete ha sido empaquetado y esta a la espera de ser recogido");
     }
 
-    interaccionReciclado(i) {
-        if (this.personajes[i].objeto !== undefined) {
-            if (this.reciclado.interactuable[i] && (this.personajes[i].rotation < 2.4) && (this.personajes[i].rotation > 0.6)) {
-                this.reciclarObjeto(i)
-                this.sonidoReinicio.play();
-                console.log("Has reciclado tu " + this.personajes[i].objeto.nombre);
-                return true;
-            }
-        }
-    }
 
-    reciclarObjeto(i) {
-        let obj = this.objetoEnMano(i);
-        if (obj.obj.nombre === 'paquete' || obj.obj.nombre === 'carta') {
-            var tipoObjeto = obj.obj.imagen;
-            obj.setTexture(tipoObjeto);
-
-            this.personajes[i].objeto.impresa = false;
-            this.personajes[i].objeto.sobre = false;
-            this.personajes[i].objeto.sello = undefined;
-            this.personajes[i].objeto.direccion = false;
-            this.personajes[i].objeto.empaquetado = false
-
-            obj.impresa = false
-            obj.sobre = false
-            obj.sello = false
-            obj.direccion = false
-            obj.empaquetado = false
-        }
-        
-    }
-
-
-    interaccionPapelera(i) {
-        if (this.papelera.interactuable[i] && (this.personajes[i].rotation < 2.4) && (this.personajes[i].rotation > 0.6)) {
-            if (this.personajes[i].objeto !== undefined) {
-                this.sonidoPapelera.play();
-                this.objetoEnMano(i).destroy();
-                this.personajes[i].objeto = undefined;
-                this.personajes[i].t = false;
-                console.log("Has tirado tu pedido");
-            }
-            return true;
-        }
-    }
 
     interaccionOrdenador(i) {
         if (this.personajes[i].objeto !== undefined) {
@@ -1002,8 +963,11 @@ class TutorialCartas extends Phaser.Scene {
                                 this.objetoEnMano(i).setTexture('carta3')
                             } else { this.objetoEnMano(i).setTexture('carta4') }
 
-                           
                             this.personajes[i].objeto.direccion = true;
+                            if (this.numDialogoTutorial == 5) {
+                                this.dialogo = this.add.image(940, 980, 'dialogo6');
+                                this.numDialogoTutorial++;
+                            }	
                         } else {
                             console.log("debes meter el papel en el sobre primero")
                         }
@@ -1169,7 +1133,10 @@ class TutorialCartas extends Phaser.Scene {
         this.personajes[i].t = false
         this.objetoEnMano(i).destroy()
         this.sonidoCompletado.play();
-        this.scene.start('TutorialPaquetes');
+		this.dialogo = this.add.image(940, 980, 'dialogo8');
+		this.numDialogoTutorial++; 
+		console.log("EOEOEOE");
+			
         console.log("Has ganado " + puntuacion + " puntos");
     }
 
@@ -1193,6 +1160,11 @@ class TutorialCartas extends Phaser.Scene {
                     var objeto = this.objetoEnMano(i);
                     objeto.setTexture('carta1');
                     objeto.obj.sobre = true;
+
+                    if (this.numDialogoTutorial == 4) {
+                        this.dialogo = this.add.image(940, 980, 'dialogo5');
+                        this.numDialogoTutorial++;
+                    }	
                     
                     this.personajes[i].objeto.sobre = true;
                     return true;
@@ -1221,6 +1193,11 @@ class TutorialCartas extends Phaser.Scene {
 
                             
                             this.personajes[i].objeto.sello = "sello cartas";
+
+                            if (this.numDialogoTutorial == 6) {
+                                this.dialogo = this.add.image(940, 980, 'dialogo7');
+                                this.numDialogoTutorial++;
+                            }	
                         } else {
                             console.log("Sobre primero")
                         }
@@ -1236,91 +1213,8 @@ class TutorialCartas extends Phaser.Scene {
 
                 }
                 return true;
-            } else if (this.mesaSellos.paquetes1Interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > - 2.6)) {
-                if (this.personajes[i].objeto.sello === undefined) {
-                    if (this.personajes[i].objeto.nombre === "carta") {
-                        if (this.personajes[i].objeto.sobre) {
-                            this.sonidoSellos.play();
-                            console.log("Has puesto el sello de paquete de tipo 1");                          
-                            this.personajes[i].objeto.sello = "sello paquetes 1";
-                        } else {
-                            console.log("Sobre primero")
-                        }
-                    } else if (this.personajes[i].objeto.nombre === "paquete") {
-                        if (this.personajes[i].objeto.empaquetado) {
-                            this.sonidoSellos.play();
-                            console.log("Has puesto el sello de paquete de tipo 1");
-
-                            if (!this.personajes[i].objeto.direccion) {
-                                this.objetoEnMano(i).setTexture('paquete2')
-                            } else { this.objetoEnMano(i).setTexture('paquete4') }
-
-                            this.personajes[i].objeto.sello = "sello paquetes 1";
-                        } else {
-                            console.log("Caja primero")
-                        }
-                    }
-
-                }
-                return true;
-            } else if (this.mesaSellos.paquetes2Interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > - 2.6)) {
-                if (this.personajes[i].objeto.sello === undefined) {
-                    if (this.personajes[i].objeto.nombre === "carta") {
-                        if (this.personajes[i].objeto.sobre) {
-                            this.sonidoSellos.play();
-                            console.log("Has puesto el sello de paquete de tipo 2");
-                            this.personajes[i].objeto.sello = "sello paquetes 2";
-                        } else {
-                            console.log("Sobre primero")
-                        }
-                    } else if (this.personajes[i].objeto.nombre === "paquete") {
-                        if (this.personajes[i].objeto.empaquetado) {
-                            this.sonidoSellos.play();
-                            console.log("Has puesto el sello de paquete de tipo 2");
-
-                            if (!this.personajes[i].objeto.direccion) {
-                                this.objetoEnMano(i).setTexture('paquete2')
-                            } else { this.objetoEnMano(i).setTexture('paquete4') }
-
-                            this.personajes[i].objeto.sello = "sello paquetes 2";
-                        } else {
-                            console.log("Caja primero")
-                        }
-                    }
-                }
-                return true;
-
-            } else if (this.mesaSellos.paquetes3Interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > - 2.6)) {
-                if (this.personajes[i].objeto.sello === undefined) {
-                    if (this.personajes[i].objeto.nombre === "carta") {
-                        if (this.personajes[i].objeto.sobre) {
-                            this.sonidoSellos.play();
-                            console.log("Has puesto el sello de paquete de tipo 3");
-                 
-                            this.personajes[i].objeto.sello = "sello paquetes 3";
-                        } else {
-                            console.log("Sobre primero")
-                        }
-                    } else if (this.personajes[i].objeto.nombre === "paquete") {
-                        if (this.personajes[i].objeto.empaquetado === true) {
-                            this.sonidoSellos.play();
-                            console.log("Has puesto el sello de paquete de tipo 3");
-
-                            if (!this.personajes[i].objeto.direccion) {
-                                this.objetoEnMano(i).setTexture('paquete2')
-                            } else { this.objetoEnMano(i).setTexture('paquete4') }
-
-                            this.personajes[i].objeto.sello = "sello paquetes 3";
-                        } else {
-                            console.log("Caja primero")
-                        }
-                    }
-                }
-
-                return true;
             }
-        }
-
+            } 
     }
 
     objetoEnMano(i){
