@@ -275,13 +275,13 @@ class TutorialPaquetes extends Phaser.Scene {
         
         // Loads del tutorial
         
-        this.load.image('dialogo1', 'Assets/Tutorial/dialogo1.png');
-        this.load.image('dialogo2', 'Assets/Tutorial/dialogo2.png');
-        this.load.image('dialogo3', 'Assets/Tutorial/dialogo3.png');
-        this.load.image('dialogo4', 'Assets/Tutorial/dialogo4.png');
-        this.load.image('dialogo5', 'Assets/Tutorial/dialogo5.png');
-        this.load.image('dialogo6', 'Assets/Tutorial/dialogo6.png');
-        this.load.image('dialogo7', 'Assets/Tutorial/dialogo7.png');
+        this.load.image('dialogoP1', 'Assets/Tutorial/dialogoP1.png');
+        this.load.image('dialogoP2', 'Assets/Tutorial/dialogoP2.png');
+        this.load.image('dialogoP3', 'Assets/Tutorial/dialogoP3.png');
+        this.load.image('dialogoP4', 'Assets/Tutorial/dialogoP4.png');
+        this.load.image('dialogoP5', 'Assets/Tutorial/dialogoP5.png');
+        this.load.image('dialogoP6', 'Assets/Tutorial/dialogoP6.png');
+        this.load.image('dialogoP7', 'Assets/Tutorial/dialogoP7.png');
 
 
 
@@ -388,7 +388,7 @@ class TutorialPaquetes extends Phaser.Scene {
         this.mesaCentral2.colliderExtra.setSize(77, 172);
         //#endregion
         
-        this.dialogo = this.add.image(940, 980, 'dialogo1');
+        this.dialogo = this.add.image(940, 980, 'dialogoP1');
         this.numDialogoTutorial = 1;
 
         //#region REGION MAQUINAS
@@ -715,7 +715,7 @@ class TutorialPaquetes extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(teclaE)) {
 			
 			if(this.numDialogoTutorial == 1){
-					this.dialogo = this.add.image(940, 980, 'dialogo2');
+					this.dialogo = this.add.image(940, 980, 'dialogoP2');
 					this.numDialogoTutorial++; 
 				}
 			
@@ -724,6 +724,11 @@ class TutorialPaquetes extends Phaser.Scene {
         }if (Phaser.Input.Keyboard.JustDown(teclaO)) {
             if(!this.interaccionMaquinas(1))
                 this.cogerObjeto(1);
+        }
+
+        if (this.numDialogoTutorial == 7) {
+            this.scene.stop();
+            this.scene.start('MainMenu');
         }
 
         //mueve y rota el objeto llevado delante del personaje
@@ -901,8 +906,8 @@ class TutorialPaquetes extends Phaser.Scene {
 
                 this.empaquetado.estado = "parado";
                 console.log("Has recogido tu objeto recien empaquetado");
-                if (this.numDialogoTutorial == 3) {
-                    this.dialogo = this.add.image(940, 980, 'dialogo4');
+                if (this.numDialogoTutorial == 2) {
+                    this.dialogo = this.add.image(940, 980, 'dialogoP3');
                     this.numDialogoTutorial++;
                 }
                 this.objetos.add(this.empaquetado.obj);
@@ -982,6 +987,10 @@ class TutorialPaquetes extends Phaser.Scene {
                             } else { this.objetoEnMano(i).setTexture('paquete4') }
 
                             this.personajes[i].objeto.direccion = true;
+                            if (this.numDialogoTutorial == 5) {
+                                this.dialogo = this.add.image(940, 980, 'dialogoP6');
+                                this.numDialogoTutorial++;
+                            }
                         } else {
                             console.log("debes meter el objeto en el paquete primero")
                         }
@@ -1063,6 +1072,8 @@ class TutorialPaquetes extends Phaser.Scene {
         this.personajes[i].objeto = undefined
         obj.destroy()
         this.sonidoCompletado.play();
+        this.dialogo = this.add.image(940, 980, 'dialogoP7');
+        this.numDialogoTutorial++; 
         console.log("Tienes " + puntuacion + " puntos con este paquete");
     }
 
@@ -1148,12 +1159,19 @@ class TutorialPaquetes extends Phaser.Scene {
                 this.personajes[i].objeto = undefined
                 this.personajes[i].t = false;
 
+                if (this.numDialogoTutorial == 3) {
+                    this.dialogo = this.add.image(940, 980, 'dialogoP4');
+                    this.numDialogoTutorial++;
+                }
+
                 obj.x = this.bascula.imagen.x - 15;
                 obj.y = this.bascula.imagen.y - 5;
 
                 this.bascula.obj = obj;
                 this.bascula.estado = "con objeto";
                 return true;
+
+                
             }
         } else if (this.bascula.estado === "con objeto") {
             if (this.bascula.interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > -2.6)) {
@@ -1164,8 +1182,13 @@ class TutorialPaquetes extends Phaser.Scene {
                 this.personajes[i].t = true;
                 this.personajes[i].objeto = this.bascula.obj.obj;
                 return true;
+
+                
             }
+
         }
+
+        
 
     }
 
@@ -1251,6 +1274,10 @@ class TutorialPaquetes extends Phaser.Scene {
                             } else { this.objetoEnMano(i).setTexture('paquete4') }
 
                             this.personajes[i].objeto.sello = "sello paquetes 1";
+                            if (this.numDialogoTutorial == 4) {
+                                this.dialogo = this.add.image(940, 980, 'dialogoP5');
+                                this.numDialogoTutorial++;
+                            }
                         } else {
                             console.log("Caja primero")
                         }
@@ -1278,6 +1305,10 @@ class TutorialPaquetes extends Phaser.Scene {
                             } else { this.objetoEnMano(i).setTexture('paquete4') }
 
                             this.personajes[i].objeto.sello = "sello paquetes 2";
+                            if (this.numDialogoTutorial == 4) {
+                                this.dialogo = this.add.image(940, 980, 'dialogoP5');
+                                this.numDialogoTutorial++;
+                            }
                         } else {
                             console.log("Caja primero")
                         }
@@ -1306,6 +1337,10 @@ class TutorialPaquetes extends Phaser.Scene {
                             } else { this.objetoEnMano(i).setTexture('paquete4') }
 
                             this.personajes[i].objeto.sello = "sello paquetes 3";
+                            if (this.numDialogoTutorial == 4) {
+                                this.dialogo = this.add.image(940, 980, 'dialogoP5');
+                                this.numDialogoTutorial++;
+                            }
                         } else {
                             console.log("Caja primero")
                         }
@@ -1337,10 +1372,7 @@ class TutorialPaquetes extends Phaser.Scene {
             objeto.t[i] = true;
             this.personajes[i].t = true;
             this.personajes[i].objeto = objeto.obj;
-            if(this.numDialogoTutorial == 2){
-			 			this.dialogo = this.add.image(940, 980, 'dialogo3');
-			 			this.numDialogoTutorial++;
-					}	
+            
         }
         else if (this.personajes[i].t && objeto.t[i])// si el personaje tiene algo en la mano y es el objeto, lo suelta
         {
