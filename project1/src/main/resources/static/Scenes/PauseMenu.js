@@ -12,7 +12,7 @@ class PauseMenu extends Phaser.Scene{
     }
 
     create(gameScene){
-        this.add.image(960,538,'bg').setScale(0.835)
+        //this.add.image(960,538,'bg').setScale(0.835)
 
         const resume = this.add.image(660, 290, 'resume').setScale(0.5);
         const options = this.add.image(1260, 490, 'options').setScale(0.5);

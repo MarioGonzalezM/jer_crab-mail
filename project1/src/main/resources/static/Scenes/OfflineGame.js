@@ -124,6 +124,7 @@ class OfflineGame extends Phaser.Scene {
 
 
     playerN;
+    roomID;
     wsConnection=
         {
             ready:false
@@ -283,8 +284,8 @@ class OfflineGame extends Phaser.Scene {
 
     }
 
-    create() {
-
+    create(wsData) {
+        this.roomID = wsData[1]
 
 
         this.personajes = [this.personaje, this.personaje2]
@@ -297,7 +298,7 @@ class OfflineGame extends Phaser.Scene {
         this.input.keyboard.on("keydown-P", function (event){
             console.log("Paused")
             self.scene.launch('PauseMenu', 'OfflineGame')
-            self.scene.pause();
+            //self.scene.pause();
         });
 
         this.scale.displaySize.setAspectRatio(this.width / this.height);
@@ -634,12 +635,15 @@ class OfflineGame extends Phaser.Scene {
                 this.sonidoRapido.resume();
         },this)
 
+        this.playerN = null;
+        this.sessionId = null;
+
         $.ajax({
             url: 'http://'+dataSettings.IP+':8080',
             method: 'GET',
         }).done((data)=> {
-
-            this.wsConnection = new WebSocket(`ws://${dataSettings.IP}:8080/juego`);
+            this.wsConnection = wsData[0];
+            /*this.wsConnection = new WebSocket(`ws://${dataSettings.IP}:8080/juego`);
             this.wsConnection.ready = true;
 
             this.wsConnection.onopen =  (event)=> {
@@ -647,9 +651,13 @@ class OfflineGame extends Phaser.Scene {
 
             };
 
-
+*/
             this.wsConnection.onmessage =  (event)=> {
-                console.log('Mensaje recibido desde el servidor:', event.data);
+                //console.log('Mensaje recibido desde el servidor:', event.data);
+                if(typeof this.playerN != "number"){
+                    let json = {initGame:true, roomID:this.roomID}
+                    this.wsConnection.send(JSON.stringify(json))
+                }
                 let dato = JSON.parse(event.data);
 
                 if(dato.init){
@@ -673,13 +681,18 @@ class OfflineGame extends Phaser.Scene {
 
             };
 
+            let json = {initGame:true, roomID:this.roomID}
+            this.wsConnection.send(JSON.stringify(json))
+            /*
+
+
             this.wsConnection.onclose = function (event) {
                 console.log('Conexión WebSocket cerrada:', event);
             };
 
             this.wsConnection.onerror = function (event) {
                 console.error('Error en la conexión WebSocket:', event);
-            };
+            };*/
         },this).fail((error)=>
         {
             console.error('Error en la solicitud HTTP:', error);
@@ -791,6 +804,7 @@ class OfflineGame extends Phaser.Scene {
       let timer = this.playerN === 0? this.tiempoTranscurrido : null;
         let json =
             {
+                roomID: this.roomID,
                 sender: this.playerN,
                 x: this.personajes[this.playerN].x,
                 y: this.personajes[this.playerN].y,
@@ -1563,6 +1577,7 @@ class OfflineGame extends Phaser.Scene {
         let obj = this.obtenerObjeto(tipoObjeto);
         obj.imagen = tipoObjeto;
         let json = {
+            roomID: this.roomID,
             spawnCinta: true,
             obj: obj
         }

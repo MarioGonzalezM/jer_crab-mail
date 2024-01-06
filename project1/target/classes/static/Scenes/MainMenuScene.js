@@ -17,6 +17,7 @@ class MainMenuScene extends Phaser.Scene{
     fondoNegro
     botonSalir
     gaviota
+    tutorial
     
     preload()
     {
@@ -28,6 +29,7 @@ class MainMenuScene extends Phaser.Scene{
         this.load.image('negro', 'Assets/ne.png');
         this.load.image('salirMeme', 'Assets/salirMeme.png');
         this.load.image('gaviota', 'Assets/gaviota.png');
+        this.load.image('tutorial', 'Assets/Tutorial/TUTORIAL.png');
         
         this.load.spritesheet('buttons', 'Assets/MainMenu/SpriteSheetBotonesMP.png', { frameWidth: 700, frameHeight: 239 });
         this.load.audio('sonidoBoton', ['Sounds/botones.mp3']);
@@ -118,8 +120,12 @@ class MainMenuScene extends Phaser.Scene{
         //We want the buttons to be partially hidden behind the post
         this.add.image(960, 540, 'post');
         
-        this.gaviota = this.add.image(1400, 950, 'gaviota');
-        this.gaviota.setScale(0.6)
+        this.gaviota = this.add.image(1360, 950, 'gaviota');
+        this.gaviota.setScale(0.5)
+
+        this.tutorial = this.add.image(1400, 750, 'tutorial');
+        this.tutorial.setScale(0.8)
+
         
         this.gaviota.setInteractive();
         this.gaviota.on('pointerdown', function() {

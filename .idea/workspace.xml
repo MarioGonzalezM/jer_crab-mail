@@ -49,7 +49,7 @@
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_directory_selection&quot;: &quot;C:/Users/PC GAMING/Documents/GitHub/jer_crab-mail/project1/src/test/java/com/example/demo&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC GAMING/Documents/GitHub/jer_crab-mail/project1/src/main/resources/static/Assets/PauseMenu&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC GAMING/Documents/GitHub/jer_crab-mail/project1/src/main/resources/static/Assets/Chat&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -64,13 +64,14 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1\src\main\resources\static\Assets\Chat" />
       <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1\src\main\resources\static\Assets\PauseMenu" />
       <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1\src\main\resources\static\Assets\Perfil" />
       <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1\src\main\resources\static\Assets\MainMenu" />
       <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1\src\main\resources\static\Assets\OptionsMenu" />
-      <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\Assets\OptionsMenu" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1\src\main\resources\static\Assets\Chat" />
       <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1\src\main\resources\static\Assets\Perfil" />
       <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\project1" />
       <recent name="C:\Users\PC GAMING\Documents\GitHub\jer_crab-mail\Assets" />
@@ -136,6 +137,8 @@
       <workItem from="1704273702696" duration="4910000" />
       <workItem from="1704279085973" duration="6985000" />
       <workItem from="1704382574544" duration="4629000" />
+      <workItem from="1704549879201" duration="12116000" />
+      <workItem from="1704567817849" duration="7996000" />
     </task>
     <servers />
   </component>
