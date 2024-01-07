@@ -56,6 +56,12 @@ Crab Mail es un divertido juego cooperativo en el que los jugadores controlan a 
    - 7.1 Sistema de rooms
    - 7.2 Actualización del juego
 8.  Mejoras adicionales
+   - 8.1 Tutorial
+   - 8.2 Persistencia
+   - 8.3 Otras mejoras
+   - 8.4 Arreglo de errores
+   - 8.5 Insignias
+   - 8.6 Posibles mejoras
 
 
 ## 1. Cambios
@@ -475,7 +481,7 @@ Con esta fase, optamos a las siguientes insignias:
 - Memencanta: Si se introduce la combinación secreta 'CRAB' en el menú principal del juego, aparecerá una imagen secreta a modo de meme sobre el propio juego.
 - Al más pelota: En uno de los diálogos la gaviota Otto hace referencia al profesor de la asignatura haciendo un halago.
 
-### 8.6 Mejoras posibles
+### 8.6 Posibles mejoras
 Aparte de las mejoras ya incluidas, se han planificado una serie de mejoras que pueden ser incluidas en el juego sin muchas complicaciones, pero que lamentablemente, por falta de tiempo, no han podido ser implementadas.
 
 Por un lado encontramos un sistema de personalización de los cangrejos, donde personalizar por completo la apariencia de estos, como el color o cosméticos. También es viable incluir conjuntos de trajes inspirados en películas, series y juegos populares.
