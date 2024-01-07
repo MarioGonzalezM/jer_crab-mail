@@ -654,7 +654,6 @@ class OfflineGame extends Phaser.Scene {
         this.sonidoLento.setVolume(musicVolume);
     }
 
-
     update() {
 
 

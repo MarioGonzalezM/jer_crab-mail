@@ -722,6 +722,8 @@ class OnlineGame extends Phaser.Scene {
         this.sonidoRapido.setVolume(musicVolume);
         this.sonidoLento.setVolume(musicVolume);
     }
+    
+    
 
 
     update() {
