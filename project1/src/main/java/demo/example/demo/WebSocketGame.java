@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -24,7 +25,7 @@ public class WebSocketGame extends TextWebSocketHandler {
         rooms.add(new ArrayList<>());
     }
 
-    private final long MAX_IDLE_TIME = 1500;
+    private final long MAX_IDLE_TIME = 6000;
     private final HashMap<String,Timer> timers = new HashMap<>();
 
     public static class PlayerInfo implements Serializable {
@@ -69,11 +70,30 @@ public class WebSocketGame extends TextWebSocketHandler {
     }
 
     private final List<WebSocketSession> sessions = new ArrayList<>();
-    private final int MAX_ROOMS = 2;
+    private final int MAX_ROOMS = 5;
     private final int PLAYERS_PER_ROOM = 2;
     private final List<List<WebSocketSession>> rooms = new ArrayList<>();
     private final List<String> ReadyPlayers = new ArrayList<>();
     private int onlineUsers = 0;
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        sessions.remove(session);
+        int roomID;
+        boolean isHere = false;
+        for (roomID = 0; roomID < rooms.size(); roomID++) {
+            for(int i = 0; i < rooms.get(roomID).size(); i++){
+                var room = rooms.get(roomID).get(i);
+                isHere = room.getId().equals(session.getId());
+                if(isHere) {
+                    rooms.get(roomID).get(1-i).close();
+                    rooms.get(roomID).clear();
+                    break;
+                }
+            }
+            if(isHere) break;
+        }
+    }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -94,8 +114,9 @@ public class WebSocketGame extends TextWebSocketHandler {
                 rInfo.roomStatus = 3;
                 rInfo.roomID = i;
                 room.add(session);
-                if(rooms.size() < MAX_ROOMS)
+                if(rooms.size() < MAX_ROOMS) {
                     rooms.add(new ArrayList<>());
+                }
                 break;
             }
         }
@@ -105,29 +126,21 @@ public class WebSocketGame extends TextWebSocketHandler {
 
         }
         session.sendMessage(new TextMessage(objectMapper.writeValueAsString(rInfo)));
-        return;
-        //ObjectMapper objectMapper = new ObjectMapper();
-        //
-        //Init initInfo = new Init(onlineUsers, session.getId());
-        //
-        //session.sendMessage(new TextMessage(objectMapper.writeValueAsString(initInfo)));
-        //onlineUsers++;
     }
 
     private Timer getTimer(WebSocketSession session) {
         Timer timer = new Timer(session.getId());
         TimerTask task = new TimerTask() {
             public void run() {
-                //System.out.println("User " + session.getId() + " has overstayed their welcome and is therefore sentenced to die\n");
-                return;
-                //timers.remove(session.getId());
-                //try {
-                //    session.close();
-                //} catch (IOException e) {
-                //    throw new RuntimeException(e);
-                //}
-                //onlineUsers--;
-                //sessions.remove(session);
+                System.out.println("User " + session.getId() + " has overstayed their welcome and is therefore sentenced to die\n");
+
+                timers.remove(session.getId());
+                /**/ try{
+                    session.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }//*/
+
             }
         };
         timer.schedule(task, MAX_IDLE_TIME);
@@ -154,10 +167,8 @@ public class WebSocketGame extends TextWebSocketHandler {
             PlayerInfo playerInfo = objectMapper.readValue(message.getPayload(), PlayerInfo.class);
             newMessage = new TextMessage(objectMapper.writeValueAsString(playerInfo));
             roomID = playerInfo.roomID;
-
         }catch (NullPointerException|JsonParseException | MismatchedInputException ex){
 
-            System.out.println(message.getPayload());
             var obj = objectMapper.readTree(message.getPayload());
             if(message == null) return;
             roomID = obj.get("roomID").asInt();
@@ -165,10 +176,8 @@ public class WebSocketGame extends TextWebSocketHandler {
 
             try{
                 if (obj.get("roomInfo").asBoolean()) {
-                    System.out.println("Room Info ");
 
                     if (rooms.get(roomID).size() != PLAYERS_PER_ROOM) {
-                        System.out.println("Not enough players in the room (" + rooms.get(roomID).size() + ')');
                         return;
                     }
 
@@ -183,7 +192,6 @@ public class WebSocketGame extends TextWebSocketHandler {
                             RoomInfo rInfo = new RoomInfo(0);
                             newMessage = new TextMessage(objectMapper.writeValueAsString(rInfo));
                             for (int i = 0; i < PLAYERS_PER_ROOM; i++) {
-                                System.out.println("Notifying players " + i);
                                 rooms.get(roomID).get(i).sendMessage(newMessage);
                             }
                             //for (WebSocketSession webSocketSession : rooms.get(roomID)) {
@@ -215,21 +223,21 @@ public class WebSocketGame extends TextWebSocketHandler {
                     }
                 }catch (NullPointerException o){
                     newMessage = message;
-                    System.out.println("Irrelevant message for server, resending (" + newMessage.getPayload() + ")");
                 }
             }
 
 
         }
         if(roomID < 0){
-            System.out.println("Room not identified by websocket with ID  " + session.getId() + "------------------> " + roomID);
             return;
         }
-        for (WebSocketSession webSocketSession : rooms.get(roomID)){
-            if(webSocketSession.equals(session)){
-                continue;
+        if(newMessage != null) {
+            for (WebSocketSession webSocketSession : rooms.get(roomID)) {
+                if (webSocketSession.equals(session)) {
+                    continue;
+                }
+                webSocketSession.sendMessage(newMessage);
             }
-            webSocketSession.sendMessage(newMessage);
         }
     }
 
