@@ -486,10 +486,7 @@ class TutorialCartas extends Phaser.Scene {
 
         ///////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////
-        //this.textoInicio = this.add.text(1610, 380, 'Inicio', { fontSize: '27px', fill: '#482F22' }, { font: "Monospace" });
-        //this.textoInicio.setAngle(90);
-        //this.textoFin = this.add.text(1610, 560, 'Fin', { fontSize: '30px', fill: '#482F22' }, { font: "Monospace" });
-        //this.textoFin.setAngle(90);
+ 
         this.textoCartas = this.add.text(690, 180, 'Cartas', { fontSize: '27px', fill: '#482F22' }, { font: "Monospace" });
         this.textoMenos5 = this.add.text(830, 180, '<5 kg', { fontSize: '27px', fill: '#482F22' }, { font: "Monospace" });
         this.texto5_10 = this.add.text(960, 180, '5-10 kg', { fontSize: '27px', fill: '#482F22' }, { font: "Monospace" });
@@ -497,7 +494,7 @@ class TutorialCartas extends Phaser.Scene {
 
 
         for(let i = 0; i < 2; i++) {
-            this.personajes[i] = this.physics.add.sprite(400, 600 + 100*i, 'personaje').setScale(0.1).refreshBody();//Personaje
+            this.personajes[i] = this.physics.add.sprite(400, 600 + 600*i, 'personaje').setScale(0.1).refreshBody();//Personaje
             this.personajes[i].t = false;
             this.personajes[i].setPushable(false);
             this.personajes[i].objeto = undefined
@@ -940,7 +937,9 @@ class TutorialCartas extends Phaser.Scene {
     }
 
     interaccionBuzonPaquetes(i) {
-        if (this.personajes[i].objeto !== undefined) {
+        
+        
+			 if (this.personajes[i].objeto !== undefined) {
             if(this.personajes[i].objeto.nombre === 'carta') {
                 if(this.buzonPaquetes.interactuable[i])
                     console.log('Las cartas van en el buzón de cartas')
@@ -967,7 +966,8 @@ class TutorialCartas extends Phaser.Scene {
                     return true;
                 }
             }
-        }
+        
+		}
 
 
     }

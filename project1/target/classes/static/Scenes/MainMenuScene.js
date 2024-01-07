@@ -207,7 +207,7 @@ var config = {
     dom: {
         createContainer: true
     },
-    scene: [MainMenuScene, OnlineGame, Perfil, OptionsMenu, PauseMenu, EndScene, Chat, TutorialCartas, TutorialPaquetes, DisconnectionScene],
+    scene: [MainMenuScene, OnlineGame, Perfil, OptionsMenu, PauseMenu, EndScene, Chat, TutorialCartas, TutorialPaquetes, DisconnectionScene, OfflineGame],
 
 };
 const game = new Phaser.Game(config);

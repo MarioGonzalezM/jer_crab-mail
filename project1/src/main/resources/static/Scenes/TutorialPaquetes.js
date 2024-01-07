@@ -470,7 +470,7 @@ class TutorialPaquetes extends Phaser.Scene {
 
 
         for(let i = 0; i < 2; i++) {
-            this.personajes[i] = this.physics.add.sprite(400, 600 + 100*i, 'personaje').setScale(0.1).refreshBody();//Personaje
+            this.personajes[i] = this.physics.add.sprite(400, 600 + 600*i, 'personaje').setScale(0.1).refreshBody();//Personaje
             this.personajes[i].t = false;
             this.personajes[i].setPushable(false);
             this.personajes[i].objeto = undefined
@@ -558,7 +558,6 @@ class TutorialPaquetes extends Phaser.Scene {
         this.sonidoLento.play(); 
 
         this.crearObjetosCinta()
-        this.time.delayedCall(120000, this.cambioMusica, null, this);
 
         this.events.on('pause',()=>{
             if(this.sonidoLento.isPlaying){
@@ -926,7 +925,8 @@ console.log(this.numDialogoTutorial);
     }
 
     interaccionBuzonPaquetes(i) {
-        if (this.personajes[i].objeto !== undefined) {
+       if(this.numDialogoTutorial >= 6){
+		   if (this.personajes[i].objeto !== undefined) {
             if(this.personajes[i].objeto.nombre === 'carta') {
                 if(this.buzonPaquetes.interactuable[i])
                     console.log('Las cartas van en el buzón de cartas')
@@ -954,7 +954,9 @@ console.log(this.numDialogoTutorial);
                 }
             }
         }
-
+		   
+	   }
+       
 
     }
 
