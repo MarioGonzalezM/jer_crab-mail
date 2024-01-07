@@ -65,6 +65,9 @@ Se ha añadido todo lo relacionado con la creación del juego una vez desarrolla
 ### Versión 3 
 Se ha añadido al GDD la descripcion completa de como se han implementado el sistema de usuarios y el chat haciendo uso de una API Rest. También se ha añadido las interfaces relacionadas a estas 2 funcionalidades y se han actualizado el resto de interfaces afectadas. Por último se ha añadido el diagrama UML relacionado con las clases usadas para la API Rest
 
+### Versión 4
+Añadido todo lo relacionado a la implementación de websockets en el juego, para permitir el modo multijugador en línea mediante el uso de los mismos y mandando información a un servidor. También se han añadido todas las mejoras implementadas en la fase 5, así como la viabilidad de ciertas mejoras que no se han podido incluir por falta de tiempo. 
+
 ## 2. Introducción
 ### 2.1 Concepto
 Crab Mail es un divertido juego cooperativo en el que los jugadores controlan a dos cangrejos que trabajan en una oficina de correos en medio de una playa. Estos deberán preparar sobres y paquetes, pasando por distintos procesos en un tiempo determinado con cuidado de no equivocarse y hacerlo lo más rápido posible.
@@ -414,15 +417,33 @@ A continuación se adjunta un diagrama UML de las clases usadas en la implementa
 Para iniciar el juego, hay que abrir Spring Tool Suite e importar el proyecto. Una vez importado, ejecutarlo como un java application. Después, en el navegador, conectarse a la IP y al puerto correspondiente, y ya se pueden utilizar todas las funciones del juego con normalidad.
 
 ## 7. Uso de websockets
-Se ha implementado el uso de websockets para permitir que el juego se comunique en línea y se permita el juego multijugador entre los jugadores. Para poder acceder al juego multijugador, hay que ir al menú de online, donde existe un sistema de habitaciones que empareja a los jugadores de 2 en 2 según pulsen el botón de preparados. Este sistema de habitaciones se ha implementado gracias a envíos al servidor de datos como el estado de los jugadores (si están preparados o no), la habitación que se les ha asignado para jugar, así como un timer que desconecta a los jugadores en caso de que estos no estén activos.
+Se ha implementado el uso de websockets para permitir el juego multijugador de los jugadores que se encuentren en la misma red local. Para ello se ha implementado tanto un sistema de rooms que empareja a los jugadores de 2 en 2, como el envío de datos al servidor mediante el uso de websockets para actualizar el estado del juego para ambos jugadores
 
-En cuanto al manejo del juego, al ser un juego cooperativo, hay varios datos que tienen que estar en constante intercambio entre los jugadores. Por ello, en cada actualización del juego , cada jugador manda al servidor su posición, rotación y el objeto que transportan en ese momento, así como el timer para sincronizar las partidas. Además, también se envía al servidor datos cuando aparece un nuevo objeto en la cinta, para que los 2 jugadores tengan el mismo objeto en pantalla, así como si las maquinas con temporizador como la impresora y la estación de empaquetado. 
+### 7.1 Sistema de rooms
 
-De esta forma, en cada actualización del juego, el jugador envía mediante un archivo JSON sus datos al otro jugador gracias al uso de websockets y actualiza los parametros del otro jugador recibiendo del servidor los datos que ha enviado el otro jugador.
+Para acceder al juego online, los jugadores deben ir al menú de online y pulsar el botón de preparados, en el momento en el que 2 jugadores lo han pulsado, el servidor les asigna una room para ellos y comienza la partida, además de otras características como su propio timer de partida. De esta forma, aunque otro jugador intente acceder a la partida online. Este se quedará esperando a un cuarto jugador y no podrá interferir en las partidas en curso.
 
-También se ha implementado un sistema de detección de actividad, de forma que si un jugador se sale de la partida o está inactivo durante un tiempo determinado, la partida acabe y se pase a la pantalla de fin de partida, de forma que si un jugador abandona la partida, el otro no tiene que esperar a que acabe el temporizador para salir de la partida. 
+Además, se ha implementado un sistema de detección de actividad, de forma que si un jugador se sale de la partida o está inactivo durante un tiempo determinado, la partida termine y se avance a la pantalla de fin del juego directamente. Gracias a esto, si un jugador abandona la partida o se le cae la conexión, el otro jugador no tiene que esperar a que el temporizador termine o reiniciar la página; sino que será notificado de que el otro jugador se ha ido y podrá volver al menú principal, para iniciar otra partida.
 
-Gracias al uso de websockets se ha conseguido que los 2 jugadores estén sincronizados en todo momento y lo más importante, que puedan ver en todo momento en pantalla todo lo relacionado a su compañero, para que sepan sin ningún tipo de dificultad donde se encuentra y qué está haciendo, favoreciendo la cooperación entre ellos.
+### 7.2 Actualización del juego
+
+En las partidas, el uso de websockets ha sido una parte esencial para permitir la implementación de las partidas online. Al ser un juego cooperativo, el jugador necesita saber en todo momento, que está haciendo su compañero, para poder tomar decisiones en base a esto. Esto implica que el jugador debe conocer la posicion de su compañero, que objetos lleva,... Por lo tanto, necesitamos usar websockets para comunicar los datos al servidor y que este se encargue de comunicarlo al otro jugador.
+
+Para ello, en cada actualización del juego, el jugador 1 envía al servidor en formato JSON varios datos como su posicion en x e y, su rotación, el objeto que transporta y un timer para sincronizar las partidas. Despúes el jugador 2 recibe esos datos haciendo una llamada GET y sustituye los datos del jugador 1 en su partida, de forma que tanto la posicion, como la rotacion del jugador 1 aparecen actualizadas en su partida en todo momento mientras juega.
+
+También se envían datos al servidor cuando aparece un nuevo objeto en la cinta transportadora, de forma que ambos jugadores tengan los mismos objetos en pantalla y no se puedan producir confusiones. También se  envían datos cuando un jugador interactúa con alguna de las máquinas.
+
+De esta forma, en una misma actualizacion, un jugador manda su información al servidor para mandársela al otro jugador, y recibe la información del otro jugador y la actualiza. Gracias al uso de websockets se ha conseguido que los 2 jugadores estén sincronizados en todo momento y lo más importante, que puedan ver en todo momento en pantalla todo lo relacionado a su compañero, para que sepan sin ningún tipo de dificultad donde se encuentra y qué está haciendo, favoreciendo la cooperación entre ellos.
+
+## 8. Mejoras adicionales
+
+Una vez terminado el juego, se ha procedido a realizar una serie de mejoras adicionales que mejoran la jugabilidad y ayudan a entender el juego, como por ejemplo un tutorial completo del juego y la adición de persistencia en el juego. También se ha añadido un nuevo objeto y se ha añadido un secreto al menú al teclear la palabra CRAB. 
+
+### 8.1 Tutorial
+
+La mejora más grande es sin duda la creación de un tutorial que los jugadores pueden jugar para entender las mecánicas del juego. Para acceder al tutorial basta con pulsar a la gaviota que se ha añadido en el menú principal. El tutorial está compuesto de 2 partes: Un tutorial para la preparación de las cartas y otro tutorial para la preparación de los paquetes. En estos tutoriales, la gaviota Otto explica mediante una serie de diálogos los pasos que los jugadores tienen que seguir para preparar los pedidos. Una vez acabado el tutorial de las cartas se pasa al de los paquetes, y una vez terminado este, se pasa al menú principal de nuevo.
+
+En estos tutoriales se han eliminado las máquinas que sean irrelevantes para el tutorial como la estación de reinicio y la papelera, y se han ocultado las maquinas que no corresponden a ese tipo de pedido, como por ejemplo, la báscula en el tutorial de las cartas
 
 
   
