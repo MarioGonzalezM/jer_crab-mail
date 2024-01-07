@@ -52,6 +52,8 @@ Crab Mail es un divertido juego cooperativo en el que los jugadores controlan a 
    - 6.1 Sistema de usuarios
    - 6.2 Chat
    - 6.3 Instrucciones de ejecución
+7. Uso de Websockets
+
 
 ## 1. Cambios
 ### Versión 1 
@@ -410,6 +412,18 @@ A continuación se adjunta un diagrama UML de las clases usadas en la implementa
 ### 6.4 Instrucciones de ejecución
 
 Para iniciar el juego, hay que abrir Spring Tool Suite e importar el proyecto. Una vez importado, ejecutarlo como un java application. Después, en el navegador, conectarse a la IP y al puerto correspondiente, y ya se pueden utilizar todas las funciones del juego con normalidad.
+
+## 7. Uso de websockets
+Se ha implementado el uso de websockets para permitir que el juego se comunique en línea y se permita el juego multijugador entre los jugadores. Para poder acceder al juego multijugador, hay que ir al menú de online, donde existe un sistema de habitaciones que empareja a los jugadores de 2 en 2 según pulsen el botón de preparados. Este sistema de habitaciones se ha implementado gracias a envíos al servidor de datos como el estado de los jugadores (si están preparados o no), la habitación que se les ha asignado para jugar, así como un timer que desconecta a los jugadores en caso de que estos no estén activos.
+
+En cuanto al manejo del juego, al ser un juego cooperativo, hay varios datos que tienen que estar en constante intercambio entre los jugadores. Por ello, en cada actualización del juego , cada jugador manda al servidor su posición, rotación y el objeto que transportan en ese momento, así como el timer para sincronizar las partidas. Además, también se envía al servidor datos cuando aparece un nuevo objeto en la cinta, para que los 2 jugadores tengan el mismo objeto en pantalla, así como si las maquinas con temporizador como la impresora y la estación de empaquetado. 
+
+De esta forma, en cada actualización del juego, el jugador envía mediante un archivo JSON sus datos al otro jugador gracias al uso de websockets y actualiza los parametros del otro jugador recibiendo del servidor los datos que ha enviado el otro jugador.
+
+También se ha implementado un sistema de detección de actividad, de forma que si un jugador se sale de la partida o está inactivo durante un tiempo determinado, la partida acabe y se pase a la pantalla de fin de partida, de forma que si un jugador abandona la partida, el otro no tiene que esperar a que acabe el temporizador para salir de la partida. 
+
+Gracias al uso de websockets se ha conseguido que los 2 jugadores estén sincronizados en todo momento y lo más importante, que puedan ver en todo momento en pantalla todo lo relacionado a su compañero, para que sepan sin ningún tipo de dificultad donde se encuentra y qué está haciendo, favoreciendo la cooperación entre ellos.
+
 
   
 
