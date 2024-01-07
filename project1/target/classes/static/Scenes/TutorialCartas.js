@@ -658,6 +658,7 @@ class TutorialCartas extends Phaser.Scene {
         const teclaB = this.input.keyboard.addKey('B');
         const teclaO = this.input.keyboard.addKey('O');
 
+		this.personajes[1].visible = false;
 
         // Control de la rotación
         //personaje 2
@@ -731,6 +732,7 @@ class TutorialCartas extends Phaser.Scene {
 			
 			
 			if(this.numDialogoTutorial == 8){
+				this.sonidoLento.stop();
 				this.scene.stop();
 				this.scene.start('TutorialPaquetes');
 			}
@@ -873,65 +875,6 @@ class TutorialCartas extends Phaser.Scene {
         this.impresora.imagen.setTexture('impresora2');
         
     }
-
-    /*interaccionEmpaquetado(i) {
-        if ((((this.personajes[i].rotation < 0.6) && (this.personajes[i].rotation > - 0.6)))) {
-
-            if (this.empaquetado.inicioInteractuable[i] && this.empaquetado.estado === "parado" && this.empaquetado.obj === undefined) {
-                try{
-                    if(this.personajes[i].objeto.nombre !== 'paquete' || this.personajes[i].objeto.empaquetado)  return
-                } catch (e){
-                    console.log('No tienes nada en la mano')
-                    return
-                }
-                this.sonidoEmpaquetado.play();
-                let obj = this.objetoEnMano(i)
-                obj.t = [false,false]
-                this.personajes[i].objeto = undefined
-                this.personajes[i].t = false;
-                obj.x = this.empaquetado.imagen.x;
-                let tween = this.tweens.add({
-                    targets: obj,
-                    y: [obj.y,this.empaquetado.imagen.y],
-                    duration: 1000,
-                    repeat: 0
-                });
-                let paquete = this.physics.add.image(-100,-100,'paquete').setScale(0.08);
-                paquete.t = [false,false]
-                paquete.obj = new Objeto(obj.obj.nombre, obj.obj.peso)
-                paquete.obj.imagen = obj.obj.imagen;
-                
-                paquete.obj.empaquetado = true;
-                this.empaquetado.obj = paquete;
-                console.log("Has puesto el objeto en la maquina");
-                tween.on('complete',function () {
-                    obj.destroy();
-                    this.empaquetado.estado = "funcionando";
-                    console.log("Empaquetando objeto, espere");
-                    this.barraEmpaquetado.anims.play('barra',true)
-
-                    this.time.delayedCall(3000, this.finEmpaquetado, [paquete], this)
-
-                },this);
-
-                return true;
-            } else if (this.empaquetado.estado === "finalizado" && this.empaquetado.finInteractuable[i]) {
-                this.empaquetado.estado = "sin objeto";
-                this.empaquetado.obj.t[i] = true;
-                this.personajes[i].t = true;
-                this.personajes[i].objeto = this.empaquetado.obj.obj;
-
-                this.empaquetado.estado = "parado";
-                console.log("Has recogido tu objeto recien empaquetado");
-                this.objetos.add(this.empaquetado.obj);
-                this.empaquetado.obj = undefined
-                return true;
-            }else {
-                console.log('Estado: ' + this.empaquetado.estado + ' Es interactuable: ' + this.empaquetado.finInteractuable)
-            }
-        }
-
-    }*/
 
     finEmpaquetado(paquete) {
         paquete.x = this.empaquetado.imagen.x

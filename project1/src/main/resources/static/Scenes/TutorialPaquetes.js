@@ -393,14 +393,6 @@ class TutorialPaquetes extends Phaser.Scene {
 
         //#region REGION MAQUINAS
 
-        // Agregamos el buzon de cartas
-        /*this.buzonCartas = new Maquina("buzon cartas", "interaccion", -1, this.physics.add.image(210, 767, 'buzonCartas').setScale(0.35).setImmovable(), this.physics.add.image(252, 765).setScale(1, 4.7));
-        this.buzonCartas.imagen.setSize(240, 600);
-        this.buzonCartas.imagen.setOffset(400, 70);
-        Phaser.Utils.Array.Add(this.maquinas, this.buzonCartas);
-        this.numMaquinas++;
-        this.buzonCartas.estado = "cerrado"; // 2 posibles estados: cerrado y abierto */
-
         // Agregamos el buzon de los paquetes
         this.buzonPaquetes = new Maquina("buzon paquetes", "interaccion", 1, this.physics.add.image(1660, 757, 'buzonPaquetes').setScale(0.35).setImmovable(), this.physics.add.image(1615, 765).setScale(1, 4.7));
         this.buzonPaquetes.imagen.setSize(240, 600);
@@ -410,14 +402,6 @@ class TutorialPaquetes extends Phaser.Scene {
         this.buzonPaquetes.estado = "cerrado";
         this.numMaquinas++;
 
-
-        // Agregamos la caja de sobres
-        /*this.cajaSobres = new Maquina("caja sobres", "interaccion", 1, this.physics.add.image(255, 408, 'cajaSobres').setScale(0.33).setImmovable(), this.physics.add.image(300, 407).setScale(0.9, 4));
-        this.cajaSobres.imagen.setSize(430, 380);
-        this.cajaSobres.imagen.setOffset(210, 160);
-        Phaser.Utils.Array.Add(this.maquinas, this.cajaSobres);
-        this.numMaquinas++;
-        this.buzonPaquetes.estado = "cerrado"; // 2 posibles estados: abierto y cerrado*/
 
 
         // Agregamos la mesa de sellos
@@ -472,18 +456,6 @@ class TutorialPaquetes extends Phaser.Scene {
 
         this.empaquetado.estado = "parado"; // 3 posibles estados : parado, funcionando, finalizado
         this.empaquetado.estadoObjeto = "sin objeto"; // 2 posibles objetos: sin objeto, con objeto
-
-        //// Agregamos la impresora al juego
-        /*this.impresora = new Maquina("impresora", "timer", "down", this.physics.add.image(500, 790, 'impresora').setScale(0.31).setImmovable(), this.physics.add.image(497, 758).setScale(2.9, 1));
-        this.impresora.imagen.setSize(520, 400);
-        this.impresora.imagen.setOffset(270, 295);
-        this.impresora.imagen.rotation = -Math.PI;
-        Phaser.Utils.Array.Add(this.maquinas, this.impresora);
-        this.numMaquinas++;
-        this.impresora.estado = "parada"; // 3 posibles estados : parada, funcionando, finalizada
-        this.impresora.estadoPapel = "sin papel"; // 2 posibles estados : sin papel, con papel
-        this.barraImpresora = this.add.sprite(this.impresora.imagen.x, this.impresora.imagen.y+80, 'carga').setScale(2);*/
-        //#endregion
 
         ///////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////
@@ -603,13 +575,6 @@ class TutorialPaquetes extends Phaser.Scene {
         },this)
     }
 
-    /*cambioMusica() {
-        this.sonidoLento.stop();
-        this.sonidoAlarma.play();
-
-        this.sonidoRapido.loop = true;
-        this.sonidoRapido.play();
-    }*/
 
     /**
      * Takes the volume information and updates the volumes
@@ -637,7 +602,7 @@ class TutorialPaquetes extends Phaser.Scene {
 
     update() {
 
-
+console.log(this.numDialogoTutorial);
 
         this.actualizarInteraccion();
 
@@ -654,6 +619,8 @@ class TutorialPaquetes extends Phaser.Scene {
         const teclaB = this.input.keyboard.addKey('B');
         const teclaO = this.input.keyboard.addKey('O');
 
+
+		this.personajes[1].visible = false;
 
         // Control de la rotación
         //personaje 2
@@ -718,6 +685,12 @@ class TutorialPaquetes extends Phaser.Scene {
 					this.dialogo = this.add.image(940, 980, 'dialogoP2');
 					this.numDialogoTutorial++; 
 				}
+				
+			if(this.numDialogoTutorial == 7){
+				this.sonidoLento.stop();
+				this.scene.stop();
+				this.scene.start('MainMenu');
+			}
 			
             if(!this.interaccionMaquinas(0))
                 this.cogerObjeto(0);
@@ -725,11 +698,13 @@ class TutorialPaquetes extends Phaser.Scene {
             if(!this.interaccionMaquinas(1))
                 this.cogerObjeto(1);
         }
-
-        if (this.numDialogoTutorial == 7) {
+        
+        if(this.numDialogoTutorial == 8){
+			this.sonidoLento.stop();
             this.scene.stop();
-            this.scene.start('MainMenu');
-        }
+            this.scene.start('MainMenuScene');
+
+		}
 
         //mueve y rota el objeto llevado delante del personaje
         this.objetos.children.iterate(function (objeto) {
@@ -799,63 +774,7 @@ class TutorialPaquetes extends Phaser.Scene {
             this.interaccionBascula(i) || this.interaccionMesaSellos(i);
     }
 
-    /*interaccionImpresora(i) {
-
-       
-        if (this.impresora.interactuable[i] && (this.personajes[i].rotation < 2.4) && (this.personajes[i].rotation > 0.6) && (this.impresora.estado === "parada")) {
-            
-            if (this.impresora.estadoPapel === "sin papel" && this.personajes[i].objeto !==undefined) {
-                if (!this.personajes[i].objeto.sobre) {
-                    if (!this.personajes[i].objeto.impresa && this.personajes[i].objeto.nombre === "carta") {
-                        console.log("Has puesto el papel");
-
-                        var objeto = this.objetoEnMano(i);
-                        objeto.destroy();
-                        this.personajes[i].t = false;
-                        this.personajes[i].objeto = undefined;
-
-                        this.impresora.estadoPapel = "con papel";
-                        this.impresora.estado = "funcionando";
-                        this.sonidoImpresora.play();
-                        this.barraImpresora.anims.play('barra',true)
-                        console.log("Imprimiendo documento");
-                        this.contadorImpresora = null;
-                        this.time.delayedCall(3000,this.finImpresora,null,this)
-                    } else {
-                        console.log("No puedes volver a imprimir");
-                    }
-                } else {
-                    console.log("No puedes imprimir si el papel esta en el sobre")
-                }               
-            } else if (this.impresora.estadoPapel === "con papel") {
-                
-                console.log("Has quitado el papel recien impreso");
-                var objeto = this.physics.add.image(this.impresora.x, this.impresora.y, 'mensaje').setScale(0.08);
-                objeto.t = [false, false];
-                objeto.t[i] = true;  
-                objeto.obj = new Objeto('carta', 0);
-                objeto.obj.impresa = true;
-                this.objetos.add(objeto);
-                this.personajes[i].objeto = objeto.obj;
-                this.impresora.imagen.setTexture('impresora');
-                this.impresora.estadoPapel = "sin papel";
-
-            }
-            return true;
-        }
-        if (this.impresora.estado === "finalizada") {
-
-            this.impresora.estado = "parada";
-        }
-    }
-
-
-    finImpresora() {
-        this.impresora.estado = "finalizada";
-        console.log("La impresora ha terminado de imprimir");
-        this.impresora.imagen.setTexture('impresora2');
-        
-    }*/
+    
 
     interaccionEmpaquetado(i) {
         if ((((this.personajes[i].rotation < 0.6) && (this.personajes[i].rotation > - 0.6)))) {
@@ -1073,54 +992,9 @@ class TutorialPaquetes extends Phaser.Scene {
         obj.destroy()
         this.sonidoCompletado.play();
         this.dialogo = this.add.image(940, 980, 'dialogoP7');
-        this.numDialogoTutorial++; 
+        this.numDialogoTutorial++;
         console.log("Tienes " + puntuacion + " puntos con este paquete");
     }
-
-    /*interaccionBuzonCartas(i) {
-        let aux;
-        if (this.personajes[i].objeto !== undefined) {
-            if(this.personajes[i].objeto.nombre === 'paquete') {
-                if(this.buzonCartas.interactuable[i])
-                    console.log('Los paquetes van en el buzón de paquetes')
-            return;
-        }
-            aux = ((this.personajes[i].rotation < -2.6) && (this.personajes[i].rotation > -3.6)) || ((this.personajes[i].rotation < 3.1) && (this.personajes[i].rotation > 2.4));
-            if(!aux) return;
-
-            if (this.buzonCartas.estado === "cerrado") {
-
-                if (this.buzonCartas.interactuable[i]) {
-                    console.log("Has abierto el buzon de las cartas");
-                    this.sonidoBuzones.play();
-                    this.buzonCartas.estado = "abierto";
-                    return true;
-                }
-
-            } else if (this.buzonCartas.estado === "abierto") {
-
-                if (this.buzonCartas.interactuable[i]) {
-                    if (this.personajes[i].objeto.sobre) {
-                        console.log("Has introducido una carta");
-                        console.log("Has cerrado el buzon");
-                        this.sonidoBuzones.play();
-                        this.buzonCartas.estado = "cerrado";
-
-                        this.comprobarSobre(i);
-                        //this.reciclarObjeto()
-                        return true;
-                    } else {
-                        console.log("Mete el papel en el sobre");
-                    }
-                }
-
-            }
-        }
-
-
-
-
-    }*/
 
     comprobarSobre(i) {
         let cartaEvaluar = this.personajes[i].objeto
@@ -1192,69 +1066,11 @@ class TutorialPaquetes extends Phaser.Scene {
 
     }
 
-    /*interaccionCajaSobres(i) {
-        if (this.personajes[i].objeto !== undefined) {
-            if(this.personajes[i].objeto.nombre === 'paquete') {
-                if(this.buzonCartas.interactuable[i])
-                    console.log('No se pueden meter paquetes en sobres')
-                return;
-            }
-            let aux = (this.personajes[i].rotation < -2.6) && (this.personajes[i].rotation > -3.6) || (this.personajes[i].rotation < 3.1) && (this.personajes[i].rotation > 2.4)
-            if(!aux) console.log(this.personajes[i].rotation)
-            if(!aux)    return;
-
-            if (this.cajaSobres.interactuable[i]) {
-                
-                if (!this.personajes[i].objeto.sobre) {
-                    this.sonidoCaja.play();
-                    console.log("Has metido el papel en el sobre");
-                    var objeto = this.objetoEnMano(i);
-                    objeto.setTexture('carta1');
-                    objeto.obj.sobre = true;
-                    
-                    this.personajes[i].objeto.sobre = true;
-                    return true;
-                } else {
-                    console.log("Ya has metido el papel en el sobre");
-                }
-            }
-        }
-
-    }*/
 
     interaccionMesaSellos(i) {
         if (this.personajes[i].objeto !== undefined) {
 
-            if (this.mesaSellos.cartasInteractuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > - 2.6)) {
-                if (this.personajes[i].objeto.sello === undefined) {
-
-                    if (this.personajes[i].objeto.nombre === "carta") {
-                        if (this.personajes[i].objeto.sobre) {
-                            this.sonidoSellos.play();
-                            console.log("Has puesto el sello de las cartas");
-
-                            if (!this.personajes[i].objeto.direccion) {
-                                this.objetoEnMano(i).setTexture('carta2')
-                            } else { this.objetoEnMano(i).setTexture('carta4') }
-
-                            
-                            this.personajes[i].objeto.sello = "sello cartas";
-                        } else {
-                            console.log("Sobre primero")
-                        }
-                    } else if (this.personajes[i].objeto.nombre === "paquete") {
-                        if (this.personajes[i].objeto.empaquetado) {
-                            this.sonidoSellos.play();
-                            console.log("Has puesto el sello de las cartas");
-                            this.personajes[i].objeto.sello = "sello cartas";
-                        } else {
-                            console.log("Caja primero")
-                        }
-                    }
-
-                }
-                return true;
-            } else if (this.mesaSellos.paquetes1Interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > - 2.6)) {
+           if (this.mesaSellos.paquetes1Interactuable[i] && (this.personajes[i].rotation < -0.6) && (this.personajes[i].rotation > - 2.6)) {
                 if (this.personajes[i].objeto.sello === undefined) {
                     if (this.personajes[i].objeto.nombre === "carta") {
                         if (this.personajes[i].objeto.sobre) {
