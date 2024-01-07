@@ -53,6 +53,9 @@ Crab Mail es un divertido juego cooperativo en el que los jugadores controlan a 
    - 6.2 Chat
    - 6.3 Instrucciones de ejecución
 7. Uso de Websockets
+   - 7.1 Sistema de rooms
+   - 7.2 Actualización del juego
+8.  Mejoras adicionales
 
 
 ## 1. Cambios
@@ -443,7 +446,50 @@ Una vez terminado el juego, se ha procedido a realizar una serie de mejoras adic
 
 La mejora más grande es sin duda la creación de un tutorial que los jugadores pueden jugar para entender las mecánicas del juego. Para acceder al tutorial basta con pulsar a la gaviota que se ha añadido en el menú principal. El tutorial está compuesto de 2 partes: Un tutorial para la preparación de las cartas y otro tutorial para la preparación de los paquetes. En estos tutoriales, la gaviota Otto explica mediante una serie de diálogos los pasos que los jugadores tienen que seguir para preparar los pedidos. Una vez acabado el tutorial de las cartas se pasa al de los paquetes, y una vez terminado este, se pasa al menú principal de nuevo.
 
-En estos tutoriales se han eliminado las máquinas que sean irrelevantes para el tutorial como la estación de reinicio y la papelera, y se han ocultado las maquinas que no corresponden a ese tipo de pedido, como por ejemplo, la báscula en el tutorial de las cartas
+En estos tutoriales se han eliminado las máquinas que sean irrelevantes para el tutorial como la estación de reinicio y la papelera, y se han ocultado las maquinas que no corresponden a ese tipo de pedido, como por ejemplo, la báscula en el tutorial de las cartas o la impresora en el tutorial de los paquetes.
+
+### 8.2 Persistencia 
+
+También se ha añadido persistencia al juego, de forma que se guarde en un archivo txt tanto los usuarios que se han registrado en el juego, como todos los mensajes que se han enviado en el chat. De esta forma, cuando el jugador entra en el juego, puede utilizar el usuario que haya creado anteriormente, así como ver los mensajes anteriores a su llegada en el chat.
+
+### 8.3 Otras mejoras 
+
+Se ha añadido al juego un asset mas que se utiliza en los paquetes. Este es una camiseta de un equipo deportivo que aparecerá en la cinta, como el resto de objetos del juego. También se ha añadido un combo match en el menú principal que se activa al introducir la palabra CRAB en el menú. También se ha mejorado el rendimiento del juego gracias a la sustitución de algunos assets por algunos de menor resolución para disminuir el peso del juego y disminuir tiempos de carga.
+
+### 8.4 Arreglo de errores
+
+En esta fase, anterior a la publicación del juego en Internet, se ha realizado un testeo intensivo del juego, para encontrar y pulir la mayor cantidad de errores posibles antes de publicarlo. Gracias a estas pruebas, se han encontrado y solucionado cierta cantidad de errores presentes en el juego como:
+
+- Los cangrejos pueden empujarse fuera del area de juego atravesando las paredes.
+- Si un cangrejo choca con otro en una maquina, puede atravesarla.
+- El menú de pausa no aparecía en ciertas ocasiones.
+- Solapamiento de música al navegar entre los menús.
+- Si el jugador pulsaba muy rápidamente los botones de avanzar e interactuar, podía atravesar cualquier parte del escenario
+
+### 8.5 Insignias
+Con esta fase, optamos a las siguientes insignias:
+
+- We are the champions: Uno de los objetos que aparecen en la cinta es una camiseta que hace referencia al Real Betis Balompié.
+- Ultimando los ajustes: En el juego existe un menú de pausa al que se pude acceder desde el menú inicial y en medio de las partidas pulsando el botón p.
+- Música original: Toda la música del juego es original y creada por nosotros sin utilizar librerías de sonido de Internet.
+- Memencanta: Si se introduce la combinación secreta CRAB en el menú principal del juego, aparecerá una imagen secreta a modo de meme sobre el propio juego.
+- Al más pelota: En uno de los diálogos la gaviota Otto hace referencia al profesor de la asignatura haciendo un halago.
+
+### 8.6 Mejoras posibles
+A parte de las mejoras ya incluidas, se han planificado una serie de mejoras que pueden ser incluidas en el juego sin muchas complicaciones, pero que lamentablemente, por falta de tiempo, no han podido ser implementadas.
+
+Por un lado encontramos un sistema de personalización de los cangrejos, donde se puede personalizar por completo la apariencia de los cangrejos, como por ejemplo el color, colocarles un sombrero e incluso ponerles ropa. También es viable incluir conjuntos de trajes inspirados en películas, series y juegos populares.
+
+Por otro lado también se ha ideado un sistema de obstáculos que dificulte la tarea de los jugadores, como unas latas que caigan en el escenario y bloqueen ciertas partes del mismo, o un animal que se pasee por el escenario siendo este un bloqueo dinámico.
+
+También existe la opción de crear una gran cantidad de objetos que puedan salir de la cinta, dando así una gran variedad al juego; así como cambiar la fuente de algunos de los textos del juego, para que concuerden mejor con el resto del juego.
+
+Además, existe la opción de incluir nuevas máquinas que afecten al gameplay del juego y lo hagan más dinámico. Un ejemplo de esto es la incineradora, que se puede usar para tirar paquetes peligrosos que puedan llegar a la oficina.
+
+Por último, se ha barajado incluir distintos mapas, cada uno con su propia distribución de las máquinas en el mismo y obstáculos como ajugeros, piedras,... De esta forma se le aportaría al juego un gran valor de rejugabilidad sin que se haga repetitivo.
+
+
+
 
 
   
