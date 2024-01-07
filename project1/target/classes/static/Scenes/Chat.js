@@ -184,8 +184,8 @@ class Chat extends Phaser.Scene {
                    switch (dato.roomStatus) {
                        case 0:
                            //Both players are ready
-                           //this.time.delayedCall(10,this.scene.start("OfflineGame", [this.wsConnection, this.roomID]),null,this)
-                           this.scene.start("OfflineGame", [this.wsConnection, this.roomID])
+                           //this.time.delayedCall(10,this.scene.start("OnlineGame", [this.wsConnection, this.roomID]),null,this)
+                           this.scene.start("OnlineGame", [this.wsConnection, this.roomID])
 
                            break;
                        case 1:
@@ -215,8 +215,8 @@ class Chat extends Phaser.Scene {
                if(this.scene.isActive('Chat')) {
                    this.scene.launch("DisconnectedScreen", ["Chat"]);
                    this.scene.pause();
-               }else if(this.scene.isActive('OfflineGame')) {
-                   this.scene.launch("DisconnectedScreen", ["OfflineGame"]);
+               }else if(this.scene.isActive('OnlineGame')) {
+                   this.scene.launch("DisconnectedScreen", ["OnlineGame"]);
                    this.scene.pause();
                }else{
                    console.log(this.key)
@@ -245,7 +245,6 @@ class Chat extends Phaser.Scene {
                 "isReady": isReady
             }
             this.wsConnection.send(JSON.stringify(json));
-            console.log("Enviada informacion al otro jugador (" + isReady+ ")")
         },this)
 
    }
@@ -278,7 +277,6 @@ class Chat extends Phaser.Scene {
                 }catch (error){ }
             }, this).fail(function (jqXHR, textStatus, errorThrown) {
                 console.log("Error:" + errorThrown);
-
             });
    }
 }

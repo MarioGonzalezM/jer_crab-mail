@@ -6,7 +6,7 @@ class EndScene extends Phaser.Scene {
     /*buttons
     buttonMaxX = 384.5
     buttonMinX= 279.5
-    buttonScenes = ['UnderConstruction','OfflineGame','UnderConstruction','OptionsMenu']*/
+    buttonScenes = ['UnderConstruction','OnlineGame','UnderConstruction','OptionsMenu']*/
     sonidoHurra;
 
     preload() {

@@ -22,10 +22,10 @@ function Objeto(nombre, peso) {
 
 var puntuacion;
 
-class OfflineGame extends Phaser.Scene {
+class OnlineGame extends Phaser.Scene {
 
     constructor( ) {
-        super({ key: 'OfflineGame' })
+        super({ key: 'OnlineGame' })
     }
 
 //#region LocalVariablesRegion
@@ -297,7 +297,7 @@ class OfflineGame extends Phaser.Scene {
         let self = this;
         this.input.keyboard.on("keydown-P", function (event){
             console.log("Paused")
-            self.scene.launch('PauseMenu', 'OfflineGame')
+            self.scene.launch('PauseMenu', 'OnlineGame')
             //self.scene.pause();
         });
 

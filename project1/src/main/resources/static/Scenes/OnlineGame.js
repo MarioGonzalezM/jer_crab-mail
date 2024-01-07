@@ -22,10 +22,10 @@ function Objeto(nombre, peso) {
 
 var puntuacion;
 
-class OfflineGame extends Phaser.Scene {
+class OnlineGame extends Phaser.Scene {
 
     constructor( ) {
-        super({ key: 'OfflineGame' })
+        super({ key: 'OnlineGame' })
     }
 
 //#region LocalVariablesRegion
@@ -297,7 +297,7 @@ class OfflineGame extends Phaser.Scene {
         let self = this;
         this.input.keyboard.on("keydown-P", function (event){
             console.log("Paused")
-            self.scene.launch('PauseMenu', 'OfflineGame')
+            self.scene.launch('PauseMenu', 'OnlineGame')
             //self.scene.pause();
         });
 
@@ -683,16 +683,7 @@ class OfflineGame extends Phaser.Scene {
 
             let json = {initGame:true, roomID:this.roomID}
             this.wsConnection.send(JSON.stringify(json))
-            /*
 
-
-            this.wsConnection.onclose = function (event) {
-                console.log('Conexión WebSocket cerrada:', event);
-            };
-
-            this.wsConnection.onerror = function (event) {
-                console.error('Error en la conexión WebSocket:', event);
-            };*/
         },this).fail((error)=>
         {
             console.error('Error en la solicitud HTTP:', error);
