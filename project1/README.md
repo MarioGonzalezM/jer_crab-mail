@@ -420,73 +420,73 @@ A continuación se adjunta un diagrama UML de las clases usadas en la implementa
 Para iniciar el juego, hay que abrir Spring Tool Suite e importar el proyecto. Una vez importado, ejecutarlo como un java application. Después, en el navegador, conectarse a la IP y al puerto correspondiente, y ya se pueden utilizar todas las funciones del juego con normalidad.
 
 ## 7. Uso de websockets
-Se ha implementado el uso de websockets para permitir el juego multijugador de los jugadores que se encuentren en la misma red local. Para ello se ha implementado tanto un sistema de rooms que empareja a los jugadores de 2 en 2, como el envío de datos al servidor mediante el uso de websockets para actualizar el estado del juego para ambos jugadores
+Se ha implementado el uso de websockets para permitir el juego multijugador de los jugadores que se encuentren en la misma red local. Para ello, se ha implementado tanto un sistema de habitaciones (rooms) que empareja a los jugadores de 2 en 2, como el envío de datos al servidor mediante el uso de websockets para actualizar el estado del juego para ambos jugadores.
 
 ### 7.1 Sistema de rooms
 
-Para acceder al juego online, los jugadores deben ir al menú de online y pulsar el botón de preparados, en el momento en el que 2 jugadores lo han pulsado, el servidor les asigna una room para ellos y comienza la partida, además de otras características como su propio timer de partida. De esta forma, aunque otro jugador intente acceder a la partida online. Este se quedará esperando a un cuarto jugador y no podrá interferir en las partidas en curso.
+Para acceder al juego en línea, los jugadores deben ir al menú de online y pulsar el botón de "Preparados". En el momento en el que dos jugadores lo han pulsado, el servidor les asigna una room para ellos y comienza la partida, además de otras características como su propio temporizador de partida. De esta forma, aunque otro jugador intente acceder a la partida online, se quedará esperando a un cuarto jugador y no podrá interferir en las partidas en curso. Este sistema se ha implementado porque es un juego creado para ser jugado por dos jugadores, por lo que se debe limitar el acceso a más jugadores. 
 
 Además, se ha implementado un sistema de detección de actividad, de forma que si un jugador se sale de la partida o está inactivo durante un tiempo determinado, la partida termine y se avance a la pantalla de fin del juego directamente. Gracias a esto, si un jugador abandona la partida o se le cae la conexión, el otro jugador no tiene que esperar a que el temporizador termine o reiniciar la página; sino que será notificado de que el otro jugador se ha ido y podrá volver al menú principal, para iniciar otra partida.
 
 ### 7.2 Actualización del juego
 
-En las partidas, el uso de websockets ha sido una parte esencial para permitir la implementación de las partidas online. Al ser un juego cooperativo, el jugador necesita saber en todo momento, que está haciendo su compañero, para poder tomar decisiones en base a esto. Esto implica que el jugador debe conocer la posicion de su compañero, que objetos lleva,... Por lo tanto, necesitamos usar websockets para comunicar los datos al servidor y que este se encargue de comunicarlo al otro jugador.
+En las partidas, el uso de websockets ha sido una parte esencial para permitir la implementación de las partidas online. Al ser un juego cooperativo, el jugador necesita saber en todo momento que está haciendo su compañero para poder tomar decisiones en base a esto. Esto implica que el jugador debe conocer la posición y rotación de su compañero, que objetos lleva... Por lo tanto, necesitamos usar websockets para comunicar los datos al servidor y que este se encargue de comunicarlo al otro jugador.
 
-Para ello, en cada actualización del juego, el jugador 1 envía al servidor en formato JSON varios datos como su posicion en x e y, su rotación, el objeto que transporta y un timer para sincronizar las partidas. Despúes el jugador 2 recibe esos datos haciendo una llamada GET y sustituye los datos del jugador 1 en su partida, de forma que tanto la posicion, como la rotacion del jugador 1 aparecen actualizadas en su partida en todo momento mientras juega.
+Para ello, en cada actualización del juego, el jugador 1 envía al servidor varios datos como su posición en x e y, su rotación, el objeto que transporta y un timer para sincronizar las partidas, en formato JSON. Despúes, el jugador 2 recibe esos datos haciendo una llamada GET y sustituye los datos del jugador 1 en su partida, de forma que todos los datos del jugador 1 aparecen actualizados en su partida en todo momento mientras juega.
 
 También se envían datos al servidor cuando aparece un nuevo objeto en la cinta transportadora, de forma que ambos jugadores tengan los mismos objetos en pantalla y no se puedan producir confusiones. También se  envían datos cuando un jugador interactúa con alguna de las máquinas.
 
-De esta forma, en una misma actualizacion, un jugador manda su información al servidor para mandársela al otro jugador, y recibe la información del otro jugador y la actualiza. Gracias al uso de websockets se ha conseguido que los 2 jugadores estén sincronizados en todo momento y lo más importante, que puedan ver en todo momento en pantalla todo lo relacionado a su compañero, para que sepan sin ningún tipo de dificultad donde se encuentra y qué está haciendo, favoreciendo la cooperación entre ellos.
+De esta forma, en una misma actualización, un jugador manda su información al servidor para mandársela al otro jugador, y recibe la información del otro y la actualiza. Gracias al uso de websockets se ha conseguido que los 2 jugadores estén sincronizados en todo momento y lo más importante, que puedan ver en todo momento por pantalla todo lo relacionado a su compañero, para que sepan sin ningún tipo de dificultad dónde se encuentra y qué está haciendo, favoreciendo la cooperación entre ellos.
 
 ## 8. Mejoras adicionales
 
-Una vez terminado el juego, se ha procedido a realizar una serie de mejoras adicionales que mejoran la jugabilidad y ayudan a entender el juego, como por ejemplo un tutorial completo del juego y la adición de persistencia en el juego. También se ha añadido un nuevo objeto y se ha añadido un secreto al menú al teclear la palabra CRAB. 
+Una vez terminado el juego, se ha procedido a realizar una serie de mejoras adicionales para la realización de la fase 5 de la práctica. Entre estas mejoras se pueden encontrar cambios que mejoran la jugabilidad y ayudan al entendimiento del juego, como por ejemplo un tutorial completo del juego y la adición de persistencia en el juego. También se ha añadido un nuevo objeto y se ha añadido un secreto al menú al teclear la palabra 'CRAB'. 
 
 ### 8.1 Tutorial
 
-La mejora más grande es sin duda la creación de un tutorial que los jugadores pueden jugar para entender las mecánicas del juego. Para acceder al tutorial basta con pulsar a la gaviota que se ha añadido en el menú principal. El tutorial está compuesto de 2 partes: Un tutorial para la preparación de las cartas y otro tutorial para la preparación de los paquetes. En estos tutoriales, la gaviota Otto explica mediante una serie de diálogos los pasos que los jugadores tienen que seguir para preparar los pedidos. Una vez acabado el tutorial de las cartas se pasa al de los paquetes, y una vez terminado este, se pasa al menú principal de nuevo.
+La mejora más grande es, sin duda, la creación de un tutorial que los jugadores pueden jugar para entender las mecánicas del juego. Para acceder al tutorial basta con pulsar a la gaviota que se ha añadido en el menú principal. El tutorial está dividido en 2 partes: un tutorial para la preparación de las cartas y otro tutorial para la preparación de los paquetes. En estos tutoriales, la gaviota Otto explica mediante una serie de diálogos los pasos que los jugadores tienen que seguir para preparar los pedidos. Una vez acabado el tutorial de las cartas se pasa al de los paquetes, y una vez terminado este, se pasa al menú principal de nuevo para que los jugadores puedan jugar una partida real.
 
-En estos tutoriales se han eliminado las máquinas que sean irrelevantes para el tutorial como la estación de reinicio y la papelera, y se han ocultado las maquinas que no corresponden a ese tipo de pedido, como por ejemplo, la báscula en el tutorial de las cartas o la impresora en el tutorial de los paquetes.
+En estos tutoriales se han eliminado las máquinas que sean irrelevantes para el tutorial, como la estación de reinicio y la papelera, y se han ocultado las máquinas que no corresponden a ese tipo de pedido, como por ejemplo, la báscula en el tutorial de las cartas o la impresora en el tutorial de los paquetes.
 
 ### 8.2 Persistencia 
 
-También se ha añadido persistencia al juego, de forma que se guarde en un archivo txt tanto los usuarios que se han registrado en el juego, como todos los mensajes que se han enviado en el chat. De esta forma, cuando el jugador entra en el juego, puede utilizar el usuario que haya creado anteriormente, así como ver los mensajes anteriores a su llegada en el chat.
+Uno de los errores que había en la fase 3 era la falta de persistencia tanto a la hora de usar el chat como a la hora de crear usuarios. Se ha añadido persistencia al juego, de forma que se guarde en un archivo txt tanto los usuarios que se han registrado en el juego, como todos los mensajes que se han enviado en el chat. De esta forma, cuando el jugador entra en el juego, puede utilizar el usuario que haya creado anteriormente, así como ver los mensajes anteriores a su llegada en el chat.
 
 ### 8.3 Otras mejoras 
 
-Se ha añadido al juego un asset mas que se utiliza en los paquetes. Este es una camiseta de un equipo deportivo que aparecerá en la cinta, como el resto de objetos del juego. También se ha añadido un combo match en el menú principal que se activa al introducir la palabra CRAB en el menú. También se ha mejorado el rendimiento del juego gracias a la sustitución de algunos assets por algunos de menor resolución para disminuir el peso del juego y disminuir tiempos de carga.
+Se ha añadido al juego un asset más que se utiliza en los paquetes, una camiseta de un equipo deportivo que aparecerá en la cinta, como el resto de objetos del juego. También se ha añadido un combo en el menú principal que se activa al introducir la palabra 'CRAB' en el menú. También se ha mejorado el rendimiento del juego gracias a la sustitución de algunos assets por algunos de menor resolución para disminuir el peso del juego y disminuir tiempos de carga, un error que se pudo apreciar en la presentación de la fase 2.
 
 ### 8.4 Arreglo de errores
 
-En esta fase, anterior a la publicación del juego en Internet, se ha realizado un testeo intensivo del juego, para encontrar y pulir la mayor cantidad de errores posibles antes de publicarlo. Gracias a estas pruebas, se han encontrado y solucionado cierta cantidad de errores presentes en el juego como:
+En esta fase, anterior a la publicación del juego en Internet, se ha realizado un testeo intensivo del juego para encontrar y pulir la mayor cantidad de errores posibles antes de publicarlo. Gracias a estas pruebas, se han encontrado y solucionado cierta cantidad de errores presentes en el juego como:
 
-- Los cangrejos pueden empujarse fuera del area de juego atravesando las paredes.
-- Si un cangrejo choca con otro en una maquina, puede atravesarla.
+- Los cangrejos pueden empujarse fuera del área de juego atravesando las paredes.
+- Si un cangrejo choca con otro en una máquina, puede atravesarla.
 - El menú de pausa no aparecía en ciertas ocasiones.
 - Solapamiento de música al navegar entre los menús.
-- Si el jugador pulsaba muy rápidamente los botones de avanzar e interactuar, podía atravesar cualquier parte del escenario
+- Si el jugador pulsaba muy rápidamente los botones de avanzar e interactuar, podía atravesar cualquier parte del escenario.
 
 ### 8.5 Insignias
 Con esta fase, optamos a las siguientes insignias:
 
 - We are the champions: Uno de los objetos que aparecen en la cinta es una camiseta que hace referencia al Real Betis Balompié.
-- Ultimando los ajustes: En el juego existe un menú de pausa al que se pude acceder desde el menú inicial y en medio de las partidas pulsando el botón p.
-- Música original: Toda la música del juego es original y creada por nosotros sin utilizar librerías de sonido de Internet.
-- Memencanta: Si se introduce la combinación secreta CRAB en el menú principal del juego, aparecerá una imagen secreta a modo de meme sobre el propio juego.
+- Ultimando los ajustes: En el juego existe la opción de modificar los parámetros de volumen general, música y SFX. A este menú se puede acceder desde el menú de pausa o desde el menú de Ajustes en el menú principal.
+- Música original: Toda la música del juego es original y creada por nosotros, tanto la del menú principal como las dos versiones que suenan en partida.
+- Memencanta: Si se introduce la combinación secreta 'CRAB' en el menú principal del juego, aparecerá una imagen secreta a modo de meme sobre el propio juego.
 - Al más pelota: En uno de los diálogos la gaviota Otto hace referencia al profesor de la asignatura haciendo un halago.
 
 ### 8.6 Mejoras posibles
-A parte de las mejoras ya incluidas, se han planificado una serie de mejoras que pueden ser incluidas en el juego sin muchas complicaciones, pero que lamentablemente, por falta de tiempo, no han podido ser implementadas.
+Aparte de las mejoras ya incluidas, se han planificado una serie de mejoras que pueden ser incluidas en el juego sin muchas complicaciones, pero que lamentablemente, por falta de tiempo, no han podido ser implementadas.
 
-Por un lado encontramos un sistema de personalización de los cangrejos, donde se puede personalizar por completo la apariencia de los cangrejos, como por ejemplo el color, colocarles un sombrero e incluso ponerles ropa. También es viable incluir conjuntos de trajes inspirados en películas, series y juegos populares.
+Por un lado encontramos un sistema de personalización de los cangrejos, donde personalizar por completo la apariencia de estos, como el color o cosméticos. También es viable incluir conjuntos de trajes inspirados en películas, series y juegos populares.
 
-Por otro lado también se ha ideado un sistema de obstáculos que dificulte la tarea de los jugadores, como unas latas que caigan en el escenario y bloqueen ciertas partes del mismo, o un animal que se pasee por el escenario siendo este un bloqueo dinámico.
+Por otro lado, también se ha ideado un sistema de obstáculos que dificulte la tarea de los jugadores, como unas latas que caigan en el escenario y bloqueen ciertas partes del mismo, o un animal que se pasee por el escenario siendo un bloqueo dinámico.
 
-También existe la opción de crear una gran cantidad de objetos que puedan salir de la cinta, dando así una gran variedad al juego; así como cambiar la fuente de algunos de los textos del juego, para que concuerden mejor con el resto del juego.
+También existe la opción de crear una gran cantidad de objetos que puedan salir de la cinta, dando así una gran variedad al juego; y cambiar la fuente de algunos de los textos del juego, para que concuerden mejor con el resto del juego.
 
-Además, existe la opción de incluir nuevas máquinas que afecten al gameplay del juego y lo hagan más dinámico. Un ejemplo de esto es la incineradora, que se puede usar para tirar paquetes peligrosos que puedan llegar a la oficina.
+Además, existe la opción de incluir nuevas máquinas que afecten a la jugabilidad y lo hagan más dinámico. Un ejemplo podría ser la incineradora, que se puede usar para tirar paquetes peligrosos que puedan llegar a la oficina. La inclusión de nuevas máquinas modificaría el flujo del juego y el sistema de puntuación, entre otros.
 
-Por último, se ha barajado incluir distintos mapas, cada uno con su propia distribución de las máquinas en el mismo y obstáculos como ajugeros, piedras,... De esta forma se le aportaría al juego un gran valor de rejugabilidad sin que se haga repetitivo.
+Por último, se ha barajado la posibilidad de incluir distintos mapas, cada uno con su propia distribución de las máquinas y obstáculos propios como ajugeros o piedras, en función de su dificultad. Esto aportaría al juego el factor de rejugabilidad sin que se haga repetitivo, pues las partidas no serían tan similares entre sí.
 
 
 
