@@ -671,7 +671,7 @@ class OfflineGame extends Phaser.Scene {
                             this.cogerObjeto(dato.sender);
                     }
 
-                    if(dato.sender === 0)
+                    if(dato.sender === 0 && typeof dato.timer === "number")
                         this.tiempoTranscurrido = dato.timer;
                 }else if(dato.spawnCinta){
                     this.spawnObject(dato.obj)

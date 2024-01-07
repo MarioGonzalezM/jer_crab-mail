@@ -41,7 +41,8 @@ class MainMenuScene extends Phaser.Scene{
     create()
     {
 
-        
+        this.input.keyboard.removeAllListeners()
+        this.input.keyboard.removeAllKeys()
 
         this.sonidoFondo = this.sound.add('fondoSonido');
         this.sonidoFondo.loop = true;
@@ -206,7 +207,7 @@ var config = {
     dom: {
         createContainer: true
     },
-    scene: [MainMenuScene, OfflineGame, Perfil, OptionsMenu, PauseMenu, EndScene, Chat, TutorialCartas, TutorialPaquetes],
+    scene: [MainMenuScene, OfflineGame, Perfil, OptionsMenu, PauseMenu, EndScene, Chat, TutorialCartas, TutorialPaquetes, DisconnectionScene],
 
 };
 const game = new Phaser.Game(config);

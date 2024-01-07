@@ -671,7 +671,7 @@ class OfflineGame extends Phaser.Scene {
                             this.cogerObjeto(dato.sender);
                     }
 
-                    if(dato.sender === 0)
+                    if(dato.sender === 0 && typeof dato.timer === "number")
                         this.tiempoTranscurrido = dato.timer;
                 }else if(dato.spawnCinta){
                     this.spawnObject(dato.obj)
@@ -683,16 +683,7 @@ class OfflineGame extends Phaser.Scene {
 
             let json = {initGame:true, roomID:this.roomID}
             this.wsConnection.send(JSON.stringify(json))
-            /*
 
-
-            this.wsConnection.onclose = function (event) {
-                console.log('Conexión WebSocket cerrada:', event);
-            };
-
-            this.wsConnection.onerror = function (event) {
-                console.error('Error en la conexión WebSocket:', event);
-            };*/
         },this).fail((error)=>
         {
             console.error('Error en la solicitud HTTP:', error);

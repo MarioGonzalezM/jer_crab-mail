@@ -17,6 +17,7 @@ class Chat extends Phaser.Scene {
     volverBoton;
     resaltoVolver;
     //Websocket
+    temporizador;
     roomID;
     wsConnection
 
@@ -31,6 +32,10 @@ class Chat extends Phaser.Scene {
         this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
 
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+    }
+
+    consoleLog(string){
+        console.log(string)
     }
    create() {
         this.roomID = -11;
@@ -159,9 +164,12 @@ class Chat extends Phaser.Scene {
            this.wsConnection.onopen = (event) => {
                console.log('Conexión WebSocket abierta:', event);
                let json = {"roomID": this.roomID, "roomInfo": false}
-               this.temporizadorCinta = this.time.addEvent({
-                   delay: 15,  // El intervalo en milisegundos
-                   callback: this.wsConnection.send(JSON.stringify(json)),
+               this.temporizador = this.time.addEvent({
+                   delay: 20,  // El intervalo en milisegundos
+                   callback: ()=>{
+                       let json = {"roomID": this.roomID, "roomInfo": false};
+                       this.wsConnection.send(JSON.stringify(json));
+                   },
                    callbackScope: this,
                    loop: true  //true para que el evento se repita
                });
@@ -178,7 +186,7 @@ class Chat extends Phaser.Scene {
                            //Both players are ready
                            //this.time.delayedCall(10,this.scene.start("OfflineGame", [this.wsConnection, this.roomID]),null,this)
                            this.scene.start("OfflineGame", [this.wsConnection, this.roomID])
-                           ;
+
                            break;
                        case 1:
                            //Other player is ready.
@@ -202,8 +210,17 @@ class Chat extends Phaser.Scene {
 
            };
 
-           this.wsConnection.onclose = function (event) {
+           this.wsConnection.onclose = (event)=> {
                console.log('Conexión WebSocket cerrada:', event);
+               if(this.scene.isActive('Chat')) {
+                   this.scene.launch("DisconnectedScreen", ["Chat"]);
+                   this.scene.pause();
+               }else if(this.scene.isActive('OfflineGame')) {
+                   this.scene.launch("DisconnectedScreen", ["OfflineGame"]);
+                   this.scene.pause();
+               }else{
+                   console.log(this.key)
+               }
            };
 
            this.wsConnection.onerror = function (event) {
@@ -217,7 +234,7 @@ class Chat extends Phaser.Scene {
        },this);
        //endregion
 
-       this.botonJugar = this.add.image(1160, 883, 'botonJugar');
+       this.botonJugar = this.add.image(1160, 883, 'botonJugar').setScale(0.8);
        this.botonJugar.setInteractive();
         this.botonJugar.on('pointerdown', function () {
             let isReady = this.botonJugar.texture.key === "botonJugar";
@@ -228,7 +245,6 @@ class Chat extends Phaser.Scene {
                 "isReady": isReady
             }
             this.wsConnection.send(JSON.stringify(json));
-            console.log("Enviada informacion al otro jugador (" + isReady+ ")")
         },this)
 
    }
@@ -236,7 +252,6 @@ class Chat extends Phaser.Scene {
    update()
    {
         this.reloadChat()
-
    }
 
    reloadChat(){
@@ -262,7 +277,6 @@ class Chat extends Phaser.Scene {
                 }catch (error){ }
             }, this).fail(function (jqXHR, textStatus, errorThrown) {
                 console.log("Error:" + errorThrown);
-
             });
    }
 }
