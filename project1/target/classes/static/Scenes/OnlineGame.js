@@ -509,7 +509,7 @@ class OnlineGame extends Phaser.Scene {
 
 
         for(let i = 0; i < 2; i++) {
-            this.personajes[i] = this.physics.add.sprite(400, 600 + 100, 'personaje').setScale(0.1).refreshBody();//Personaje
+            this.personajes[i] = this.physics.add.sprite(400, 600 + 100*i, 'personaje').setScale(0.1).refreshBody();//Personaje
             this.personajes[i].t = false;
             this.personajes[i].setPushable(false);
             this.personajes[i].objeto = undefined
@@ -588,7 +588,7 @@ class OnlineGame extends Phaser.Scene {
 
         //Texto
         this.pesado = this.add.text(1009, 294, '0.00', { fontSize: '19px', fill: '#FF0000' }, { font: "Monospace" });
-        this.textoPuntuacion = this.add.text(850, 864, 'Puntuación: 0', { fontSize: '30px', fill: '#FFFFFF' }, { font: "Monospace" });
+        this.textoPuntuacion = this.add.text(850, 864, 'Puntuaci\u00F3n: 0', { fontSize: '30px', fill: '#FFFFFF' }, { font: "Monospace" });
 
         //Temporizador
         this.tiempoJuego = 180; //tiempo de partida en segundos
@@ -1190,7 +1190,7 @@ class OnlineGame extends Phaser.Scene {
         if (cajaEvaluar.direccion){
             puntuacion += 100;
         }
-        this.textoPuntuacion.setText('Puntuación: ' + puntuacion);
+        this.textoPuntuacion.setText('Puntuaci\u00F3n: ' + puntuacion);
         let obj = this.objetoEnMano(i)
         this.personajes[i].t = false
         this.personajes[i].objeto = undefined
@@ -1262,7 +1262,7 @@ class OnlineGame extends Phaser.Scene {
         if (cartaEvaluar.direccion) {
             puntuacion += 50;
         }
-        this.textoPuntuacion.setText('Puntuación: ' + puntuacion);
+        this.textoPuntuacion.setText('Puntuaci\u00F3n: ' + puntuacion);
         this.personajes[i].objeto = undefined
         this.personajes[i].t = false
         this.objetoEnMano(i).destroy()

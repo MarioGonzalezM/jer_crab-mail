@@ -1,2 +1,5 @@
-User: Diego; Password: vivaJER; Record: 99999
+User: qq; Password: qq; Record: 0
 User: DEV; Password: toroidev; Record: 33
+User: toroidev; Password: ddd; Record: 0
+User: dad; Password: ada; Record: 0
+User: Diego; Password: vivaJER; Record: 99999

@@ -44,7 +44,7 @@ class Chat extends Phaser.Scene {
                families: ['Lobster']
            }
        });
-
+       this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.A);
        this.fondo = this.add.image(960, 540, 'fondoChat');
        this.resaltoVolver = this.add.image(265, 120, 'resaltoVolver').setScale(0.8)
        this.resaltoVolver.visible = false;
@@ -252,6 +252,7 @@ class Chat extends Phaser.Scene {
    update()
    {
         this.reloadChat()
+       this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.A);
    }
 
    reloadChat(){
