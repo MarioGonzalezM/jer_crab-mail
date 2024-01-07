@@ -418,7 +418,7 @@ A continuación, se adjunta una imagen del chat del juego.
 
 A continuación se adjunta un diagrama UML de las clases usadas en la implementación de la API REST. El diagrama se ha creado usando IntelliJ.
 
-<img src="src/main/resources/static/Assets_GDD/javaDiagram.png" alt="Pantalla de chat" width=50% height=50%>
+<img src="src/main/resources/static/Assets_GDD/diagramaUMLWebsocket.png" alt="Pantalla de chat" width=50% height=50%>
 
 
 ### 6.4 Instrucciones de ejecución
